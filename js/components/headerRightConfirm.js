@@ -1,8 +1,8 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 16:38:51
- * @Last Modified by:   WZJ
- * @Last Modified time: 2018-05-16 17:31:38
+ * @Last Modified by:   guoyu
+ * @Last Modified time: 2018-05-16 18:04:28
  */
 import React, {
 	Component
@@ -18,15 +18,14 @@ import {
 	heightToDp
 } from '../common/pxToDp';
 
-const headerRightConfirm = () => (
+const headerRightConfirm = ({
+	navigation
+}) => (
 	<View>
 		<TouchableOpacity
 			style={styles.container}
 			onPress={()=>{
-				console.log(this.props);
-			    const {
-			        navigate
-			    } = this.props.navigation;
+				console.log(navigation);
 			}}
 		>
 			<Text style={styles.text}>确定</Text>

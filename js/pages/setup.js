@@ -86,10 +86,14 @@ const AppNavigator = createStackNavigator({
     },
     ServerSetting: {
         screen: ServerSetting,
-        navigationOptions: {
+        navigationOptions: ({
+            navigation
+        }) => ({
             title: '服务器设置',
-            headerRight: React.createElement(headerRightConfirm)
-        }
+            headerRight: React.createElement(headerRightConfirm, {
+                navigation
+            })
+        })
     }
 }, {
     initialRouteName: 'Welcome',
