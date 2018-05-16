@@ -1,8 +1,9 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 15:37:43
- * @Last Modified by:   WZJ
- * @Last Modified time: 2018-05-16 16:25:33
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-16 18:29:42
+ * @Description 导航栏左边图片组件
  */
 import React from 'react';
 import {

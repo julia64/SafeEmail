@@ -1,3 +1,6 @@
+/**
+ * POP协议页面
+ */
 import React, {
     Component
 } from 'react';
@@ -47,6 +50,7 @@ export default class IMAP extends Component {
         });
     }
     render() {
+        console.log(`POP: ${this.props.navigation.isFocused()}`);
         return (
             <KeyboardAwareScrollView>
                 <KeyboardAvoidingView style={styles.container} behavior='height'>

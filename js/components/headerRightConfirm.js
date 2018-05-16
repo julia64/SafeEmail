@@ -1,8 +1,9 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 16:38:51
- * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-16 18:04:28
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-16 18:29:01
+ * @Description 导航栏右边确定按钮
  */
 import React, {
 	Component

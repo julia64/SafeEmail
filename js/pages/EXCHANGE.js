@@ -1,3 +1,6 @@
+/**
+ * EXCHANGE协议页面
+ */
 import React, {
     Component
 } from 'react';
@@ -42,6 +45,7 @@ export default class EXCHANGE extends Component {
         });
     }
     render() {
+        console.log(`EXCHANGE: ${this.props.navigation.isFocused()}`);
         return (
             <View style={styles.container}>
                 <View style={styles.break1}/>

@@ -1,3 +1,6 @@
+/**
+ * IAMP协议页面
+ */
 import React, {
     Component
 } from 'react';
@@ -46,6 +49,7 @@ export default class IMAP extends Component {
         });
     }
     render() {
+        console.log(`IAMP: ${this.props.navigation.isFocused()}`);
         return (
             <KeyboardAwareScrollView>
                 <View style={styles.container}>

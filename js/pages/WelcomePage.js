@@ -1,3 +1,6 @@
+/**
+ * 启动页面
+ */
 import React, {
     Component
 } from 'react';

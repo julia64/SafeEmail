@@ -1,3 +1,6 @@
+/**
+ * 导航栏路由列表协议页面
+ */
 import React from 'react';
 import {
     StyleSheet,
