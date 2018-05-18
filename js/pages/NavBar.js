@@ -8,7 +8,10 @@ import {
     Dimensions
 } from 'react-native';
 
-import pxToDp from '../common/pxToDp';
+import {
+    widthToDp,
+    heightToDp
+} from '../common/pxToDp';
 
 
 
@@ -23,10 +26,11 @@ export default class NavBar extends Component {
 
     }
     render() {
-
+        console.log(this.props.navigation.state);
         return (
             //根View
             <View style={styles.button}>
+                <Text style={styles.textStyle}>测试啥进度和加快</Text>
             </View>
         );
     }
@@ -43,13 +47,13 @@ const styles = StyleSheet.create({
     // },
     button: {
         width: deviceWidth / 3, //导航栏每个标签宽度为屏幕1/4
-        height: pxToDp(89),
+        height: heightToDp(89),
         backgroundColor: $white,
         justifyContent: 'center'
     },
     textStyle: {
         fontWeight: '200',
-        fontSize: pxToDp(30),
+        fontSize: widthToDp(30),
         textAlign: 'center'
     }
 });

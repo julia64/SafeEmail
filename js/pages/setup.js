@@ -3,10 +3,6 @@
  */
 import React from 'react';
 import {
-    StyleSheet,
-    View,
-    TouchableOpacity,
-    Text,
     Dimensions
 } from 'react-native';
 import {
@@ -15,7 +11,7 @@ import {
 } from 'react-navigation';
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
-// import ProtocolNavBar from './NavBar';
+import ProtocolNavBar from './NavBar';
 import EXCHANGE from './EXCHANGE';
 import IMAP from './IMAP';
 import POP from './POP';
@@ -23,8 +19,8 @@ import {
     widthToDp,
     heightToDp
 } from '../common/pxToDp';
-import headerBackImage from '../components/headerBackImage'
-import headerRightConfirm from '../components/headerRightConfirm'
+import headerBackImage from '../components/headerBackImage';
+import headerRightConfirm from '../components/headerRightConfirm';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -93,6 +89,17 @@ const AppNavigator = createStackNavigator({
             navigation
         }) => ({
             title: '服务器设置',
+            headerRight: React.createElement(headerRightConfirm, {
+                navigation
+            })
+        })
+    },
+    HomePage: {
+        screen: ProtocolNavBar,
+        navigationOptions: ({
+            navigation
+        }) => ({
+            title: '测试',
             headerRight: React.createElement(headerRightConfirm, {
                 navigation
             })

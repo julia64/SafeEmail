@@ -1,5 +1,5 @@
 /**
- * POP协议页面
+ * IAMP协议页面
  */
 import React, {
     Component
@@ -10,50 +10,82 @@ import {
     Text,
     TextInput,
     TouchableOpacity,
-    Image,
-    ScrollView,
-    KeyboardAvoidingView
+    Image
 } from 'react-native';
 import {
     KeyboardAwareScrollView
-} from 'react-native-keyboard-aware-scroll-view'
+} from 'react-native-keyboard-aware-scroll-view';
 // import NavBar from './NavBar';
 import {
     widthToDp,
     heightToDp
 } from '../common/pxToDp';
+import emitter from '../utils/events';
 
-export default class IMAP extends Component {
+export default class POP extends Component {
     // 构造
     constructor(props) {
         super(props);
         this.state = {
             account: props.navigation.getParam('account', ''),
             receivedPassword: props.navigation.getParam('password', ''),
-            choose: true,
-            uri: require('../../res/images/login/button-right.png')
+            receivedServer: '',
+            receivedUsername: '',
+            receivedPort: '110',
+            receivedSSL: true,
+            receivedUri: require('../../res/images/login/button-right.png'),
+            sendPassword: '',
+            sendServer: '',
+            sendUsername: '',
+            sendPort: '25',
+            sendSSL: true,
+            sendUri: require('../../res/images/login/button-right.png'),
+            protocol: 'pop'
         };
+    }
+    componentDidMount() {
+        const {
+            navigate,
+            isFocused
+        } = this.props.navigation;
+        this.eventEmitter = emitter.addListener('saveEmailInfo', () => {
+            if (isFocused()) {
+                navigate('HomePage', this.state);
+            }
+        });
+    }
+    componentWillUnmount() {
+        emitter.removeListener(this.eventEmitter);
     }
     deleteInput() {
         this.setState({
             account: ''
         });
     }
-    choose() {
-        this.setState({
-            choose: !this.state.choose
-        });
-        this.state.choose === true ? this.setState({
-            uri: require('../../res/images/login/button-right.png')
-        }) : this.setState({
-            uri: require('../../res/images/login/button-left.png')
-        });
+    chooseSSL(type) {
+        if (type == 'received') {
+            this.state.receivedSSL === true ? this.setState({
+                receivedSSL: false,
+                receivedUri: require('../../res/images/login/button-left.png')
+            }) : this.setState({
+                receivedSSL: true,
+                receivedUri: require('../../res/images/login/button-right.png')
+            });
+        } else {
+            this.state.sendSSL === true ? this.setState({
+                sendSSL: false,
+                sendUri: require('../../res/images/login/button-right.png')
+            }) : this.setState({
+                sendSSL: true,
+                sendUri: require('../../res/images/login/button-left.png')
+            });
+        }
     }
     render() {
-        console.log(`POP: ${this.props.navigation.isFocused()}`);
+        // console.log(`IAMP: ${this.props.navigation.isFocused()}`);
         return (
             <KeyboardAwareScrollView>
-                <KeyboardAvoidingView style={styles.container} behavior='height'>
+                <View style={styles.container}>
                     <View style={styles.break1}/>
                     <View style={styles.cell}>
                         <Text style={styles.tip}>账号</Text>
@@ -88,6 +120,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             placeholder ='mail.example.com'
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({receivedServer:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -98,6 +131,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             placeholder ='选填'
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({receivedUsername:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -119,8 +153,9 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             keyboardType='numeric'
                             underlineColorAndroid='transparent'
-                            value={'110'}
+                            value={this.state.receivedPort}
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({receivedPort:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -128,11 +163,12 @@ export default class IMAP extends Component {
                         <Text style={styles.tip}>SSL</Text>
                         <TouchableOpacity
                             style={styles.inputImg2}
-                            onPress={()=>this.choose()}
+                            activeOpacity={1}
+                            onPress={()=>this.chooseSSL('received')}
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.uri}
+                                source={this.state.receivedUri}
                             />
                         </TouchableOpacity>
                     </View>
@@ -147,6 +183,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             placeholder ='mail.example.com'
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({sendServer:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -157,6 +194,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             placeholder = '选填'
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({sendUsername:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -167,6 +205,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             secureTextEntry = {true}
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({sendPassword:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -176,8 +215,9 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             keyboardType='numeric'
                             underlineColorAndroid='transparent'
-                            value={'25'}
+                            value={this.state.sendPort}
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({sendPort:text});}}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -185,15 +225,16 @@ export default class IMAP extends Component {
                         <Text style={styles.tip}>SSL</Text>
                         <TouchableOpacity
                             style={styles.inputImg2}
-                            onPress={()=>this.choose()}
+                            activeOpacity={1}
+                            onPress={()=>this.chooseSSL('send')}
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.uri}
+                                source={this.state.sendUri}
                             />
                         </TouchableOpacity>
                     </View>
-                </KeyboardAvoidingView>
+                </View>
             </KeyboardAwareScrollView>
         );
     }

@@ -33,9 +33,7 @@ module.exports = {
             "always"
         ],
         "react/prop-types": 0,
-        'no-console': ["error", {
-            allow: ["log", "warn"]
-        }],
+        'no-console': "warn",
         "react-native/no-inline-styles": 1,
     }
 };
