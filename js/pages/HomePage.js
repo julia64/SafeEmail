@@ -13,7 +13,7 @@ import {
     Alert
 } from 'react-native';
 import SwipeitemView from 'react-native-swipe-left'
-import pxToDp from "../common/pxToDp";
+import pxToDp from "../common/pxToDp"
 const {height, width} = Dimensions.get('window');
 let data = {
     "result": [
@@ -231,6 +231,7 @@ export default class HomePage extends Component {
                 {listView}
                 {this.state.isShowToTop ? <ScrollTopView root={this}/> : null}
             </View>
+
         )
     }
 }

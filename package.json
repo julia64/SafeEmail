@@ -12,7 +12,6 @@
     "react-native": "0.55.3",
     "react-native-deprecated-custom-component": "^0.1.2",
     "react-native-deprecated-custom-components": "^0.1.2",
-    "react-native-off-canvas-menu": "^0.1.31",
     "react-native-swipe-left": "^0.1.2"
   },
   "devDependencies": {
