@@ -1,6 +1,6 @@
 // import React from 'react';
 import {
-	AppRegistry
+    AppRegistry
 } from 'react-native';
 import AppNavigator from './js/pages/setup';
 

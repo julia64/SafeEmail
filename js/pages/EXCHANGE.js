@@ -35,9 +35,9 @@ export default class EXCHANGE extends Component {
             ssl: true,
             protocol: 'exchange'
         };
-        this.ssl_url = {
+        this.sslUri = {
             choose: require('../../res/images/login/button-right.png'),
-            not_choose: require('../../res/images/login/button-left.png')
+            notChoose: require('../../res/images/login/button-left.png')
         };
         this.deleteInput = () => {
             this.setState({
@@ -161,7 +161,7 @@ export default class EXCHANGE extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.ssl?this.ssl_url.choose:this.ssl_url.not_choose}
+                                source={this.state.ssl?this.sslUri.choose:this.sslUri.notChoose}
                             />
                         </TouchableOpacity>
                     </View>

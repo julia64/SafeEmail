@@ -1,3 +1,7 @@
+#调试注意
+pages/setup.js下AppNavigator下initialRouteName为第一页，测试页面时可更改其内容跳过已完成页面
+
+
 ## 2018-5-12 更新
 轮播页已完成
 

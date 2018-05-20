@@ -21,6 +21,9 @@ import {
 } from '../common/pxToDp';
 import headerBackImage from '../components/headerBackImage';
 import headerRightConfirm from '../components/headerRightConfirm';
+import headerTitle from '../components/headerTitle';
+import slideInfoButton from '../components/slideInfoButton';
+import writeEmailButton from '../components/writeEmailButton';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -85,14 +88,10 @@ const AppNavigator = createStackNavigator({
     },
     ServerSetting: {
         screen: ServerSetting,
-        navigationOptions: ({
-            navigation
-        }) => ({
+        navigationOptions: {
             title: '服务器设置',
-            headerRight: React.createElement(headerRightConfirm, {
-                navigation
-            })
-        })
+            headerRight: React.createElement(headerRightConfirm)
+        }
     },
     HomePage: {
         screen: HomePage,
@@ -100,7 +99,9 @@ const AppNavigator = createStackNavigator({
             navigation
         }) => ({
             title: '收件箱',
-            headerRight: React.createElement(headerRightConfirm, {
+            headerLeft: slideInfoButton,
+            headerTitle: headerTitle,
+            headerRight: React.createElement(writeEmailButton, {
                 navigation
             })
         })
@@ -111,8 +112,8 @@ const AppNavigator = createStackNavigator({
         headerTitleStyle: {
             fontSize: widthToDp(34),
             fontFamily: 'PingFang-SC-Regular',
-            color: '#000',
-            fontWeight: '300'
+            color: '#000'
+            // fontWeight: '300'
         },
         headerBackImage: headerBackImage
     }

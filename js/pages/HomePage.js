@@ -30,7 +30,10 @@ const data = [{
     img: require('../../res/images/me.jpg'),
     date: '09:21',
     star: true,
-    read: true
+    read: true,
+    forward: true,
+    todo: true,
+    attachment: true
 }, {
     key: '2',
     'email': 'f.lee@taylor.edu',
@@ -40,7 +43,10 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: false,
-    read: true
+    read: true,
+    forward: true,
+    todo: true,
+    attachment: true
 }, {
     key: '3',
     'email': 'f.lee@taylor.edu',
@@ -50,7 +56,10 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: true,
-    read: false
+    read: false,
+    forward: true,
+    todo: true,
+    attachment: true
 }, {
     key: '4',
     'email': 'f.lee@taylor.edu',
@@ -60,7 +69,10 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: false,
-    read: false
+    read: false,
+    forward: true,
+    todo: false,
+    attachment: false
 }, {
     key: '5',
     'email': 'f.lee@taylor.edu',
@@ -70,7 +82,10 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: false,
-    read: true
+    read: true,
+    forward: true,
+    todo: false,
+    attachment: true
 }, {
     key: '6',
     'email': 'f.lee@taylor.edu',
@@ -80,7 +95,10 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: true,
-    read: false
+    read: false,
+    forward: false,
+    todo: false,
+    attachment: false
 }, {
     key: '7',
     'email': 'f.lee@taylor.edu',
@@ -90,7 +108,75 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: true,
-    read: true
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '8',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '9',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '10',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '11',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '12',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
 }];
 
 export default class HomePage extends Component {
@@ -130,7 +216,7 @@ export default class HomePage extends Component {
         this._rightButtons = (item) => {
             return [{
                 id: 1,
-                text: '标为待办',
+                text: item.todo ? '取消待办' : '标为待办',
                 width: widthToDp(130),
                 textWidth: widthToDp(100),
                 bgColor: '#badaff',
@@ -138,7 +224,10 @@ export default class HomePage extends Component {
                 fontSize: widthToDp(36),
                 underlayColor: '#ffffff',
                 onPress: () => {
-                    console.log('delete1!');
+                    item.todo = !item.todo;
+                    this.setState({
+                        itemChange: !this.state.itemChange
+                    });
                 },
             }, {
                 id: 2,
@@ -167,7 +256,6 @@ export default class HomePage extends Component {
                 onPress: (event, id) => {
                     const rowId = parseInt(id.split('-')[1], 10);
                     this.state.dataSource.splice(rowId, 1);
-                    // console.log(item, rowId);
                 },
             }];
         };
@@ -186,17 +274,31 @@ export default class HomePage extends Component {
                         <TouchableOpacity
                         >
                             <View style={styles.rowContainer}>
-                                <Image
-                                    source={item.img}
-                                    style={styles.img}
-                                />
+                                <View style={styles.imgWrap}>
+                                    <Image
+                                        source={item.img}
+                                        style={styles.img}
+                                    />
+                                    {item.todo?(<Image
+                                        style={styles.todo}
+                                        source={require('../../res/images/emailbox/todo.png')}
+                                    />):null}
+                                </View>
                                 <View style={styles.styleColumn}>
                                     <View style={styles.styleRow}>
+                                        {item.forward?(<Image
+                                            style={styles.forward}
+                                            source={require('../../res/images/emailbox/forward.png')}
+                                        />):null}
                                         <Text style={[styles.name,{color:item.read?$hasReadFontColor:$notReadFontColor}]}>{item.name}</Text>
+                                        {item.attachment?(<Image
+                                            style={styles.attachment}
+                                            source={require('../../res/images/emailbox/attachment.png')}
+                                        />):null}
                                         <Text style={styles.date}>{item.date}</Text>
                                     </View>
                                     <View style={styles.styleRow}>
-                                        <Text style={[styles.title,{color:item.read?$hasReadFontColor:$notReadFontColor}]}>{item.title}</Text>
+                                        <Text style={[styles.title,{color:item.read?$hasReadFontColor:$notReadFontColor}]} numberOfLines={1}>{item.title}</Text>
                                         <TouchableOpacity
                                             onPress={() => this.changeAsterisk(item)}
                                             style={styles.star}
@@ -205,7 +307,6 @@ export default class HomePage extends Component {
                                                 style={{width:widthToDp(25),height:heightToDp(25)}}
                                                 source={item.star?this.starUri.star:this.starUri.notStar}/>
                                         </TouchableOpacity>
-
                                     </View>
                                     <Text
                                         style={styles.description}
@@ -261,8 +362,7 @@ const styles = StyleSheet.create({
     name: {
         fontSize: widthToDp(34),
         fontFamily: 'PingFang-SC-Medium',
-        color: $notReadFontColor,
-        marginTop: heightToDp(20)
+        color: $notReadFontColor
     },
     row: {
         height: heightToDp(168),
@@ -271,29 +371,47 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: $lineBGColor
     },
+    imgWrap: {
+        width: widthToDp(130),
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
+    },
     img: {
         borderRadius: widthToDp(40),
         height: heightToDp(80),
         width: widthToDp(80),
-        marginLeft: widthToDp(25),
-        marginTop: heightToDp(25),
+        marginTop: heightToDp(25)
+    },
+    todo: {
+        width: widthToDp(24),
+        height: heightToDp(22),
+        marginTop: heightToDp(20)
     },
     rowContainer: {
         flexDirection: 'row',
         width: width
     },
+    forward: {
+        width: widthToDp(25),
+        height: heightToDp(25),
+        marginRight: widthToDp(10)
+    },
+    attachment: {
+        width: widthToDp(24),
+        height: heightToDp(22),
+        marginLeft: widthToDp(10)
+    },
     styleRow: {
         flexDirection: 'row',
-        width: width - widthToDp(125)
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: width - widthToDp(130)
     },
-    // main: {
-    //     flexDirection: 'column',
-    //     marginLeft: widthToDp(20),
-    // },
     styleColumn: {
         flexDirection: 'column',
         width: width,
-        marginLeft: widthToDp(20)
+        marginTop: heightToDp(20)
     },
     title: {
         fontSize: widthToDp(28),
@@ -310,7 +428,7 @@ const styles = StyleSheet.create({
     },
     date: {
         position: 'absolute',
-        top: heightToDp(25),
+        top: heightToDp(15),
         color: $notReadFontColor,
         right: widthToDp(30),
         fontSize: widthToDp(24),

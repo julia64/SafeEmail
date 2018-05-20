@@ -40,9 +40,9 @@ export default class POP extends Component {
             sendSSL: true,
             protocol: 'pop'
         };
-        this.ssl_url = {
+        this.sslUri = {
             choose: require('../../res/images/login/button-right.png'),
-            not_choose: require('../../res/images/login/button-left.png')
+            notChoose: require('../../res/images/login/button-left.png')
         };
         this.deleteInput = () => {
             this.setState({
@@ -161,7 +161,7 @@ export default class POP extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.receivedSSL?this.ssl_url.choose:this.ssl_url.not_choose}
+                                source={this.state.receivedSSL?this.sslUri.choose:this.sslUri.notChoose}
                             />
                         </TouchableOpacity>
                     </View>
@@ -223,7 +223,7 @@ export default class POP extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.sendSSL?this.ssl_url.choose:this.ssl_url.not_choose}
+                                source={this.state.sendSSL?this.sslUri.choose:this.sslUri.notChoose}
                             />
                         </TouchableOpacity>
                     </View>
@@ -269,7 +269,6 @@ const styles = StyleSheet.create({
         borderColor: $borderColor,
         borderWidth: 1,
         borderStyle: 'solid',
-
     },
     breakText: {
         lineHeight: heightToDp(70),
