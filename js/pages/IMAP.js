@@ -33,14 +33,32 @@ export default class IMAP extends Component {
             receivedUsername: '',
             receivedPort: '143',
             receivedSSL: true,
-            receivedUri: require('../../res/images/login/button-right.png'),
             sendPassword: '',
             sendServer: '',
             sendUsername: '',
             sendPort: '25',
             sendSSL: true,
-            sendUri: require('../../res/images/login/button-right.png'),
             protocol: 'imap'
+        };
+        this.ssl_url = {
+            choose: require('../../res/images/login/button-right.png'),
+            not_choose: require('../../res/images/login/button-left.png')
+        };
+        this.deleteInput = () => {
+            this.setState({
+                account: ''
+            });
+        };
+        this.chooseSSL = (type) => {
+            if (type == 'received') {
+                this.setState({
+                    receivedSSL: !this.state.receivedSSL
+                });
+            } else {
+                this.setState({
+                    sendSSL: !this.state.sendSSL
+                });
+            }
         };
     }
     componentDidMount() {
@@ -57,32 +75,7 @@ export default class IMAP extends Component {
     componentWillUnmount() {
         emitter.removeListener(this.eventEmitter);
     }
-    deleteInput() {
-        this.setState({
-            account: ''
-        });
-    }
-    chooseSSL(type) {
-        if (type == 'received') {
-            this.state.receivedSSL === true ? this.setState({
-                receivedSSL: false,
-                receivedUri: require('../../res/images/login/button-left.png')
-            }) : this.setState({
-                receivedSSL: true,
-                receivedUri: require('../../res/images/login/button-right.png')
-            });
-        } else {
-            this.state.sendSSL === true ? this.setState({
-                sendSSL: false,
-                sendUri: require('../../res/images/login/button-right.png')
-            }) : this.setState({
-                sendSSL: true,
-                sendUri: require('../../res/images/login/button-left.png')
-            });
-        }
-    }
     render() {
-        // console.log(`IAMP: ${this.props.navigation.isFocused()}`);
         return (
             <KeyboardAwareScrollView>
                 <View style={styles.container}>
@@ -168,7 +161,7 @@ export default class IMAP extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.receivedUri}
+                                source={this.state.receivedSSL?this.ssl_url.choose:this.ssl_url.not_choose}
                             />
                         </TouchableOpacity>
                     </View>
@@ -230,7 +223,7 @@ export default class IMAP extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.sendUri}
+                                source={this.state.sendSSL?this.ssl_url.choose:this.ssl_url.not_choose}
                             />
                         </TouchableOpacity>
                     </View>

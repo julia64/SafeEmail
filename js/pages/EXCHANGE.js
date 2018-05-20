@@ -33,8 +33,21 @@ export default class EXCHANGE extends Component {
             username: '',
             port: '143',
             ssl: true,
-            uri: require('../../res/images/login/button-right.png'),
             protocol: 'exchange'
+        };
+        this.ssl_url = {
+            choose: require('../../res/images/login/button-right.png'),
+            not_choose: require('../../res/images/login/button-left.png')
+        };
+        this.deleteInput = () => {
+            this.setState({
+                account: ''
+            });
+        };
+        this.chooseSSL = () => {
+            this.setState({
+                ssl: !this.state.ssl
+            });
         };
     }
     componentDidMount() {
@@ -51,22 +64,7 @@ export default class EXCHANGE extends Component {
     componentWillUnmount() {
         emitter.removeListener(this.eventEmitter);
     }
-    deleteInput() {
-        this.setState({
-            account: ''
-        });
-    }
-    chooseSSL() {
-        this.state.ssl === true ? this.setState({
-            ssl: false,
-            uri: require('../../res/images/login/button-left.png')
-        }) : this.setState({
-            ssl: true,
-            uri: require('../../res/images/login/button-right.png')
-        });
-    }
     render() {
-        // console.log(`EXCHANGE: ${this.props.navigation.isFocused()}`);
         return (
             <KeyboardAwareScrollView>
                 <View style={styles.container}>
@@ -163,7 +161,7 @@ export default class EXCHANGE extends Component {
                         >
                             <Image
                                 style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.uri}
+                                source={this.state.ssl?this.ssl_url.choose:this.ssl_url.not_choose}
                             />
                         </TouchableOpacity>
                     </View>

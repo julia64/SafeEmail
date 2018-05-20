@@ -11,7 +11,7 @@ import {
 } from 'react-navigation';
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
-import ProtocolNavBar from './NavBar';
+import HomePage from './HomePage';
 import EXCHANGE from './EXCHANGE';
 import IMAP from './IMAP';
 import POP from './POP';
@@ -95,18 +95,18 @@ const AppNavigator = createStackNavigator({
         })
     },
     HomePage: {
-        screen: ProtocolNavBar,
+        screen: HomePage,
         navigationOptions: ({
             navigation
         }) => ({
-            title: '测试',
+            title: '收件箱',
             headerRight: React.createElement(headerRightConfirm, {
                 navigation
             })
         })
     }
 }, {
-    initialRouteName: 'Welcome',
+    initialRouteName: 'HomePage',
     navigationOptions: {
         headerTitleStyle: {
             fontSize: widthToDp(34),

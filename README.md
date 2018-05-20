@@ -19,5 +19,7 @@ EXCHANGE IMAP POP 三个协议之间页面切换及UI
 确定按钮设置，功能未完善
 
 确定按钮功能预计实现思路
+
 1.确定按钮点击时哪个页面是活跃的this.props.navigation.isFocused()判断
+
 2.非嵌套组件间通信   发布/订阅模式
