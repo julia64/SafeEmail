@@ -4,306 +4,438 @@ import React, {
 import {
     StyleSheet,
     Text,
-    Navigator,
     Image,
     View,
-    ListView,
+    FlatList,
     RefreshControl,
     TouchableOpacity,
     Dimensions,
-    ScrollView,
-    Alert
+    ScrollView
 } from 'react-native';
-import SwipeitemView from 'react-native-swipe-left'
-import pxToDp from "../common/pxToDp";
+import SwipeitemView from '../components/swipeLeft';
+import {
+    widthToDp,
+    heightToDp
+} from '../common/pxToDp';
 const {
-    height,
     width
 } = Dimensions.get('window');
-let data = {
-    "result": [{
-        "email": "f.lee@taylor.edu",
-        "name": "张三张",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三张三张三张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三张三张三张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三张三张三张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, {
-        "email": "f.lee@taylor.edu",
-        "name": "张三张三张三张三",
-        "description": "本周五下午在",
-        "title": "本周例会",
-        "img": require('../../res/images/me.jpg'),
-        "date": "09:21",
-    }, ],
-    "statusCode": 0
-};
+
+const data = [{
+    key: '1',
+    email: 'f.lee@taylor.edu',
+    name: '张三张',
+    description: '本周五下午在十大黄金分割阿萨德股份将黄瓜大环境股份黄金时代感几乎覆盖圣诞节后果房间号公司环境',
+    title: '本周例会',
+    img: require('../../res/images/me.jpg'),
+    date: '09:21',
+    star: true,
+    read: true,
+    forward: true,
+    todo: true,
+    attachment: true
+}, {
+    key: '2',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: false,
+    read: true,
+    forward: true,
+    todo: true,
+    attachment: true
+}, {
+    key: '3',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: false,
+    forward: true,
+    todo: true,
+    attachment: true
+}, {
+    key: '4',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: false,
+    read: false,
+    forward: true,
+    todo: false,
+    attachment: false
+}, {
+    key: '5',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: false,
+    read: true,
+    forward: true,
+    todo: false,
+    attachment: true
+}, {
+    key: '6',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: false,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '7',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '8',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '9',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '10',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '11',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}, {
+    key: '12',
+    'email': 'f.lee@taylor.edu',
+    'name': '张三张三张三张三',
+    'description': '本周五下午在',
+    'title': '本周例会',
+    'img': require('../../res/images/me.jpg'),
+    'date': '09:21',
+    star: true,
+    read: true,
+    forward: false,
+    todo: false,
+    attachment: false
+}];
+
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({
-            rowHasChanged: (r1, r2) =>
-                r1 !== r2
-        });
         this._dataRow = {};
         this.openRowId = '';
         this.state = {
-            dataSource: ds.cloneWithRows(data.result),
+            dataSource: data,
             isLoading: false,
             scrollEnable: true,
             hasIdOpen: false,
             isShowToTop: false,
             isAsterisk: false,
-            star_uri: require('../../res/images/emailbox/star_gray.png'),
+            itemChange: false
         };
-        this.onLoad();
-    }
-
-    _listView() {
-        return (
-            <ListView
-                dataSource={this.state.dataSource}
-                renderRow={(item) => this._renderRow(item)}
-                renderSeparator={(sectionID, rowID, adjacentRowHighlighted) => this._renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
-                onEndReachedThreshold={10}
-                ref="listview"
-                renderScrollComponent={(props) => {
-                    return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>
-        }
-    }
-    refreshControl = {
-        <RefreshControl
-                        refreshing={this.state.isLoading}
-                        onRefresh={() => this.onLoad()}
-                        colors={['#ffffff', '#ffffff', '#ffffff']}
-                        progressBackgroundColor="#099fde"/>
-    }
-    />
-);
-}
-
-_rightButtons() {
-    return [{
-        id: 1,
-        text: '标为待办',
-        width: pxToDp(130),
-        bgColor: '#badaff',
-        color: '#0d81ff',
-        fontSize: pxToDp(36),
-        marginLeft: pxToDp(30),
-        underlayColor: '#ffffff',
-        onPress: () => {
-            alert('delete1!')
-        },
-    }, {
-        id: 2,
-        text: '标为未读',
-        width: pxToDp(130),
-        bgColor: '#0d81ff',
-        color: '#ffffff',
-        fontSize: pxToDp(36),
-        marginLeft: pxToDp(30),
-        underlayColor: '#ffffff',
-        onPress: () => {
-            alert('delete2!')
-        }
-    }, {
-        id: 3,
-        text: '删除',
-        width: pxToDp(130),
-        bgColor: '#f63f3f',
-        color: '#ffffff',
-        fontSize: pxToDp(36),
-        underlayColor: '#ffffff',
-        onPress: () => {
-            alert('delete3!');
-        },
-    }]
-}
-
-changeAsterisk() {
-    this.setState({
-        isAsterisk: !this.state.isAsterisk,
-        star_uri: this.state.isAsterisk ? require('../../res/images/emailbox/star_red.png') : require('../../res/images/emailbox/star_gray.png')
-    });
-}
-
-_renderRow(item, sectionId, rowId) {
-    let rightBtn = this._rightButtons();
-    let id = '' + sectionId + rowId;
-    return (
-        <SwipeitemView
-                root={this}
-                ref={(row) => this._dataRow[id] = row}
-                id={id}
-                data={data}
-                rightBtn={rightBtn}>
-                <View style={styles.row}>
-                    <TouchableOpacity
-                    >
-                        <View style={styles.rowContainer}>
-                            <Image
-                                source={item.img}
-                                style={styles.img}
-                            />
-                            <View style={styles.styleColumn}>
-                                <View style={styles.styleRow}>
-                                    <Text style={styles.name}>{item.name}</Text>
-                                    <Text style={styles.date}>{item.date}</Text>
+        this.starUri = {
+            star: require('../../res/images/emailbox/star_red.png'),
+            notStar: require('../../res/images/emailbox/star_gray.png')
+        };
+        this.onLoad = () => {
+            setTimeout(() => {
+                this.setState({
+                    isLoading: false
+                });
+            }, 2000);
+        };
+        //标记星标文件
+        this.changeAsterisk = (item) => {
+            item.star = !item.star;
+            this.setState({
+                itemChange: !this.state.itemChange
+            });
+            // console.log(item, id);
+        };
+        //右侧滑动按钮设置
+        this._rightButtons = (item) => {
+            return [{
+                id: 1,
+                text: item.todo ? '取消待办' : '标为待办',
+                width: widthToDp(130),
+                textWidth: widthToDp(100),
+                bgColor: '#badaff',
+                color: '#0d81ff',
+                fontSize: widthToDp(36),
+                underlayColor: '#ffffff',
+                onPress: () => {
+                    item.todo = !item.todo;
+                    this.setState({
+                        itemChange: !this.state.itemChange
+                    });
+                },
+            }, {
+                id: 2,
+                text: item.read ? '标为未读' : '标为已读',
+                width: widthToDp(130),
+                bgColor: '#0d81ff',
+                textWidth: widthToDp(100),
+                color: '#ffffff',
+                fontSize: widthToDp(36),
+                underlayColor: '#ffffff',
+                onPress: () => {
+                    item.read = !item.read;
+                    this.setState({
+                        itemChange: !this.state.itemChange
+                    });
+                }
+            }, {
+                id: 3,
+                text: '删除',
+                width: widthToDp(130),
+                textWidth: widthToDp(100),
+                bgColor: '#f63f3f',
+                color: '#ffffff',
+                fontSize: widthToDp(36),
+                underlayColor: '#ffffff',
+                onPress: (event, id) => {
+                    const rowId = parseInt(id.split('-')[1], 10);
+                    this.state.dataSource.splice(rowId, 1);
+                },
+            }];
+        };
+        //List列表
+        this._renderRow = (item, sectionId, rowId) => {
+            let rightBtn = this._rightButtons(item);
+            let id = sectionId + '-' + rowId;
+            return (
+                <SwipeitemView
+                    root={this}
+                    ref={(row) => this._dataRow[id] = row}
+                    id={id}
+                    animationType='timing'
+                    rightBtn={rightBtn}>
+                    <View style={styles.row}>
+                        <TouchableOpacity
+                        >
+                            <View style={styles.rowContainer}>
+                                <View style={styles.imgWrap}>
+                                    <Image
+                                        source={item.img}
+                                        style={styles.img}
+                                    />
+                                    {item.todo?(<Image
+                                        style={styles.todo}
+                                        source={require('../../res/images/emailbox/todo.png')}
+                                    />):null}
                                 </View>
-                                <View style={styles.styleRow}>
-                                    <Text style={styles.title}>{item.title}</Text>
-                                    <TouchableOpacity
-                                        onPress={()=>this.changeAsterisk()}
-                                        style={styles.star}
+                                <View style={styles.styleColumn}>
+                                    <View style={styles.styleRow}>
+                                        {item.forward?(<Image
+                                            style={styles.forward}
+                                            source={require('../../res/images/emailbox/forward.png')}
+                                        />):null}
+                                        <Text style={[styles.name,{color:item.read?$hasReadFontColor:$notReadFontColor}]}>{item.name}</Text>
+                                        {item.attachment?(<Image
+                                            style={styles.attachment}
+                                            source={require('../../res/images/emailbox/attachment.png')}
+                                        />):null}
+                                        <Text style={styles.date}>{item.date}</Text>
+                                    </View>
+                                    <View style={styles.styleRow}>
+                                        <Text style={[styles.title,{color:item.read?$hasReadFontColor:$notReadFontColor}]} numberOfLines={1}>{item.title}</Text>
+                                        <TouchableOpacity
+                                            onPress={() => this.changeAsterisk(item)}
+                                            style={styles.star}
+                                        >
+                                            <Image
+                                                style={{width:widthToDp(25),height:heightToDp(25)}}
+                                                source={item.star?this.starUri.star:this.starUri.notStar}/>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <Text
+                                        style={styles.description}
+                                        numberOfLines={1}
                                     >
-                                        <Image
-                                            style={{width:pxToDp(25),height:pxToDp(25)}}
-                                            source={this.state.star_uri}/>
-                                    </TouchableOpacity>
-
+                                        {item.description}
+                                    </Text>
                                 </View>
-                                <Text style={styles.description}>{item.description}</Text>
                             </View>
-                        </View>
-                    </TouchableOpacity>
-                </View>
-
-            </SwipeitemView>
-    );
-}
-
-_renderSeparator(sectionID, rowID) {
-    return <View key={rowID} style={styles.line}/>
-}
-
-onLoad() {
-    // this.setState({
-    //     isLoading: true
-    // });
-    setTimeout(() => {
-        this.setState({
-            isLoading: false
-        })
-    }, 2000);
-}
-
-render() {
-    let listView = this._listView();
-    return (
-        <View style={styles.container}>
-                {listView}
-                {this.state.isShowToTop ? <ScrollTopView root={this}/> : null}
-            </View>
-<<<<<<< HEAD
-
-        )
+                        </TouchableOpacity>
+                    </View>
+                </SwipeitemView>
+            );
+        };
     }
-=======
-    )
+    render() {
+        // let listView = this._listView();
+        return (
+            <View style={styles.container}>
+                <FlatList
+                    data={this.state.dataSource}
+                    renderItem={({item,index}) => this._renderRow(item,'',index)}
+                    ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                    ListFooterComponent={() => (<View style={styles.line} />)}
+                    onEndReachedThreshold={50}
+                    initialNumToRender={7}
+                    renderScrollComponent={(props) => {
+                        return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
+                    }}
+                    refreshControl = {
+                        <RefreshControl
+                            refreshing={this.state.isLoading}
+                            onRefresh={() => this.onLoad()}
+                            colors={['#ffffff', '#ffffff', '#ffffff']}
+                            progressBackgroundColor='#099fde'
+                        />
+                    }
+                />
+                {this.state.isShowToTop ? <ScrollView root={this}/> : null}
+            </View>
+        );
+    }
 }
->>>>>>> 843aa35bda10e5cfe05ff652070f235b5443350b
-}
-
+const $white = 'white';
+const $lineBGColor = '#e5e5e5';
+const $notReadFontColor = '#31353b';
+const $hasReadFontColor = '#81858a';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: $white
     },
     name: {
-        fontSize: pxToDp(34),
-        fontFamily: "PingFang-SC-Medium",
-        color: '#31353b',
-        marginTop: pxToDp(20)
+        fontSize: widthToDp(34),
+        fontFamily: 'PingFang-SC-Medium',
+        color: $notReadFontColor
     },
     row: {
-        height: pxToDp(168),
+        height: heightToDp(168),
     },
     line: {
         height: 1,
-        backgroundColor: '#e5e5e5'
+        backgroundColor: $lineBGColor
+    },
+    imgWrap: {
+        width: widthToDp(130),
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     img: {
-        borderRadius: pxToDp(40),
-        height: pxToDp(80),
-        width: pxToDp(80),
-        marginLeft: pxToDp(25),
-        marginTop: pxToDp(25),
+        borderRadius: widthToDp(40),
+        height: heightToDp(80),
+        width: widthToDp(80),
+        marginTop: heightToDp(25)
+    },
+    todo: {
+        width: widthToDp(24),
+        height: heightToDp(22),
+        marginTop: heightToDp(20)
     },
     rowContainer: {
         flexDirection: 'row',
         width: width
     },
+    forward: {
+        width: widthToDp(25),
+        height: heightToDp(25),
+        marginRight: widthToDp(10)
+    },
+    attachment: {
+        width: widthToDp(24),
+        height: heightToDp(22),
+        marginLeft: widthToDp(10)
+    },
     styleRow: {
         flexDirection: 'row',
-        width: width - pxToDp(125)
-    },
-    main: {
-        flexDirection: 'column',
-        marginLeft: pxToDp(20),
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width: width - widthToDp(130)
     },
     styleColumn: {
         flexDirection: 'column',
         width: width,
-        marginLeft: pxToDp(20)
+        marginTop: heightToDp(20)
     },
     title: {
-        fontSize: pxToDp(28),
-        fontFamily: "PingFang-SC-Medium",
-        color: '#31353b',
-        marginTop: pxToDp(5)
+        fontSize: widthToDp(28),
+        fontFamily: 'PingFang-SC-Medium',
+        color: $notReadFontColor,
+        marginTop: heightToDp(5)
     },
     description: {
-        fontSize: pxToDp(28),
-        fontFamily: "PingFang-SC-Light",
-        color: '#81858a',
-        marginTop: pxToDp(5)
+        width: width - widthToDp(150),
+        fontSize: widthToDp(28),
+        fontFamily: 'PingFang-SC-Light',
+        color: $hasReadFontColor,
+        marginTop: heightToDp(5)
     },
     date: {
         position: 'absolute',
-        top: pxToDp(25),
-        color: '#31353b',
-        right: pxToDp(30),
-        fontSize: pxToDp(24),
+        top: heightToDp(15),
+        color: $notReadFontColor,
+        right: widthToDp(30),
+        fontSize: widthToDp(24),
     },
     star: {
         position: 'absolute',
-        right: pxToDp(50),
-        top: pxToDp(10)
+        right: widthToDp(50),
+        top: heightToDp(10)
     }
 });

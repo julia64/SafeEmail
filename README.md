@@ -1,3 +1,7 @@
+#调试注意
+pages/setup.js下AppNavigator下initialRouteName为第一页，测试页面时可更改其内容跳过已完成页面
+
+
 ## 2018-5-12 更新
 轮播页已完成
 
@@ -19,7 +23,7 @@ EXCHANGE IMAP POP 三个协议之间页面切换及UI
 确定按钮设置，功能未完善
 
 确定按钮功能预计实现思路
+
 1.确定按钮点击时哪个页面是活跃的this.props.navigation.isFocused()判断
-2.设置页参数传递：this.props.navigation.setParams()
-3.TextInput输入文本输入结束后调用2方法onEndEditing
-4.如果输入内容为空需要初始化为空
+
+2.非嵌套组件间通信   发布/订阅模式

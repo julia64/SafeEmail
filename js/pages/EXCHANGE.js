@@ -12,11 +12,14 @@ import {
     TouchableOpacity,
     Image
 } from 'react-native';
-
+import {
+    KeyboardAwareScrollView
+} from 'react-native-keyboard-aware-scroll-view';
 import {
     widthToDp,
     heightToDp
 } from '../common/pxToDp';
+import emitter from '../utils/events';
 
 export default class EXCHANGE extends Component {
     // 构造
@@ -25,123 +28,146 @@ export default class EXCHANGE extends Component {
         this.state = {
             account: props.navigation.getParam('account', ''),
             password: props.navigation.getParam('password', ''),
-            choose: true,
-            uri: require('../../res/images/login/button-right.png')
+            server: '',
+            area: '',
+            username: '',
+            port: '143',
+            ssl: true,
+            protocol: 'exchange'
+        };
+        this.sslUri = {
+            choose: require('../../res/images/login/button-right.png'),
+            notChoose: require('../../res/images/login/button-left.png')
+        };
+        this.deleteInput = () => {
+            this.setState({
+                account: ''
+            });
+        };
+        this.chooseSSL = () => {
+            this.setState({
+                ssl: !this.state.ssl
+            });
         };
     }
-    deleteInput() {
-        this.setState({
-            account: ''
+    componentDidMount() {
+        const {
+            navigate,
+            isFocused
+        } = this.props.navigation;
+        this.eventEmitter = emitter.addListener('saveEmailInfo', () => {
+            if (isFocused()) {
+                navigate('HomePage', this.state);
+            }
         });
     }
-    choose() {
-        this.setState({
-            choose: !this.state.choose
-        });
-        this.state.choose === true ? this.setState({
-            uri: require('../../res/images/login/button-right.png')
-        }) : this.setState({
-            uri: require('../../res/images/login/button-left.png')
-        });
+    componentWillUnmount() {
+        emitter.removeListener(this.eventEmitter);
     }
     render() {
-        console.log(`EXCHANGE: ${this.props.navigation.isFocused()}`);
         return (
-            <View style={styles.container}>
-                <View style={styles.break1}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>账号</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        keyboardType='email-address'
-                        underlineColorAndroid='transparent'
-                        onChangeText={(text) => {this.setState({account:text});}}
-                        value = {this.state.account}
-                        placeholderTextColor={'#bfbfbf'}
-                    />
-                    {
-                        this.state.account ? (
-                            <TouchableOpacity
-                                style={styles.inputImg1}
-                                onPress={()=>this.deleteInput()}
-                            >
-                                <Image
-                                    style={{width:widthToDp(30), height:heightToDp(30)}}
-                                    source={require('../../res/images/login/close.png')}
-                                />
-                            </TouchableOpacity>): (null)
-                    }
-                </View>
-                <View style={styles.break2}>
-                    <Text  style={styles.breakText}>服务器</Text>
-                </View>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>服务器</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        underlineColorAndroid='transparent'
-                        placeholder ='mail.example.com'
-                        placeholderTextColor={'#bfbfbf'}
-                    />
-                </View>
-                <View style={styles.line}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>域</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        underlineColorAndroid='transparent'
-                        placeholder ='选填'
-                        placeholderTextColor={'#bfbfbf'}
-                    />
-                </View>
-                <View style={styles.line}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>用户名</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        underlineColorAndroid='transparent'
-                        placeholder ='选填'
-                        placeholderTextColor={'#bfbfbf'}
-                    />
-                </View>
-                <View style={styles.line}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>密码</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        underlineColorAndroid='transparent'
-                        secureTextEntry = {true}
-                        placeholderTextColor={'#bfbfbf'}
-                        onChangeText={(text) => {this.setState({password:text});}}
-                        value = {this.state.password}
-                    />
-                </View>
-                <View style={styles.line}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>端口</Text>
-                    <TextInput
-                        style={styles.textInput}
-                        keyboardType='numeric'
-                        underlineColorAndroid='transparent'
-                        value={'143'}
-                        placeholderTextColor={'#bfbfbf'}
-                    />
-                </View>
-                <View style={styles.line}/>
-                <View style={styles.cell}>
-                    <Text style={styles.tip}>SSL</Text>
-                    <TouchableOpacity
-                        style={styles.inputImg2}
-                        onPress={()=>this.choose()}
-                    >
-                        <Image
-                            style={{width:widthToDp(85), height:heightToDp(50)}}
-                            source={this.state.uri}
+            <KeyboardAwareScrollView>
+                <View style={styles.container}>
+                    <View style={styles.break1}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>账号</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            keyboardType='email-address'
+                            underlineColorAndroid='transparent'
+                            onChangeText={(text) => {this.setState({account:text});}}
+                            value = {this.state.account}
+                            placeholderTextColor={'#bfbfbf'}
                         />
-                    </TouchableOpacity>
+                        {
+                            this.state.account ? (
+                                <TouchableOpacity
+                                    style={styles.inputImg1}
+                                    onPress={()=>this.deleteInput()}
+                                >
+                                    <Image
+                                        style={{width:widthToDp(30), height:heightToDp(30)}}
+                                        source={require('../../res/images/login/close.png')}
+                                    />
+                                </TouchableOpacity>): (null)
+                        }
+                    </View>
+                    <View style={styles.break2}>
+                        <Text  style={styles.breakText}>服务器</Text>
+                    </View>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>服务器</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            underlineColorAndroid='transparent'
+                            placeholder ='mail.example.com'
+                            placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({server:text});}}
+                        />
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>域</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            underlineColorAndroid='transparent'
+                            placeholder ='选填'
+                            placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({area:text});}}
+                        />
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>用户名</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            underlineColorAndroid='transparent'
+                            placeholder ='选填'
+                            placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({username:text});}}
+                        />
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>密码</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            underlineColorAndroid='transparent'
+                            secureTextEntry = {true}
+                            placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({password:text});}}
+                            value = {this.state.password}
+                        />
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>端口</Text>
+                        <TextInput
+                            style={styles.textInput}
+                            keyboardType='numeric'
+                            underlineColorAndroid='transparent'
+                            value={this.state.port}
+                            placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({port:text});}}
+                        />
+                    </View>
+                    <View style={styles.line}/>
+                    <View style={styles.cell}>
+                        <Text style={styles.tip}>SSL</Text>
+                        <TouchableOpacity
+                            style={styles.inputImg2}
+                            activeOpacity={1}
+                            onPress={()=>this.chooseSSL()}
+                        >
+                            <Image
+                                style={{width:widthToDp(85), height:heightToDp(50)}}
+                                source={this.state.ssl?this.sslUri.choose:this.sslUri.notChoose}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.line}/>
                 </View>
-                <View style={styles.line}/>
-            </View>
+            </KeyboardAwareScrollView>
         );
     }
 }
