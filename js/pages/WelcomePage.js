@@ -1,33 +1,42 @@
-import React,{Component} from 'react';
+/**
+ * 启动页面
+ */
+import React, {
+    Component
+} from 'react';
 import {
     View,
-    Text,
     Image,
-    Dimensions,
-    StyleSheet
-} from 'react-native'
-const {height, width} = Dimensions.get('window');
+    Dimensions
+} from 'react-native';
+const {
+    height,
+    width
+} = Dimensions.get('window');
 
-import LoginPage from './LoginPage'
-
-export default class WelcomePage extends Component{
-    componentDidMount(){
-        this.timer=setTimeout(()=>{
-            this.props.navigator.resetTo({
-                component:LoginPage
-            })
-        },1000);
+export default class WelcomePage extends Component {
+    constructor(props) {
+        super(props);
     }
-    componentWillUnmount(){
-        this.timer&&clearTimeout(this.timer);
+    componentDidMount() {
+        const {
+            navigate
+        } = this.props.navigation;
+        setTimeout(() => {
+            navigate('Login');
+        }, 2000);
     }
-    render(){
-        return <View>
-            <Image
-                style={{width:width,height:height}}
-                source={require('../../res/images/sowing-map.png')}
-            />
-
-        </View>
+    componentWillUnmount() {
+        this.timer && clearTimeout(this.timer);
+    }
+    render() {
+        return (
+            <View>
+                <Image
+                    style={{width:width,height:height}}
+                    source={require('../../res/images/sowing-map.png')}
+                />
+            </View>
+        );
     }
 }

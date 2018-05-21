@@ -1,20 +1,114 @@
-import React,{Component} from 'react';
-import WelcomePage from './WelcomePage'
-import {Navigator} from 'react-native-deprecated-custom-component'
+/**
+ * 导航栏路由列表协议页面
+ */
+import React from 'react';
+import {
+    StyleSheet,
+    View,
+    TouchableOpacity,
+    Text,
+    Dimensions
+} from 'react-native';
+import {
+    createStackNavigator,
+    createMaterialTopTabNavigator
+} from 'react-navigation';
+import WelcomePage from './WelcomePage';
+import LoginPage from './LoginPage';
+// import ProtocolNavBar from './NavBar';
+import EXCHANGE from './EXCHANGE';
+import IMAP from './IMAP';
+import POP from './POP';
+import {
+    widthToDp,
+    heightToDp
+} from '../common/pxToDp';
+import headerBackImage from '../components/headerBackImage'
+import headerRightConfirm from '../components/headerRightConfirm'
 
-function setup(){
-    //进行一些初始化配置
-    class Root extends Component{
-        renderScene(route,navigator){
-            let Component=route.component;
-            return <Component {...route.params} navigator={navigator}/>
+const ServerSetting = createMaterialTopTabNavigator({
+    EXCHANGE: {
+        screen: EXCHANGE,
+        navigationOptions: {
+            title: null
         }
-        render(){
-            return <Navigator
-            initialRoute={{component:WelcomePage}}
-            renderScene={(route,navigator)=>this.renderScene(route,navigator)}
-            />
-        }}
-    return <Root/>
-}
-module.exports=setup;
+    },
+    IMAP: {
+        screen: IMAP,
+        navigationOptions: {
+            title: null
+        }
+    },
+    POP: {
+        screen: POP,
+        navigationOptions: {
+            title: null
+        }
+    }
+}, {
+    initialRouteName: 'EXCHANGE',
+    backBehavior: 'none',
+    animationEnabled: false,
+    initialLayout: {
+        height: heightToDp(89),
+        width: Dimensions.get('window').width,
+    },
+    // tabBarComponent: ProtocolNavBar,
+    tabBarOptions: {
+        activeTintColor: '#fff',
+        inactiveTintColor: '#31353b',
+        // scrollEnabled: false,
+        indicatorStyle: {
+            height: heightToDp(89),
+            backgroundColor: '#0d81ff'
+        },
+        labelStyle: {
+            fontSize: widthToDp(30),
+            fontFamily: 'PingFang-SC-Regular'
+        },
+        style: {
+            height: heightToDp(89),
+            backgroundColor: '#fff',
+            opacity: 0.95
+        }
+    }
+});
+
+const AppNavigator = createStackNavigator({
+    Welcome: {
+        screen: WelcomePage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    Login: {
+        screen: LoginPage,
+        navigationOptions: {
+            header: null
+        }
+    },
+    ServerSetting: {
+        screen: ServerSetting,
+        navigationOptions: ({
+            navigation
+        }) => ({
+            title: '服务器设置',
+            headerRight: React.createElement(headerRightConfirm, {
+                navigation
+            })
+        })
+    }
+}, {
+    initialRouteName: 'Welcome',
+    navigationOptions: {
+        headerTitleStyle: {
+            fontSize: widthToDp(34),
+            fontFamily: 'PingFang-SC-Regular',
+            color: '#000',
+            fontWeight: '300'
+        },
+        headerBackImage: headerBackImage
+    }
+});
+
+export default AppNavigator;

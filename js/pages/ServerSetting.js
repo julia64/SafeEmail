@@ -1,55 +1,52 @@
-import * as React from 'react';
+import React, {
+    Component
+} from 'react';
 import {
     View,
-    StyleSheet,
-    Dimensions,
-    Text,
-    TouchableOpacity
+    StyleSheet
 } from 'react-native';
+
+
 import pxToDp from '../common/pxToDp';
-import { Navigator } from 'react-native-deprecated-custom-components';
-import EXCHANGE from './EXCHANGE'
-import IMAP from './IMAP'
-import POP from './POP'
+import NavBar from './NavBar';
 
 
-export default class ServerSetting extends React.Component {
+
+export default class ServerSetting extends Component {
     constructor(props) {
         super(props);
 
     }
     //告知Navigator 模块切换时的效果
-    configureScene() {
-        return Navigator.SceneConfigs.FadeAndroid;
-    }
+    // configureScene() {
+    //     return Navigator.SceneConfigs.FadeAndroid;
+    // }
 
     //根据传递的信息, 处理界面的切换
-    renderScene(router, navigator) {
-        switch (router.name) {
-            case 'Page1':
-                return <EXCHANGE navigator={navigator}/>;
-            case 'Page2':
-                return <IMAP navigator={navigator}/>;
-            case 'Page3':
-                return <POP navigator={navigator}/>;
-        }
-    }
+    // renderScene(router, navigator) {
+    //     switch (router.name) {
+    //         case 'Page1':
+    //             return <EXCHANGE navigator={navigator}/>;
+    //         case 'Page2':
+    //             return <IMAP navigator={navigator}/>;
+    //         case 'Page3':
+    //             return <POP navigator={navigator}/>;
+    //     }
+    // }
 
     render() {
         return (
             //根View
-            <Navigator
-                initialRoute={{name:'Page1'}}
-                configureScene={this.configureScene}
-                renderScene={this.renderScene}/>
+            <NavBar navigation={this.props.navigation} />
         );
     }
 }
 
+const $textColor = '#31353b';
 const styles = StyleSheet.create({
-    tabBarText:{
-        fontSize:pxToDp(30),
-        fontWeight:"300",
-        color:'#31353b'
+    tabBarText: {
+        fontSize: pxToDp(30),
+        fontWeight: '300',
+        color: $textColor
     }
 });

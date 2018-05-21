@@ -1,84 +1,82 @@
-import React, { Component } from 'react';
+/**
+ * IAMP协议页面
+ */
+import React, {
+    Component
+} from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     View,
     Text,
     TextInput,
     TouchableOpacity,
     Image,
-    ScrollView,
-    Alert
+    ScrollView
 } from 'react-native';
-
-import NavBar from './NavBar';
-import pxToDp from "../common/pxToDp";
+import {
+    KeyboardAwareScrollView
+} from 'react-native-keyboard-aware-scroll-view'
+// import NavBar from './NavBar';
+import {
+    widthToDp,
+    heightToDp
+} from '../common/pxToDp';
 
 export default class IMAP extends Component {
     // 构造
     constructor(props) {
         super(props);
-        // 初始状态
-        this.onNavBarPress = this.onNavBarPress.bind(this);
-        // 不同的Page,需要修改下面的这个数组, 通过数组控制导航栏条目显示状态
-        this.navStatus = [0, 1, 0];
         this.state = {
-            inputText:'',
-            choose:true,
-            uri:require('../../res/images/login/button-right.png')
+            account: props.navigation.getParam('account', ''),
+            receivedPassword: props.navigation.getParam('password', ''),
+            choose: true,
+            uri: require('../../res/images/login/button-right.png')
         };
     }
-
-    choose(){
-        this.setState({choose:!this.state.choose});
-        this.state.choose===true?this.setState({uri:require('../../res/images/login/button-right.png')}):this.setState({uri:require('../../res/images/login/button-left.png')});
+    deleteInput() {
+        this.setState({
+            account: ''
+        });
     }
-
-    onNavBarPress(aNumber) {
-        //不同的page需要修改下面这个switch的处理逻辑
-        switch (aNumber) {
-            case 0:
-                this.props.navigator.replace({
-                    name: 'Page1'
-                });
-                return;
-            case 1:
-                return;
-            case 2:
-                this.props.navigator.replace({
-                    name: 'Page3'
-                });
-                return;
-        }
+    choose() {
+        this.setState({
+            choose: !this.state.choose
+        });
+        this.state.choose === true ? this.setState({
+            uri: require('../../res/images/login/button-right.png')
+        }) : this.setState({
+            uri: require('../../res/images/login/button-left.png')
+        });
     }
-
     render() {
+        console.log(`IAMP: ${this.props.navigation.isFocused()}`);
         return (
-            <ScrollView>
+            <KeyboardAwareScrollView>
                 <View style={styles.container}>
-                    <NavBar naviBarStatus={this.navStatus}
-                            onNaviBarPress={this.onNavBarPress}/>
                     <View style={styles.break1}/>
                     <View style={styles.cell}>
                         <Text style={styles.tip}>账号</Text>
                         <TextInput
                             style={styles.textInput}
+                            keyboardType='email-address'
                             underlineColorAndroid='transparent'
-                            onChangeText={(text) => {this.setState({inputText:text})}}
-                            value = {this.state.inputText}
+                            onChangeText={(text) => {this.setState({account:text});}}
+                            value = {this.state.account}
                             placeholderTextColor={'#bfbfbf'}
                         />
-                        <TouchableOpacity
-                            style={styles.inputImg1}
-                            onPress={()=>this.deleteInput()}
-                        >
-                            <Image
-                                style={{width:pxToDp(30), height:pxToDp(30)}}
-                                source={require('../../res/images/login/close.png')}
-                            />
-                        </TouchableOpacity>
+                        {
+                            this.state.account ? (
+                                <TouchableOpacity
+                                    style={styles.inputImg1}
+                                    onPress={()=>this.deleteInput()}
+                                >
+                                    <Image
+                                        style={{width:widthToDp(30), height:heightToDp(30)}}
+                                        source={require('../../res/images/login/close.png')}
+                                    />
+                                </TouchableOpacity>): (null)
+                        }
                     </View>
-
                     <View style={styles.break2}>
                         <Text  style={styles.breakText}>收件服务器</Text>
                     </View>
@@ -87,7 +85,7 @@ export default class IMAP extends Component {
                         <TextInput
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
-                            placeholder ="mail.example.com"
+                            placeholder ='mail.example.com'
                             placeholderTextColor={'#bfbfbf'}
                         />
                     </View>
@@ -97,7 +95,7 @@ export default class IMAP extends Component {
                         <TextInput
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
-                            placeholder ="选填"
+                            placeholder ='选填'
                             placeholderTextColor={'#bfbfbf'}
                         />
                     </View>
@@ -109,6 +107,8 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             secureTextEntry = {true}
                             placeholderTextColor={'#bfbfbf'}
+                            onChangeText={(text) => {this.setState({receivedPassword:text});}}
+                            value={this.state.receivedPassword}
                         />
                     </View>
                     <View style={styles.line}/>
@@ -116,6 +116,7 @@ export default class IMAP extends Component {
                         <Text style={styles.tip}>端口</Text>
                         <TextInput
                             style={styles.textInput}
+                            keyboardType='numeric'
                             underlineColorAndroid='transparent'
                             value={'143'}
                             placeholderTextColor={'#bfbfbf'}
@@ -129,7 +130,7 @@ export default class IMAP extends Component {
                             onPress={()=>this.choose()}
                         >
                             <Image
-                                style={{width:pxToDp(85), height:pxToDp(50)}}
+                                style={{width:widthToDp(85), height:heightToDp(50)}}
                                 source={this.state.uri}
                             />
                         </TouchableOpacity>
@@ -143,7 +144,7 @@ export default class IMAP extends Component {
                         <TextInput
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
-                            placeholder ="mail.example.com"
+                            placeholder ='mail.example.com'
                             placeholderTextColor={'#bfbfbf'}
                         />
                     </View>
@@ -153,7 +154,7 @@ export default class IMAP extends Component {
                         <TextInput
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
-                            placeholder = "选填"
+                            placeholder = '选填'
                             placeholderTextColor={'#bfbfbf'}
                         />
                     </View>
@@ -172,8 +173,9 @@ export default class IMAP extends Component {
                         <Text style={styles.tip}>端口</Text>
                         <TextInput
                             style={styles.textInput}
+                            keyboardType='numeric'
                             underlineColorAndroid='transparent'
-                            value={'143'}
+                            value={'25'}
                             placeholderTextColor={'#bfbfbf'}
                         />
                     </View>
@@ -185,80 +187,84 @@ export default class IMAP extends Component {
                             onPress={()=>this.choose()}
                         >
                             <Image
-                                style={{width:pxToDp(85), height:pxToDp(50)}}
+                                style={{width:widthToDp(85), height:heightToDp(50)}}
                                 source={this.state.uri}
                             />
                         </TouchableOpacity>
                     </View>
                 </View>
-            </ScrollView>
+            </KeyboardAwareScrollView>
         );
     }
 }
-
+const $containerBGColor = '#efeff4';
+const $cellBGColor = '#fff';
+const $tipFontColor = '#31353b';
+const $breakTextColor = '#81858a';
+const $inputFontColor = '#000';
+const $borderColor = '#e5e5e5';
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        height:pxToDp(1400)
+        flex: 1
     },
-    break1 :{
-        height:pxToDp(40),
-        backgroundColor:'#efeff4',
-        borderColor:'#e5e5e5',
-        borderWidth:1,
-        borderStyle:'solid'
+    break1: {
+        height: heightToDp(40),
+        backgroundColor: $containerBGColor,
+        borderColor: $borderColor,
+        borderWidth: 1,
+        borderStyle: 'solid'
     },
-    cell:{
-        height:pxToDp(88),
-        flexDirection:'row',
-        backgroundColor:'#ffffff',
-        opacity:0.95
+    cell: {
+        height: heightToDp(88),
+        flexDirection: 'row',
+        backgroundColor: $cellBGColor,
+        opacity: 0.95
     },
-    tip:{
-        fontSize:pxToDp(32),
-        fontFamily:"PingFang-SC-Regular",
-        marginLeft:pxToDp(35),
-        color:'#31353b',
-        lineHeight:pxToDp(88),
-        width:pxToDp(160)
+    tip: {
+        fontSize: widthToDp(32),
+        fontFamily: 'PingFang-SC-Regular',
+        marginLeft: widthToDp(35),
+        color: $tipFontColor,
+        lineHeight: heightToDp(88),
+        width: widthToDp(160)
     },
-    break2 :{
-        height:pxToDp(70),
-        backgroundColor:'#efeff4',
-        borderColor:'#e5e5e5',
-        borderWidth:1,
-        borderStyle:'solid',
+    break2: {
+        height: heightToDp(70),
+        backgroundColor: $containerBGColor,
+        borderColor: $borderColor,
+        borderWidth: 1,
+        borderStyle: 'solid',
 
     },
     breakText: {
-        lineHeight: pxToDp(70),
-        color: '#81858a',
-        fontSize: pxToDp(24),
+        lineHeight: heightToDp(70),
+        color: $breakTextColor,
+        fontSize: widthToDp(24),
         fontFamily: 'PingFang-SC-Regular',
-        marginLeft: pxToDp(35),
+        marginLeft: widthToDp(35),
     },
-    textInput:{
-        width:pxToDp(500),
-        fontSize:pxToDp(32),
-        color:'#000000'
+    textInput: {
+        width: widthToDp(500),
+        fontSize: widthToDp(32),
+        color: $inputFontColor
     },
-    inputImg1:{
-        position:'absolute',
-        right:pxToDp(10),
-        top:pxToDp(30),
-        zIndex:2,
+    inputImg1: {
+        position: 'absolute',
+        right: widthToDp(10),
+        top: heightToDp(30),
+        zIndex: 2,
 
     },
-    inputImg2:{
-        position:'absolute',
-        right:pxToDp(50),
-        top:pxToDp(13),
-        zIndex:2,
-        width:pxToDp(100)
+    inputImg2: {
+        position: 'absolute',
+        right: widthToDp(50),
+        top: heightToDp(13),
+        zIndex: 2,
+        width: widthToDp(100)
     },
-    line:{
-        height:pxToDp(1),
-        backgroundColor:'#e5e5e5',
-        marginLeft:pxToDp(30)
+    line: {
+        height: heightToDp(1),
+        backgroundColor: $borderColor,
+        marginLeft: widthToDp(30)
     }
 });

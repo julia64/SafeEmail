@@ -8,3 +8,18 @@
 邮箱设置已完成
 
 邮件箱  -  已完成基本列表和左滑出现菜单，星标功能未完全实现
+
+## 2018-5-16 更新
+启动页 登录页 服务器设置页导航完成
+
+EXCHANGE IMAP POP 三个协议之间页面切换及UI
+
+导航栏UI更新
+
+确定按钮设置，功能未完善
+
+确定按钮功能预计实现思路
+1.确定按钮点击时哪个页面是活跃的this.props.navigation.isFocused()判断
+2.设置页参数传递：this.props.navigation.setParams()
+3.TextInput输入文本输入结束后调用2方法onEndEditing
+4.如果输入内容为空需要初始化为空
