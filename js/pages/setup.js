@@ -24,10 +24,7 @@ import headerRightConfirm from '../components/headerRightConfirm';
 import headerTitle from '../components/headerTitle';
 import slideInfoButton from '../components/slideInfoButton';
 import writeEmailButton from '../components/writeEmailButton';
-const {
-    height,
-    width
-} = Dimensions.get('window');
+
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
         screen: EXCHANGE,
@@ -55,23 +52,32 @@ const ServerSetting = createMaterialTopTabNavigator({
         height: heightToDp(89),
         width: Dimensions.get('window').width,
     },
-    // tabBarComponent: ProtocolNavBar,
     tabBarOptions: {
         activeTintColor: '#fff',
         inactiveTintColor: '#31353b',
-        // scrollEnabled: false,
+        tabStyle: {
+            height: heightToDp(89),
+            padding: 0,
+            margin: 0
+        },
         indicatorStyle: {
             height: heightToDp(89),
             backgroundColor: '#0d81ff'
         },
         labelStyle: {
             fontSize: widthToDp(30),
-            fontFamily: 'PingFang-SC-Regular'
+            fontFamily: 'PingFang-SC-Regular',
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            margin: 0,
+            padding: 0
         },
         style: {
             height: heightToDp(89),
             backgroundColor: '#fff',
-            opacity: 0.95
+            opacity: 0.95,
+            elevation: 0
         }
     }
 });
@@ -116,12 +122,16 @@ const AppNavigator = createStackNavigator({
             fontSize: widthToDp(34),
             fontFamily: 'PingFang-SC-Regular',
             color: '#000',
-            justifyContent:'center',
-            // fontWeight: '300',
-            width:'100%',
+            justifyContent: 'center',
+            fontWeight: '300',
+            width: '100%',
             flexDirection: 'row',
             alignItems: 'center',
-            textAlign:'center'
+            textAlign: 'center'
+        },
+        headerStyle: {
+            elevation: 0,
+            backgroundColor: 'rgba(255,255,255,0.7)'
         },
         headerBackImage: headerBackImage
     }

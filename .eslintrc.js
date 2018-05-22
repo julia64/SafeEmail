@@ -3,7 +3,12 @@ module.exports = {
         "es6": true,
         "node": true
     },
-    "extends": ["eslint:recommended", "plugin:react/recommended", "plugin:react-native/all"],
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:jsx-a11y/recommended",
+        "plugin:react-native/all"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "experimentalObjectRestSpread": true,
@@ -13,7 +18,8 @@ module.exports = {
     },
     "plugins": [
         "react",
-        "react-native"
+        "react-native",
+        "jsx-a11y"
     ],
     "rules": {
         "indent": [
