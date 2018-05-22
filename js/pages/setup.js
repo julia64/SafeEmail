@@ -15,6 +15,8 @@ import HomePage from './HomePage';
 import EXCHANGE from './EXCHANGE';
 import IMAP from './IMAP';
 import POP from './POP';
+import WriteLetter from './WriteLetter'
+import Settings from './Settings'
 import {
     widthToDp,
     heightToDp
@@ -108,9 +110,23 @@ const AppNavigator = createStackNavigator({
                 navigation
             })
         })
-    }
+    },
+    WriteLetter: {
+        screen: WriteLetter,
+        navigationOptions: {
+            headerTitle: '写邮件',
+            headerRight: React.createElement(headerRightConfirm)
+        }
+    },
+    Settings: {
+        screen: Settings,
+        navigationOptions: {
+            headerTitle: '设置',
+            headerRight: React.createElement(headerRightConfirm)
+        }
+    },
 }, {
-    initialRouteName: 'ServerSetting',
+    initialRouteName: 'Settings',
     navigationOptions: {
         headerTitleStyle: {
             fontSize: widthToDp(34),

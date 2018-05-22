@@ -27,3 +27,8 @@ EXCHANGE IMAP POP 三个协议之间页面切换及UI
 1.确定按钮点击时哪个页面是活跃的this.props.navigation.isFocused()判断
 
 2.非嵌套组件间通信   发布/订阅模式
+
+## 2018-5-22 更新
+重写settings页面
+
+完成WriteLetter页面 - 点击附件图片会出现Modal框，UI已完成，但点其他地方模态框自动消失功能有问题

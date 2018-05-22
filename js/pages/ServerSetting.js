@@ -7,7 +7,10 @@ import {
 } from 'react-native';
 
 
-import pxToDp from '../common/pxToDp';
+import {
+    widthToDp,
+    heightToDp
+} from '../common/pxToDp';
 import NavBar from './NavBar';
 
 
@@ -45,7 +48,7 @@ export default class ServerSetting extends Component {
 const $textColor = '#31353b';
 const styles = StyleSheet.create({
     tabBarText: {
-        fontSize: pxToDp(30),
+        fontSize: widthToDp(30),
         fontWeight: '300',
         color: $textColor
     }

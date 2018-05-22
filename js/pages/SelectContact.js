@@ -13,7 +13,7 @@ import {
 } from '../common/pxToDp';
 import HomePage from "./HomePage";
 import ServerSetting from './ServerSetting'
-export default class Settings extends Component {
+export default class SelectContact extends Component {
     constructor(props) {
         super(props);
         this.state = {

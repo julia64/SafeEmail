@@ -88,7 +88,7 @@ export default class IMAP extends Component {
                             underlineColorAndroid='transparent'
                             onChangeText={(text) => {this.setState({account:text});}}
                             value = {this.state.account}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                         />
                         {
                             this.state.account ? (
@@ -112,7 +112,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='mail.example.com'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({receivedServer:text});}}
                         />
                     </View>
@@ -123,7 +123,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='选填'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({receivedUsername:text});}}
                         />
                     </View>
@@ -134,7 +134,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             secureTextEntry = {true}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({receivedPassword:text});}}
                             value={this.state.receivedPassword}
                         />
@@ -147,7 +147,7 @@ export default class IMAP extends Component {
                             keyboardType='numeric'
                             underlineColorAndroid='transparent'
                             value={this.state.receivedPort}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({receivedPort:text});}}
                         />
                     </View>
@@ -175,7 +175,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='mail.example.com'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({sendServer:text});}}
                         />
                     </View>
@@ -186,7 +186,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder = '选填'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({sendUsername:text});}}
                         />
                     </View>
@@ -197,7 +197,7 @@ export default class IMAP extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             secureTextEntry = {true}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({sendPassword:text});}}
                         />
                     </View>
@@ -209,7 +209,7 @@ export default class IMAP extends Component {
                             keyboardType='numeric'
                             underlineColorAndroid='transparent'
                             value={this.state.sendPort}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({sendPort:text});}}
                         />
                     </View>
@@ -238,6 +238,7 @@ const $tipFontColor = '#31353b';
 const $breakTextColor = '#81858a';
 const $inputFontColor = '#000';
 const $borderColor = '#e5e5e5';
+const $placeholderColor = '#bfbfbf';
 const styles = StyleSheet.create({
     container: {
         flex: 1

@@ -77,7 +77,7 @@ export default class EXCHANGE extends Component {
                             underlineColorAndroid='transparent'
                             onChangeText={(text) => {this.setState({account:text});}}
                             value = {this.state.account}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                         />
                         {
                             this.state.account ? (
@@ -101,7 +101,7 @@ export default class EXCHANGE extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='mail.example.com'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({server:text});}}
                         />
                     </View>
@@ -112,7 +112,7 @@ export default class EXCHANGE extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='选填'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({area:text});}}
                         />
                     </View>
@@ -123,7 +123,7 @@ export default class EXCHANGE extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             placeholder ='选填'
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({username:text});}}
                         />
                     </View>
@@ -134,7 +134,7 @@ export default class EXCHANGE extends Component {
                             style={styles.textInput}
                             underlineColorAndroid='transparent'
                             secureTextEntry = {true}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({password:text});}}
                             value = {this.state.password}
                         />
@@ -147,7 +147,7 @@ export default class EXCHANGE extends Component {
                             keyboardType='numeric'
                             underlineColorAndroid='transparent'
                             value={this.state.port}
-                            placeholderTextColor={'#bfbfbf'}
+                            placeholderTextColor={$placeholderColor}
                             onChangeText={(text) => {this.setState({port:text});}}
                         />
                     </View>
@@ -177,7 +177,7 @@ const $tipFontColor = '#31353b';
 const $breakTextColor = '#81858a';
 const $inputFontColor = '#000';
 const $borderColor = '#e5e5e5';
-
+const $placeholderColor = '#bfbfbf';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
