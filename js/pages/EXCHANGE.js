@@ -20,6 +20,9 @@ import {
     heightToDp
 } from '../common/pxToDp';
 import emitter from '../utils/events';
+import {
+    Switch
+} from 'react-native-switch';
 
 export default class EXCHANGE extends Component {
     // 构造
@@ -35,18 +38,9 @@ export default class EXCHANGE extends Component {
             ssl: true,
             protocol: 'exchange'
         };
-        this.sslUri = {
-            choose: require('../../res/images/login/button-right.png'),
-            notChoose: require('../../res/images/login/button-left.png')
-        };
         this.deleteInput = () => {
             this.setState({
                 account: ''
-            });
-        };
-        this.chooseSSL = () => {
-            this.setState({
-                ssl: !this.state.ssl
             });
         };
     }
@@ -154,16 +148,25 @@ export default class EXCHANGE extends Component {
                     <View style={styles.line}/>
                     <View style={styles.cell}>
                         <Text style={styles.tip}>SSL</Text>
-                        <TouchableOpacity
+                        <View
                             style={styles.inputImg2}
-                            activeOpacity={1}
-                            onPress={()=>this.chooseSSL()}
                         >
-                            <Image
-                                style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.ssl?this.sslUri.choose:this.sslUri.notChoose}
+                            <Switch
+                                value={true}
+                                disabled={false}
+                                circleSize={widthToDp(50)}
+                                circleBorderWidth={0}
+                                barHeight={widthToDp(52)}
+                                circleActiveColor='#fff'
+                                circleInActiveColor='#fff'
+                                backgroundActive='#4cd964'
+                                backgroundInactive='grey'
+                                switchLeftPx={2}
+                                switchRightPx={2}
+                                changeValueImmediately={false}
+                                onValueChange={(state)=>this.setState({ssl:state})}
                             />
-                        </TouchableOpacity>
+                        </View>
                     </View>
                     <View style={styles.line}/>
                 </View>
@@ -231,10 +234,9 @@ const styles = StyleSheet.create({
     },
     inputImg2: {
         position: 'absolute',
-        right: widthToDp(10),
-        top: heightToDp(13),
-        zIndex: 2,
-        width: widthToDp(100)
+        right: widthToDp(30),
+        top: heightToDp(16),
+        zIndex: 2
     },
     line: {
         height: 1,
