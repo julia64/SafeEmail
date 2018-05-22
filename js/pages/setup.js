@@ -33,6 +33,7 @@ import POP from './POP';
 import WriteLetter from './WriteLetter';
 import Settings from './Settings';
 import SelectEmail from './SelectEmail';
+import SelectContact from './SelectContact';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -146,6 +147,13 @@ const AppNavigator = createStackNavigator({
         screen: Settings,
         navigationOptions: {
             headerTitle: '设置',
+            headerRight: React.createElement(headerRightConfirm)
+        }
+    },
+    SelectContact: {
+        screen: SelectContact,
+        navigationOptions: {
+            headerTitle: '选择联系人',
             headerRight: React.createElement(headerRightConfirm)
         }
     },

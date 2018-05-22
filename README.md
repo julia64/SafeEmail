@@ -32,3 +32,5 @@ EXCHANGE IMAP POP 三个协议之间页面切换及UI
 重写settings页面
 
 完成WriteLetter页面 - 点击附件图片会出现Modal框，UI已完成，但点其他地方模态框自动消失功能有问题
+
+完成selectContact页面
