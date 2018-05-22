@@ -1,8 +1,8 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 15:37:43
- * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-20 15:47:23
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-22 20:10:42
  * @Description 导航栏左边按钮组件
  */
 import React from 'react';
@@ -15,7 +15,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 
 const slideInfoButton = () => {
     return (
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: widthToDp(36),
-        height: heightToDp(26),
+        height: heightToDp(30),
         justifyContent: 'center'
     }
 });

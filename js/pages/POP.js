@@ -19,7 +19,10 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
+import {
+    Switch
+} from 'react-native-switch';
 import emitter from '../utils/events';
 
 export default class POP extends Component {
@@ -40,25 +43,10 @@ export default class POP extends Component {
             sendSSL: true,
             protocol: 'pop'
         };
-        this.sslUri = {
-            choose: require('../../res/images/login/button-right.png'),
-            notChoose: require('../../res/images/login/button-left.png')
-        };
         this.deleteInput = () => {
             this.setState({
                 account: ''
             });
-        };
-        this.chooseSSL = (type) => {
-            if (type === 'received') {
-                this.setState({
-                    receivedSSL: !this.state.receivedSSL
-                });
-            } else {
-                this.setState({
-                    sendSSL: !this.state.sendSSL
-                });
-            }
         };
     }
     componentDidMount() {
@@ -66,9 +54,11 @@ export default class POP extends Component {
             navigate,
             isFocused
         } = this.props.navigation;
-        this.eventEmitter = emitter.addListener('saveEmailInfo', () => {
+        this.eventEmitter = emitter.addListener('confirmButton', () => {
             if (isFocused()) {
-                navigate('HomePage', this.state);
+                navigate('HomePage', {
+                    transition: 'forFade'
+                });
             }
         });
     }
@@ -154,16 +144,26 @@ export default class POP extends Component {
                     <View style={styles.line}/>
                     <View style={styles.cell}>
                         <Text style={styles.tip}>SSL</Text>
-                        <TouchableOpacity
+                        <View
                             style={styles.inputImg2}
-                            activeOpacity={1}
-                            onPress={()=>this.chooseSSL('received')}
                         >
-                            <Image
-                                style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.receivedSSL?this.sslUri.choose:this.sslUri.notChoose}
+                            <Switch
+                                value={true}
+                                disabled={false}
+                                circleSize={widthToDp(40)}
+                                circleBorderWidth={0}
+                                barHeight={widthToDp(42)}
+                                circleActiveColor='#fff'
+                                circleInActiveColor='#fff'
+                                backgroundActive='#4cd964'
+                                backgroundInactive='grey'
+                                switchLeftPx={2}
+                                switchRightPx={2}
+                                switchWidthMultiplier={2}
+                                changeValueImmediately={false}
+                                onValueChange={(state)=>this.setState({receivedSSL:state})}
                             />
-                        </TouchableOpacity>
+                        </View>
                     </View>
 
                     <View style={styles.break2}>
@@ -221,9 +221,21 @@ export default class POP extends Component {
                             activeOpacity={1}
                             onPress={()=>this.chooseSSL('send')}
                         >
-                            <Image
-                                style={{width:widthToDp(85), height:heightToDp(50)}}
-                                source={this.state.sendSSL?this.sslUri.choose:this.sslUri.notChoose}
+                            <Switch
+                                value={true}
+                                disabled={false}
+                                circleSize={widthToDp(40)}
+                                circleBorderWidth={0}
+                                barHeight={widthToDp(42)}
+                                circleActiveColor='#fff'
+                                circleInActiveColor='#fff'
+                                backgroundActive='#4cd964'
+                                backgroundInactive='grey'
+                                switchLeftPx={2}
+                                switchRightPx={2}
+                                switchWidthMultiplier={2}
+                                changeValueImmediately={false}
+                                onValueChange={(state)=>this.setState({sendSSL:state})}
                             />
                         </TouchableOpacity>
                     </View>
@@ -292,10 +304,9 @@ const styles = StyleSheet.create({
     },
     inputImg2: {
         position: 'absolute',
-        right: widthToDp(50),
-        top: heightToDp(13),
-        zIndex: 2,
-        width: widthToDp(100)
+        right: widthToDp(30),
+        top: heightToDp(23),
+        zIndex: 2
     },
     line: {
         height: heightToDp(1),

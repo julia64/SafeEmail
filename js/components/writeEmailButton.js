@@ -1,8 +1,8 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 16:38:51
- * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-20 15:53:20
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-22 20:08:17
  * @Description 导航栏右边确定按钮
  */
 import React from 'react';
@@ -15,7 +15,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 
 const writeEmailButton = ({
     navigation

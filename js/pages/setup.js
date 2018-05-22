@@ -3,29 +3,36 @@
  */
 import React from 'react';
 import {
+    Animated,
+    Easing,
     Dimensions
 } from 'react-native';
 import {
     createStackNavigator,
     createMaterialTopTabNavigator
 } from 'react-navigation';
+import StyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
+
+import {
+    widthToDp,
+    heightToDp
+} from '../utils/pxToDp';
+
+import headerBackImage from '../components/headerBackImage';
+import headerRightConfirm from '../components/headerRightConfirm';
+import headerTitle from '../components/headerTitle';
+import slideInfoButton from '../components/slideInfoButton';
+import writeEmailButton from '../components/writeEmailButton';
+
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
 import HomePage from './HomePage';
 import EXCHANGE from './EXCHANGE';
 import IMAP from './IMAP';
 import POP from './POP';
-import WriteLetter from './WriteLetter'
-import Settings from './Settings'
-import {
-    widthToDp,
-    heightToDp
-} from '../common/pxToDp';
-import headerBackImage from '../components/headerBackImage';
-import headerRightConfirm from '../components/headerRightConfirm';
-import headerTitle from '../components/headerTitle';
-import slideInfoButton from '../components/slideInfoButton';
-import writeEmailButton from '../components/writeEmailButton';
+import WriteLetter from './WriteLetter';
+import Settings from './Settings';
+import SelectEmail from './SelectEmail';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -117,6 +124,17 @@ const AppNavigator = createStackNavigator({
             })
         })
     },
+    SelectEmail: {
+        screen: SelectEmail,
+        navigationOptions: ({
+            navigation
+        }) => ({
+            title: '已选择1封邮件',
+            headerRight: React.createElement(headerRightConfirm, {
+                navigation
+            })
+        })
+    },
     WriteLetter: {
         screen: WriteLetter,
         navigationOptions: {
@@ -132,7 +150,26 @@ const AppNavigator = createStackNavigator({
         }
     },
 }, {
-    initialRouteName: 'Settings',
+    initialRouteName: 'HomePage',
+    transitionConfig: () => ({
+        transitionSpec: {
+            duration: 300,
+            easing: Easing.out(Easing.poly(4)),
+            timing: Animated.timing,
+        },
+        screenInterpolator: (sceneProps) => {
+            const {
+                scene
+            } = sceneProps;
+            const {
+                route
+            } = scene;
+            const params = route.params || {};
+            const transition = params.transition || 'forHorizontal';
+            console.log(transition);
+            return StyleInterpolator[transition](sceneProps);
+        }
+    }),
     navigationOptions: {
         headerTitleStyle: {
             fontSize: widthToDp(34),

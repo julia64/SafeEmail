@@ -10,7 +10,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 import NavBar from './NavBar';
 
 

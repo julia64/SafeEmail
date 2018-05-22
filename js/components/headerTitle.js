@@ -1,8 +1,8 @@
 /*
  * @Author: guoyu
  * @Date:   2018-05-20 14:13:09
- * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-20 17:05:55
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-22 20:08:06
  */
 import React from 'react';
 import {
@@ -13,11 +13,7 @@ import {
 } from 'react-native';
 import {
     widthToDp
-} from '../common/pxToDp';
-const {
-    height,
-    width
-} = Dimensions.get('window');
+} from '../utils/pxToDp';
 const headerTitle = (props) => (
     <View style={styles.container}>
         <Text style={props.style[1]}>{props.children}</Text>
@@ -31,7 +27,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width:'100%'
+        width: '100%'
     },
     account: {
         textAlign: 'center',

@@ -18,7 +18,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 import emitter from '../utils/events';
 import {
     Switch
@@ -49,9 +49,11 @@ export default class EXCHANGE extends Component {
             navigate,
             isFocused
         } = this.props.navigation;
-        this.eventEmitter = emitter.addListener('saveEmailInfo', () => {
+        this.eventEmitter = emitter.addListener('confirmButton', () => {
             if (isFocused()) {
-                navigate('HomePage', this.state);
+                navigate('HomePage', {
+                    transition: 'forFade'
+                });
             }
         });
     }
@@ -154,15 +156,16 @@ export default class EXCHANGE extends Component {
                             <Switch
                                 value={true}
                                 disabled={false}
-                                circleSize={widthToDp(50)}
+                                circleSize={widthToDp(40)}
                                 circleBorderWidth={0}
-                                barHeight={widthToDp(52)}
+                                barHeight={widthToDp(42)}
                                 circleActiveColor='#fff'
                                 circleInActiveColor='#fff'
                                 backgroundActive='#4cd964'
                                 backgroundInactive='grey'
                                 switchLeftPx={2}
                                 switchRightPx={2}
+                                switchWidthMultiplier={2}
                                 changeValueImmediately={false}
                                 onValueChange={(state)=>this.setState({ssl:state})}
                             />
@@ -235,7 +238,7 @@ const styles = StyleSheet.create({
     inputImg2: {
         position: 'absolute',
         right: widthToDp(30),
-        top: heightToDp(16),
+        top: heightToDp(23),
         zIndex: 2
     },
     line: {
