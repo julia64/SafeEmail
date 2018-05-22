@@ -16,6 +16,7 @@ import EXCHANGE from './EXCHANGE';
 import IMAP from './IMAP';
 import POP from './POP';
 import WriteLetter from './WriteLetter'
+import SelectContact from './SelectContact'
 import Settings from './Settings'
 import {
     widthToDp,
@@ -131,8 +132,15 @@ const AppNavigator = createStackNavigator({
             headerRight: React.createElement(headerRightConfirm)
         }
     },
+    SelectContact: {
+        screen: SelectContact,
+        navigationOptions: {
+            headerTitle: '选择联系人',
+            headerRight: React.createElement(headerRightConfirm)
+        }
+    },
 }, {
-    initialRouteName: 'Settings',
+    initialRouteName: 'SelectContact',
     navigationOptions: {
         headerTitleStyle: {
             fontSize: widthToDp(34),
