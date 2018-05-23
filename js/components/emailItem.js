@@ -2,7 +2,7 @@
  * @Author: guoyu19961004
  * @Date:   2018-05-22 20:18:22
  * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-23 16:21:22
+ * @Last Modified time: 2018-05-23 18:14:17
  */
 import React, {
     Component
@@ -43,19 +43,11 @@ export default class EmailItem extends Component {
         };
         //长按全选函数
         this.select = (item) => {
-            const {
-                navigate
-            } = props.navigation;
+            console.log('test');
             const dataSource = props.data;
             dataSource.forEach((element) => element.select = false);
             item.select = true;
-            navigate('SelectEmail', {
-                data: dataSource,
-                emialKeys: [item.key],
-                transition: 'forFade',
-                selectAll: false,
-                selectNumber: 1
-            });
+            props.selectEmail();
         };
         //全选 选择
         this.selectItem = (item) => {

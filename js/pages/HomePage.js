@@ -6,11 +6,15 @@ import {
     View,
     FlatList,
     RefreshControl,
-    ScrollView
+    ScrollView,
+    TouchableOpacity,
+    Image,
+    Text
 } from 'react-native';
 import SwipeitemView from '../components/swipeLeft';
 import {
-    widthToDp
+    widthToDp,
+    heightToDp
 } from '../utils/pxToDp';
 import EmailItem from '../components/emailItem';
 
@@ -187,16 +191,18 @@ const data = [{
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
-        this._dataRow = {};
-        this.openRowId = '';
         this.state = {
             dataSource: props.navigation.getParam('data', data),
             isLoading: false,
             scrollEnable: true,
             hasIdOpen: false,
             isShowToTop: false,
-            itemChange: false
+            itemChange: false,
+            isSelect: true
         };
+        this._dataRow = {};
+        this.openRowId = '';
+        this.selectNumber = 1;
         this.onLoad = () => {
             setTimeout(() => {
                 this.setState({
@@ -204,8 +210,13 @@ export default class HomePage extends Component {
                 });
             }, 2000);
         };
+        this.selectEmail = () => {
+            this.setState({
+                isSelect: true
+            });
+        }
         //右侧滑动按钮设置
-        this._rightButtons = (item) => {
+        this.rowRightButtons = (item) => {
             return [{
                 id: 1,
                 text: item.todo ? '取消待办' : '标为待办',
@@ -255,8 +266,19 @@ export default class HomePage extends Component {
             }];
         };
         //List列表
-        this._renderRow = (item, sectionId, rowId) => {
-            let rightBtn = this._rightButtons(item);
+        this.renderSelectRow = (item, sectionId, rowId) => {
+            let id = sectionId + '-' + rowId;
+            return (
+                <EmailItem
+                    info={item}
+                    id={id}
+                    emailKeys={this.emailKeys}
+                    isSelect={true}
+                />
+            );
+        };
+        this.renderViewRow = (item, sectionId, rowId) => {
+            let rightBtn = this.rowRightButtons(item);
             let id = sectionId + '-' + rowId;
             return (
                 <SwipeitemView
@@ -269,9 +291,9 @@ export default class HomePage extends Component {
                 >
                     <EmailItem
                         info={item}
-                        navigation={this.props.navigation}
                         data={this.state.dataSource}
                         id={id}
+                        selectEmail={this.selectEmail}
                     />
                 </SwipeitemView>
             );
@@ -280,25 +302,92 @@ export default class HomePage extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <FlatList
-                    data={this.state.dataSource}
-                    renderItem={({item,index}) => this._renderRow(item,'',index)}
-                    ItemSeparatorComponent={() => (<View style={styles.line} />)}
-                    ListFooterComponent={() => (<View style={styles.line} />)}
-                    onEndReachedThreshold={0.2}
-                    initialNumToRender={7}
-                    renderScrollComponent={(props) => {
-                        return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
-                    }}
-                    refreshControl = {
-                        <RefreshControl
-                            refreshing={this.state.isLoading}
-                            onRefresh={() => this.onLoad()}
-                            colors={['#ffffff', '#ffffff', '#ffffff']}
-                            progressBackgroundColor='#099fde'
-                        />
-                    }
-                />
+                <View style={styles.headerWrap}>
+                {this.state.isSelect?(
+                    <View style={styles.header}>
+                        <TouchableOpacity
+                            style={{marginLeft: widthToDp(30)}}
+                            onPress={()=>this.setState({isSelect: false})}
+                        >
+                            <Image
+                                style={styles.backImage}
+                                source={require('../../res/images/emailbox/back.png')}
+                            />
+                        </TouchableOpacity>
+                        <View>
+                            <Text style={styles.headerTitle}>已选择{this.selectNumber}封</Text>
+                        </View>
+                        <TouchableOpacity
+                            style={{marginRight: widthToDp(30)}}
+                            onPress={()=>{
+                                console.log(this.props.navigation);
+                            }}
+                        >
+                            <Text style={styles.headerText}>{this.state.selectAll?'取消全选':'全选'}</Text>
+                        </TouchableOpacity>
+                    </View>
+                ):(
+                    <View style={styles.header}>
+                        <TouchableOpacity
+                            style={{marginLeft: widthToDp(30)}}
+                            onPress={()=>{
+                                console.log('侧边栏');
+                            }}
+                        >
+                            <Image
+                                style={styles.image}
+                                source={require('../../res/images/emailbox/info.png')}
+                            />
+                        </TouchableOpacity>
+                        <View>
+                            <Text style={styles.headerTitle}>收件箱</Text>
+                            <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                        </View>
+                        <TouchableOpacity
+                            style={{marginRight: widthToDp(30)}}
+                            onPress={()=>{
+                                console.log(this.props.navigation);
+                            }}
+                        >
+                            <Image
+                                style={styles.image}
+                                source={require('../../res/images/emailbox/write_email.png')}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                )}
+                </View>
+                {this.state.isSelect?(
+                    <FlatList
+                        data={this.state.dataSource}
+                        renderItem={({item,index}) => this.renderSelectRow(item,'',index)}
+                        ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                        ListFooterComponent={() => (<View style={styles.line} />)}
+                        onEndReachedThreshold={0.2}
+                        initialNumToRender={7}
+                        scrollEnabled={true}
+                    />
+                ):(
+                    <FlatList
+                        data={this.state.dataSource}
+                        renderItem={({item,index}) => this.renderViewRow(item,'',index)}
+                        ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                        ListFooterComponent={() => (<View style={styles.line} />)}
+                        onEndReachedThreshold={0.2}
+                        initialNumToRender={7}
+                        renderScrollComponent={(props) => {
+                            return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
+                        }}
+                        refreshControl = {
+                            <RefreshControl
+                                refreshing={this.state.isLoading}
+                                onRefresh={() => this.onLoad()}
+                                colors={['#ffffff', '#ffffff', '#ffffff']}
+                                progressBackgroundColor='#099fde'
+                            />
+                        }
+                    />
+                )}
                 {this.state.isShowToTop ? <ScrollView root={this}/> : null}
             </View>
         );
@@ -306,10 +395,63 @@ export default class HomePage extends Component {
 }
 const $white = 'white';
 const $lineBGColor = '#e5e5e5';
+const $black = '#000';
+const $textFontColor = '#81858a';
+const $headerBGColor = 'rgba(240,240,240,0.95)';
+const $headerBorderColor = '#A7A7AA';
+const $textColor = '#0d81ff';
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: $white
+        width: '100%',
+        backgroundColor: $white,
+        flex: 1
+    },
+    headerWrap: {
+        width: '100%',
+        height: 64,
+        backgroundColor: $headerBGColor,
+        borderBottomWidth: 0.5,
+        borderBottomColor: $headerBorderColor
+    },
+    header: {
+        width: '100%',
+        height: 44,
+        marginTop: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    backImage: {
+        width: widthToDp(18),
+        height: heightToDp(33),
+        justifyContent: 'center'
+    },
+    headerTitle: {
+        fontSize: widthToDp(34),
+        fontFamily: 'PingFang-SC-Regular',
+        color: $black,
+        justifyContent: 'center',
+        fontWeight: '300',
+        width: '100%',
+        flexDirection: 'row',
+        alignItems: 'center',
+        textAlign: 'center'
+    },
+    headerText: {
+        fontSize: widthToDp(32),
+        color: $textColor,
+        fontFamily: 'PingFang-SC-Regular'
+    },
+    account: {
+        textAlign: 'center',
+        fontSize: widthToDp(22),
+        fontFamily: 'PingFang-SC-Light',
+        color: $textFontColor,
+    },
+    image: {
+        width: widthToDp(36),
+        height: heightToDp(36),
+        justifyContent: 'center'
     },
     line: {
         height: 1,

@@ -126,7 +126,8 @@ const AppNavigator = createStackNavigator({
             headerRight: React.createElement(writeEmailButton, {
                 navigation
             }),
-            gesturesEnabled: false
+            gesturesEnabled: false,
+            header: null
         })
     },
     SelectEmail: {
