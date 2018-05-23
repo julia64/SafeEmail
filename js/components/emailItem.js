@@ -1,8 +1,8 @@
 /*
  * @Author: guoyu19961004
  * @Date:   2018-05-22 20:18:22
- * @Last Modified by:   guoyu19961004
- * @Last Modified time: 2018-05-22 22:33:37
+ * @Last Modified by:   guoyu
+ * @Last Modified time: 2018-05-23 16:21:22
  */
 import React, {
     Component
@@ -19,15 +19,16 @@ import {
     widthToDp,
     heightToDp
 } from '../utils/pxToDp';
-const {
-    width
-} = Dimensions.get('window');
 
 export default class EmailItem extends Component {
     constructor(props) {
         super(props);
         this.state = {
             itemChange: false
+        };
+        this.selectUri = {
+            select: require('../../res/images/emailbox/select.png'),
+            choose: require('../../res/images/emailbox/choose.png')
         };
         this.starUri = {
             star: require('../../res/images/emailbox/star_red.png'),
@@ -40,31 +41,48 @@ export default class EmailItem extends Component {
                 itemChange: !this.state.itemChange
             });
         };
-        this.select = () => {
+        //长按全选函数
+        this.select = (item) => {
             const {
                 navigate
             } = props.navigation;
+            const dataSource = props.data;
+            dataSource.forEach((element) => element.select = false);
+            item.select = true;
             navigate('SelectEmail', {
-                data: props.data,
-                itemId: props.id,
+                data: dataSource,
+                emialKeys: [item.key],
                 transition: 'forFade',
+                selectAll: false,
+                selectNumber: 1
             });
+        };
+        //全选 选择
+        this.selectItem = (item) => {
+            item.select = !item.select;
+            this.setState({
+                itemChange: !this.state.itemChange
+            });
+        };
+        //收件箱 查看邮件
+        this.readEmail = (item) => {
+            console.log(`readEmail:${item.key}`);
         };
     }
     render() {
         const item = this.props.info;
+        const width = this.props.isSelect ? widthToDp(665) : Dimensions.get('window').width;
         return (
             <View style={styles.row}>
                 <TouchableOpacity
-                    onLongPress={()=>this.props.isSelect?null:this.select()}
+                    onLongPress={()=>this.props.isSelect?null:this.select(item)}
+                    onPress={()=>this.props.isSelect?this.selectItem(item):this.readEmail(item)}
                 >
                     <View style={styles.rowContainer}>
-                        <View style={[styles.selectWrap],{borderColor:item.isSelect?$whiteBorderColor:$borderColor}}>
-                            {item.isSelect?(<Image
-                                source={require('../../res/images/emailbox/select.png')}
-                                style={styles.select}
-                            />):null}
-                        </View>
+                        {this.props.isSelect?(<Image
+                            source={item.select?this.selectUri.select:this.selectUri.choose}
+                            style={styles.select}
+                        />):null}
                         <View style={styles.imgWrap}>
                             <Image
                                 source={item.img}
@@ -75,7 +93,7 @@ export default class EmailItem extends Component {
                                 source={require('../../res/images/emailbox/todo.png')}
                             />):null}
                         </View>
-                        <View style={styles.styleColumn}>
+                        <View style={[styles.styleColumn,{width: width - widthToDp(130)}]}>
                             <View style={styles.styleRow}>
                                 {item.forward?(<Image
                                     style={styles.forward}
@@ -90,17 +108,29 @@ export default class EmailItem extends Component {
                             </View>
                             <View style={styles.styleRow}>
                                 <Text style={[styles.title,{color:item.read?$hasReadFontColor:$notReadFontColor}]} numberOfLines={1}>{item.title}</Text>
-                                <TouchableOpacity
-                                    onPress={() => this.changeAsterisk(item)}
-                                    style={styles.star}
-                                >
-                                    <Image
-                                        style={{width:widthToDp(25),height:heightToDp(25)}}
-                                        source={item.star?this.starUri.star:this.starUri.notStar}/>
-                                </TouchableOpacity>
+                                {this.props.isSelect?(
+                                    <View
+                                        style={styles.star}
+                                    >
+                                        <Image
+                                            style={{width:widthToDp(25),height:heightToDp(25)}}
+                                            source={item.star?this.starUri.star:this.starUri.notStar}
+                                        />
+                                    </View>
+                                ):(
+                                    <TouchableOpacity
+                                        onPress={() => this.changeAsterisk(item)}
+                                        style={styles.star}
+                                    >
+                                        <Image
+                                            style={{width:widthToDp(25),height:heightToDp(25)}}
+                                            source={item.star?this.starUri.star:this.starUri.notStar}
+                                        />
+                                    </TouchableOpacity>
+                                )}
                             </View>
                             <Text
-                                style={styles.description}
+                                style={[styles.description,{width: width - widthToDp(150)}]}
                                 numberOfLines={1}
                             >
                                 {item.description}
@@ -115,8 +145,6 @@ export default class EmailItem extends Component {
 
 const $notReadFontColor = '#31353b';
 const $hasReadFontColor = '#81858a';
-const $borderColor = '#000';
-const $whiteBorderColor = '#fff';
 const styles = StyleSheet.create({
     row: {
         height: heightToDp(168),
@@ -126,26 +154,14 @@ const styles = StyleSheet.create({
         fontFamily: 'PingFang-SC-Medium',
         color: $notReadFontColor
     },
-    selectWrap: {
-        width: widthToDp(45),
-        height: widthToDp(45),
-        borderRadius: widthToDp(22),
-        borderWidth: widthToDp(1),
-        borderColor: $borderColor,
-        flexDirection: 'column',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        marginLeft: widthToDp(30),
-        marginTop: heightToDp(60)
-    },
     select: {
         width: widthToDp(44),
         height: widthToDp(44),
-        marginLeft: widthToDp(30),
-        marginTop: heightToDp(60)
+        marginLeft: widthToDp(30)
     },
     imgWrap: {
         width: widthToDp(130),
+        height: '100%',
         flexDirection: 'column',
         justifyContent: 'flex-start',
         alignItems: 'center'
@@ -163,7 +179,10 @@ const styles = StyleSheet.create({
     },
     rowContainer: {
         flexDirection: 'row',
-        width: width
+        width: '100%',
+        height: '100%',
+        justifyContent: 'flex-start',
+        alignItems: 'center'
     },
     forward: {
         width: widthToDp(25),
@@ -179,21 +198,17 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        width: width - widthToDp(130)
+        width: '100%'
     },
     styleColumn: {
-        flexDirection: 'column',
-        width: width,
-        marginTop: heightToDp(20)
+        flexDirection: 'column'
     },
     title: {
         fontSize: widthToDp(28),
         fontFamily: 'PingFang-SC-Medium',
-        color: $notReadFontColor,
-        marginTop: heightToDp(5)
+        color: $notReadFontColor
     },
     description: {
-        width: width - widthToDp(150),
         fontSize: widthToDp(28),
         fontFamily: 'PingFang-SC-Light',
         color: $hasReadFontColor,

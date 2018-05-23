@@ -23,6 +23,7 @@ import headerRightConfirm from '../components/headerRightConfirm';
 import headerTitle from '../components/headerTitle';
 import slideInfoButton from '../components/slideInfoButton';
 import writeEmailButton from '../components/writeEmailButton';
+import emailSelect from '../components/emailSelect';
 
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
@@ -109,7 +110,9 @@ const AppNavigator = createStackNavigator({
         screen: ServerSetting,
         navigationOptions: {
             headerTitle: '服务器设置',
-            headerRight: React.createElement(headerRightConfirm)
+            headerRight: React.createElement(headerRightConfirm, {
+                text: '确定'
+            })
         }
     },
     HomePage: {
@@ -117,12 +120,13 @@ const AppNavigator = createStackNavigator({
         navigationOptions: ({
             navigation
         }) => ({
-            title: '收件箱',
+            title: `${navigation.getParam('account','test@test.com')}`,
             headerLeft: slideInfoButton,
             headerTitle: headerTitle,
             headerRight: React.createElement(writeEmailButton, {
                 navigation
-            })
+            }),
+            gesturesEnabled: false
         })
     },
     SelectEmail: {
@@ -130,8 +134,8 @@ const AppNavigator = createStackNavigator({
         navigationOptions: ({
             navigation
         }) => ({
-            title: '已选择1封邮件',
-            headerRight: React.createElement(headerRightConfirm, {
+            title: `已选择${navigation.getParam('selectNumber',1)}封`,
+            headerRight: React.createElement(emailSelect, {
                 navigation
             })
         })
@@ -140,21 +144,27 @@ const AppNavigator = createStackNavigator({
         screen: WriteLetter,
         navigationOptions: {
             headerTitle: '写邮件',
-            headerRight: React.createElement(headerRightConfirm)
+            headerRight: React.createElement(headerRightConfirm, {
+                text: '确定'
+            })
         }
     },
     Settings: {
         screen: Settings,
         navigationOptions: {
             headerTitle: '设置',
-            headerRight: React.createElement(headerRightConfirm)
+            headerRight: React.createElement(headerRightConfirm, {
+                text: '确定'
+            })
         }
     },
     SelectContact: {
         screen: SelectContact,
         navigationOptions: {
             headerTitle: '选择联系人',
-            headerRight: React.createElement(headerRightConfirm)
+            headerRight: React.createElement(headerRightConfirm, {
+                text: '确定'
+            })
         }
     },
 }, {
@@ -174,7 +184,7 @@ const AppNavigator = createStackNavigator({
             } = scene;
             const params = route.params || {};
             const transition = params.transition || 'forHorizontal';
-            console.log(transition);
+            // console.log(transition);
             return StyleInterpolator[transition](sceneProps);
         }
     }),
@@ -192,8 +202,9 @@ const AppNavigator = createStackNavigator({
         },
         headerStyle: {
             elevation: 0,
-            backgroundColor: 'rgba(255,255,255,0.7)'
+            backgroundColor: 'rgba(250,250,250,0.95)'
         },
+        headerBackTitle: null,
         headerBackImage: headerBackImage
     }
 });

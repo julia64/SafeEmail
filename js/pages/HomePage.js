@@ -26,7 +26,8 @@ const data = [{
     'read': true,
     'forward': true,
     'todo': true,
-    'attachment': true
+    'attachment': true,
+    'select': false
 }, {
     'key': '2',
     'email': 'f.lee@taylor.edu',
@@ -39,7 +40,8 @@ const data = [{
     read: true,
     forward: true,
     todo: true,
-    attachment: true
+    attachment: true,
+    'select': false
 }, {
     'key': '3',
     'email': 'f.lee@taylor.edu',
@@ -52,7 +54,8 @@ const data = [{
     'read': false,
     'forward': true,
     'todo': true,
-    'attachment': true
+    'attachment': true,
+    'select': false
 }, {
     'key': '4',
     'email': 'f.lee@taylor.edu',
@@ -65,7 +68,8 @@ const data = [{
     'read': false,
     'forward': true,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     key: '5',
     'email': 'f.lee@taylor.edu',
@@ -78,7 +82,8 @@ const data = [{
     'read': true,
     'forward': true,
     'todo': false,
-    'attachment': true
+    'attachment': true,
+    'select': false
 }, {
     'key': '6',
     'email': 'f.lee@taylor.edu',
@@ -91,7 +96,8 @@ const data = [{
     'read': false,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '7',
     'email': 'f.lee@taylor.edu',
@@ -104,7 +110,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '8',
     'email': 'f.lee@taylor.edu',
@@ -117,7 +124,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '9',
     'email': 'f.lee@taylor.edu',
@@ -130,7 +138,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '10',
     'email': 'f.lee@taylor.edu',
@@ -143,7 +152,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '11',
     'email': 'f.lee@taylor.edu',
@@ -156,7 +166,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }, {
     'key': '12',
     'email': 'f.lee@taylor.edu',
@@ -169,7 +180,8 @@ const data = [{
     'read': true,
     'forward': false,
     'todo': false,
-    'attachment': false
+    'attachment': false,
+    'select': false
 }];
 
 export default class HomePage extends Component {
@@ -202,7 +214,7 @@ export default class HomePage extends Component {
                 bgColor: '#badaff',
                 color: '#0d81ff',
                 fontSize: widthToDp(36),
-                underlayColor: '#ffffff',
+                underlayColor: '#badaff',
                 onPress: () => {
                     //标为/取消代办
                     item.todo = !item.todo;
@@ -216,9 +228,9 @@ export default class HomePage extends Component {
                 width: widthToDp(130),
                 bgColor: '#0d81ff',
                 textWidth: widthToDp(100),
-                color: '#ffffff',
+                color: '#fff',
                 fontSize: widthToDp(36),
-                underlayColor: '#ffffff',
+                underlayColor: '#0d81ff',
                 onPress: () => {
                     //标为已读/未读
                     item.read = !item.read;
@@ -232,9 +244,9 @@ export default class HomePage extends Component {
                 width: widthToDp(130),
                 textWidth: widthToDp(100),
                 bgColor: '#f63f3f',
-                color: '#ffffff',
+                color: '#fff',
                 fontSize: widthToDp(36),
-                underlayColor: '#ffffff',
+                underlayColor: '#f63f3f',
                 onPress: (event, id) => {
                     //删除这封邮件
                     const rowId = parseInt(id.split('-')[1], 10);
@@ -251,6 +263,7 @@ export default class HomePage extends Component {
                     root={this}
                     ref={(row) => this._dataRow[id] = row}
                     id={id}
+                    boxbgColor='#fff'
                     animationType='timing'
                     rightBtn={rightBtn}
                 >
@@ -265,7 +278,6 @@ export default class HomePage extends Component {
         };
     }
     render() {
-        // let listView = this._listView();
         return (
             <View style={styles.container}>
                 <FlatList
@@ -273,7 +285,7 @@ export default class HomePage extends Component {
                     renderItem={({item,index}) => this._renderRow(item,'',index)}
                     ItemSeparatorComponent={() => (<View style={styles.line} />)}
                     ListFooterComponent={() => (<View style={styles.line} />)}
-                    onEndReachedThreshold={50}
+                    onEndReachedThreshold={0.2}
                     initialNumToRender={7}
                     renderScrollComponent={(props) => {
                         return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;

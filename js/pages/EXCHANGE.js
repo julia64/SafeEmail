@@ -52,6 +52,7 @@ export default class EXCHANGE extends Component {
         this.eventEmitter = emitter.addListener('confirmButton', () => {
             if (isFocused()) {
                 navigate('HomePage', {
+                    account: this.state.account,
                     transition: 'forFade'
                 });
             }
