@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import {
     StyleSheet,
     Text,
@@ -10,20 +12,26 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 import HomePage from "./HomePage";
 import ServerSetting from './ServerSetting'
 export default class Settings extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            choose:true,
-            uri:require('../../res/images/login/button-right.png')
+            choose: true,
+            uri: require('../../res/images/login/button-right.png')
         };
     }
-    choose(){
-        this.setState({choose:!this.state.choose});
-        this.state.choose===true?this.setState({uri:require('../../res/images/login/button-right.png')}):this.setState({uri:require('../../res/images/login/button-left.png')});
+    choose() {
+        this.setState({
+            choose: !this.state.choose
+        });
+        this.state.choose === true ? this.setState({
+            uri: require('../../res/images/login/button-right.png')
+        }) : this.setState({
+            uri: require('../../res/images/login/button-left.png')
+        });
     }
     render() {
         return (
@@ -122,33 +130,33 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
-    break1 :{
-        height:heightToDp(40),
-        backgroundColor:$backgroundColor,
-        borderColor:$borderColor,
-        borderWidth:1,
-        borderStyle:'solid'
+    break1: {
+        height: heightToDp(40),
+        backgroundColor: $backgroundColor,
+        borderColor: $borderColor,
+        borderWidth: 1,
+        borderStyle: 'solid'
     },
-    cell:{
-        height:heightToDp(88),
-        flexDirection:'row',
-        backgroundColor:$white,
-        opacity:0.95
+    cell: {
+        height: heightToDp(88),
+        flexDirection: 'row',
+        backgroundColor: $white,
+        opacity: 0.95
     },
-    tip:{
-        fontSize:widthToDp(32),
-        fontFamily:"PingFang-SC-Regular",
-        marginLeft:widthToDp(35),
-        color:'#31353b',
-        lineHeight:heightToDp(88),
-        width:widthToDp(200)
+    tip: {
+        fontSize: widthToDp(32),
+        fontFamily: "PingFang-SC-Regular",
+        marginLeft: widthToDp(35),
+        color: '#31353b',
+        lineHeight: heightToDp(88),
+        width: widthToDp(200)
     },
-    break2 :{
-        height:heightToDp(70),
-        backgroundColor:$backgroundColor,
-        borderColor:$borderColor,
-        borderWidth:1,
-        borderStyle:'solid',
+    break2: {
+        height: heightToDp(70),
+        backgroundColor: $backgroundColor,
+        borderColor: $borderColor,
+        borderWidth: 1,
+        borderStyle: 'solid',
 
     },
     breakText: {
@@ -158,62 +166,62 @@ const styles = StyleSheet.create({
         fontFamily: 'PingFang-SC-Regular',
         marginLeft: widthToDp(35),
     },
-    text1:{
-        position:'absolute',
-        fontSize:widthToDp(32),
-        color:$breakFontColor,
-        right:widthToDp(30),
+    text1: {
+        position: 'absolute',
+        fontSize: widthToDp(32),
+        color: $breakFontColor,
+        right: widthToDp(30),
         fontFamily: 'PingFang-SC-Regular',
-        lineHeight:heightToDp(88),
+        lineHeight: heightToDp(88),
     },
-    textInput1:{
-        width:widthToDp(500),
-        fontSize:widthToDp(32),
-        color:$breakFontColor,
-        textAlign:'right',
-        paddingRight:widthToDp(30),
-        fontFamily: 'PingFang-SC-Regular',
-    },
-    textInput2:{
-        width:widthToDp(500),
-        fontSize:widthToDp(32),
-        color:$breakFontColor,
-        textAlign:'right',
-        paddingRight:widthToDp(70),
+    textInput1: {
+        width: widthToDp(500),
+        fontSize: widthToDp(32),
+        color: $breakFontColor,
+        textAlign: 'right',
+        paddingRight: widthToDp(30),
         fontFamily: 'PingFang-SC-Regular',
     },
-    inputImg1:{
-        position:'absolute',
-        right:widthToDp(30),
-        top:heightToDp(30),
-        zIndex:2,
+    textInput2: {
+        width: widthToDp(500),
+        fontSize: widthToDp(32),
+        color: $breakFontColor,
+        textAlign: 'right',
+        paddingRight: widthToDp(70),
+        fontFamily: 'PingFang-SC-Regular',
+    },
+    inputImg1: {
+        position: 'absolute',
+        right: widthToDp(30),
+        top: heightToDp(30),
+        zIndex: 2,
 
     },
-    inputImg2:{
-        position:'absolute',
-        right:widthToDp(10),
-        top:heightToDp(13),
-        zIndex:2,
-        width:widthToDp(100)
+    inputImg2: {
+        position: 'absolute',
+        right: widthToDp(10),
+        top: heightToDp(13),
+        zIndex: 2,
+        width: widthToDp(100)
     },
-    line:{
-        height:heightToDp(1),
-        backgroundColor:$borderColor,
-        marginLeft:widthToDp(30)
+    line: {
+        height: heightToDp(1),
+        backgroundColor: $borderColor,
+        marginLeft: widthToDp(30)
     },
-    logoutView:{
+    logoutView: {
         justifyContent: 'center',
-        alignItems:'center',
-        height:heightToDp(88),
-        flexDirection:'row',
-        backgroundColor:$white,
-        opacity:0.95
+        alignItems: 'center',
+        height: heightToDp(88),
+        flexDirection: 'row',
+        backgroundColor: $white,
+        opacity: 0.95
     },
-    logout:{
-        fontSize:widthToDp(32),
-        fontFamily:"PingFang-SC-Regular",
-        textAlign:'center',
-        color:$logoutFontColor,
-        lineHeight:heightToDp(88),
+    logout: {
+        fontSize: widthToDp(32),
+        fontFamily: "PingFang-SC-Regular",
+        textAlign: 'center',
+        color: $logoutFontColor,
+        lineHeight: heightToDp(88),
     }
 });

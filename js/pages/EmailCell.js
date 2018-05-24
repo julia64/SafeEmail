@@ -14,7 +14,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 import {
     KeyboardAwareScrollView
 } from 'react-native-keyboard-aware-scroll-view';

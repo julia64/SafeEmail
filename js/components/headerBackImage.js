@@ -1,8 +1,8 @@
 /*
  * @Author: WZJ
  * @Date:   2018-05-16 15:37:43
- * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-20 15:14:15
+ * @Last Modified by:   guoyu19961004
+ * @Last Modified time: 2018-05-22 20:08:56
  * @Description 导航栏左边返回图片组件
  */
 import React from 'react';
@@ -14,7 +14,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 const headerBackImage = () => (
     <View style={styles.container}>
         <Image

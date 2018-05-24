@@ -1,4 +1,6 @@
-import React, {Component} from 'react';
+import React, {
+    Component
+} from 'react';
 import {
     StyleSheet,
     Text,
@@ -14,7 +16,7 @@ import {
 import {
     widthToDp,
     heightToDp
-} from '../common/pxToDp';
+} from '../utils/pxToDp';
 import {
     KeyboardAwareScrollView
 } from 'react-native-keyboard-aware-scroll-view';
@@ -26,15 +28,17 @@ export default class WriteLetter extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            receiver:'',
+            receiver: '',
             modalVisible: false
         };
     }
-    addMore(){
+    addMore() {
 
     };
     setModalVisible(visible) {
-        this.setState({modalVisible: visible});
+        this.setState({
+            modalVisible: visible
+        });
     };
     render() {
         return (
@@ -198,7 +202,7 @@ const $modalFontColot = '#31353b';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        height:height
+        height: height
     },
     tip: {
         fontSize: widthToDp(34),
@@ -219,15 +223,15 @@ const styles = StyleSheet.create({
         backgroundColor: $cellBGColor,
         opacity: 0.95,
     },
-    wordCell:{
-        height: height - heightToDp(98*3),
+    wordCell: {
+        height: height - heightToDp(98 * 3),
         backgroundColor: $cellBGColor,
     },
     line: {
         height: 1,
         backgroundColor: $borderColor,
         marginLeft: widthToDp(30),
-        marginRight:widthToDp(30)
+        marginRight: widthToDp(30)
     },
     inputImg1: {
         position: 'absolute',
@@ -242,18 +246,18 @@ const styles = StyleSheet.create({
         zIndex: 2
     },
     inputImg3: {
-        marginTop:heightToDp(45),
+        marginTop: heightToDp(45),
         zIndex: 2,
-        width:(width-widthToDp(140))/4,
+        width: (width - widthToDp(140)) / 4,
     },
-    modalText:{
-        marginTop:heightToDp(25),
+    modalText: {
+        marginTop: heightToDp(25),
         fontFamily: 'PingFang-SC-Regular',
-        fontSize:widthToDp(24),
-        color:$modalFontColot,
-        marginBottom:heightToDp(55)
+        fontSize: widthToDp(24),
+        color: $modalFontColot,
+        marginBottom: heightToDp(55)
     },
-    wordInput:{
+    wordInput: {
         width: width - widthToDp(60),
         fontSize: widthToDp(34),
         color: $inputFontColor,
@@ -261,10 +265,10 @@ const styles = StyleSheet.create({
         marginLeft: widthToDp(30),
         textAlignVertical: 'top',
     },
-    attachmentText:{
+    attachmentText: {
         fontFamily: 'PingFang-SC-Medium',
         fontSize: widthToDp(24),
-        color:$attachmentFontColor,
+        color: $attachmentFontColor,
         position: 'absolute',
         right: widthToDp(30),
         top: heightToDp(45),
@@ -273,35 +277,35 @@ const styles = StyleSheet.create({
     attachmentContainer: {
         flex: 1,
         justifyContent: 'center',
-        backgroundColor:'rgba(0, 0, 0, 0.5)'
+        backgroundColor: 'rgba(0, 0, 0, 0.5)'
     },
     innerContainer: {
         borderRadius: 10,
         alignItems: 'center',
-        height:heightToDp(200),
-        width:width-widthToDp(40),
-        backgroundColor:$white,
-        position:'absolute',
-        bottom:heightToDp(20),
-        left:widthToDp(20),
-        flexDirection:'row'
+        height: heightToDp(200),
+        width: width - widthToDp(40),
+        backgroundColor: $white,
+        position: 'absolute',
+        bottom: heightToDp(20),
+        left: widthToDp(20),
+        flexDirection: 'row'
 
     },
-    modalImage:{
-        width:widthToDp(50),
-        height:heightToDp(40),
+    modalImage: {
+        width: widthToDp(50),
+        height: heightToDp(40),
     },
-    inner:{
-        marginLeft:widthToDp(40),
-        flexDirection:'row',
-        marginTop:heightToDp(50),
-        marginBottom:heightToDp(50),
-        marginRight:widthToDp(50),
+    inner: {
+        marginLeft: widthToDp(40),
+        flexDirection: 'row',
+        marginTop: heightToDp(50),
+        marginBottom: heightToDp(50),
+        marginRight: widthToDp(50),
     },
-    modalView:{
+    modalView: {
         alignItems: 'center',
-        justifyContent:'center',
-        height:heightToDp(200)
+        justifyContent: 'center',
+        height: heightToDp(200)
     }
 
 

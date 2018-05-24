@@ -2,26 +2,21 @@
  * @Author: guoyu
  * @Date:   2018-05-20 14:13:09
  * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-20 17:05:55
+ * @Last Modified time: 2018-05-23 14:25:24
  */
 import React from 'react';
 import {
-    Dimensions,
     StyleSheet,
     Text,
     View
 } from 'react-native';
 import {
     widthToDp
-} from '../common/pxToDp';
-const {
-    height,
-    width
-} = Dimensions.get('window');
+} from '../utils/pxToDp';
 const headerTitle = (props) => (
     <View style={styles.container}>
-        <Text style={props.style[1]}>{props.children}</Text>
-        <Text style={styles.account}>{'test@test.com'}</Text>
+        <Text style={props.style[1]}>收件箱</Text>
+        <Text style={styles.account}>{props.children}</Text>
     </View>
 );
 
@@ -31,7 +26,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
-        width:'100%'
+        width: '100%'
     },
     account: {
         textAlign: 'center',
