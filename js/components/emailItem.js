@@ -2,7 +2,7 @@
  * @Author: guoyu19961004
  * @Date:   2018-05-22 20:18:22
  * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-23 18:14:17
+ * @Last Modified time: 2018-05-24 11:42:01
  */
 import React, {
     Component
@@ -23,9 +23,6 @@ import {
 export default class EmailItem extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            itemChange: false
-        };
         this.selectUri = {
             select: require('../../res/images/emailbox/select.png'),
             choose: require('../../res/images/emailbox/choose.png')
@@ -34,32 +31,6 @@ export default class EmailItem extends Component {
             star: require('../../res/images/emailbox/star_red.png'),
             notStar: require('../../res/images/emailbox/star_gray.png')
         };
-        //标记星标文件
-        this.changeAsterisk = (item) => {
-            item.star = !item.star;
-            this.setState({
-                itemChange: !this.state.itemChange
-            });
-        };
-        //长按全选函数
-        this.select = (item) => {
-            console.log('test');
-            const dataSource = props.data;
-            dataSource.forEach((element) => element.select = false);
-            item.select = true;
-            props.selectEmail();
-        };
-        //全选 选择
-        this.selectItem = (item) => {
-            item.select = !item.select;
-            this.setState({
-                itemChange: !this.state.itemChange
-            });
-        };
-        //收件箱 查看邮件
-        this.readEmail = (item) => {
-            console.log(`readEmail:${item.key}`);
-        };
     }
     render() {
         const item = this.props.info;
@@ -67,8 +38,8 @@ export default class EmailItem extends Component {
         return (
             <View style={styles.row}>
                 <TouchableOpacity
-                    onLongPress={()=>this.props.isSelect?null:this.select(item)}
-                    onPress={()=>this.props.isSelect?this.selectItem(item):this.readEmail(item)}
+                    onLongPress={this.props.onLongPress}
+                    onPress={this.props.onPress}
                 >
                     <View style={styles.rowContainer}>
                         {this.props.isSelect?(<Image
@@ -111,7 +82,7 @@ export default class EmailItem extends Component {
                                     </View>
                                 ):(
                                     <TouchableOpacity
-                                        onPress={() => this.changeAsterisk(item)}
+                                        onPress={this.props.changeAsterisk}
                                         style={styles.star}
                                     >
                                         <Image

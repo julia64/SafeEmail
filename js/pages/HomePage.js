@@ -188,21 +188,29 @@ const data = [{
     'select': false
 }];
 
+//获取邮件Index值函数
+const getEmailIndexByKeyValue = (keyValue, emailData) => {
+    return emailData.findIndex((element) => {
+        return element.key == keyValue;
+    });
+};
+
 export default class HomePage extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            dataSource: props.navigation.getParam('data', data),
+            dataSource: data,
             isLoading: false,
             scrollEnable: true,
             hasIdOpen: false,
             isShowToTop: false,
             itemChange: false,
-            isSelect: true
+            isSelect: false
         };
         this._dataRow = {};
         this.openRowId = '';
         this.selectNumber = 1;
+        this.emailKeys = [];
         this.onLoad = () => {
             setTimeout(() => {
                 this.setState({
@@ -210,11 +218,6 @@ export default class HomePage extends Component {
                 });
             }, 2000);
         };
-        this.selectEmail = () => {
-            this.setState({
-                isSelect: true
-            });
-        }
         //右侧滑动按钮设置
         this.rowRightButtons = (item) => {
             return [{
@@ -265,18 +268,35 @@ export default class HomePage extends Component {
                 },
             }];
         };
-        //List列表
+        //全选列表
         this.renderSelectRow = (item, sectionId, rowId) => {
             let id = sectionId + '-' + rowId;
             return (
                 <EmailItem
                     info={item}
                     id={id}
-                    emailKeys={this.emailKeys}
                     isSelect={true}
+                    onPress={() => {
+                        item.select = !item.select;
+                        if (item.select) {
+                            this.selectNumber++;
+                            this.emailKeys.push(item.key);
+                            console.log(this.emailKeys);
+                        } else {
+                            this.selectNumber--;
+                            this.emailKeys.splice(this.emailKeys.indexOf(item.key),1);
+                            console.log(this.emailKeys);
+                        }
+                        this.setState({
+                            itemChange: !this.state.itemChange,
+                            selectAll: this.selectNumber === this.state.dataSource.length
+                        });
+                    }}
+                    onLongPress={()=>null}
                 />
             );
         };
+        //收件箱列表
         this.renderViewRow = (item, sectionId, rowId) => {
             let rightBtn = this.rowRightButtons(item);
             let id = sectionId + '-' + rowId;
@@ -293,69 +313,169 @@ export default class HomePage extends Component {
                         info={item}
                         data={this.state.dataSource}
                         id={id}
-                        selectEmail={this.selectEmail}
+                        onLongPress={()=>{
+                            item.select = true;
+                            this.emailKeys.push(item.key);
+                            this.setState({
+                                dataSource: data,
+                                isSelect: true
+                            });
+                        }}
+                        onPress={() => {
+                            console.log(this.props.navigation);
+                        }}
+                        changeAsterisk={()=>{
+                            item.star = !item.star;
+                            this.setState({
+                                itemChange: !this.state.itemChange
+                            });
+                        }}
                     />
                 </SwipeitemView>
             );
+        };
+        this.selectSolution = (type) => {
+            if (type === 'delete') {
+                if (this.state.selectAll) {
+                    this.setState({
+                        dataSource: [],
+                        isSelect: false,
+                        selectAll: false
+                    });
+                    this.emailKeys = [];
+                    this.selectNumber = 1;
+                } else if (this.emailKeys.length) {
+                    this.setState({
+                        dataSource: this.state.dataSource.filter((element) => !this.emailKeys.some((val) => (val === element.key))),
+                        isSelect: false
+                    });
+                    this.emailKeys = [];
+                    this.selectNumber = 1;
+                } else {
+                    console.log('未选择');
+                }
+            } else {
+                if (this.state.selectAll) {
+                    this.setState({
+                        dataSource: this.state.dataSource.map((element) => {
+                            element[type] = true;
+                            element.select = false;
+                            return element;
+                        }),
+                        isSelect: false,
+                        selectAll: false
+                    });
+                    this.emailKeys = [];
+                    this.selectNumber = 1;
+                } else if (this.emailKeys.length) {
+                    this.setState({
+                        dataSource: this.state.dataSource.map((element) => {
+                            //存在可key相等则返回TRUE,反之FALSE
+                            if (this.emailKeys.some((val) => (val === element.key))) {
+                                element[type] = true;
+                            }
+                            element.select = false;
+                            return element;
+                        }),
+                        isSelect: false
+                    });
+                    this.emailKeys = [];
+                    this.selectNumber = 1;
+                } else {
+                    console.log('未选择');
+                }
+            }
         };
     }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.headerWrap}>
-                {this.state.isSelect?(
-                    <View style={styles.header}>
-                        <TouchableOpacity
-                            style={{marginLeft: widthToDp(30)}}
-                            onPress={()=>this.setState({isSelect: false})}
-                        >
-                            <Image
-                                style={styles.backImage}
-                                source={require('../../res/images/emailbox/back.png')}
-                            />
-                        </TouchableOpacity>
-                        <View>
-                            <Text style={styles.headerTitle}>已选择{this.selectNumber}封</Text>
+                    {this.state.isSelect?(
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                style={styles.leftWrap}
+                                onPress={()=>{
+                                    this.emailKeys = [];
+                                    this.setState({
+                                        dataSource: this.state.dataSource.map((element) => {
+                                            element.select = false;
+                                            return element;
+                                        }),
+                                        isSelect: false,
+                                        selectAll: false
+                                    });
+                                }}
+                            >
+                                <Image
+                                    style={styles.backImage}
+                                    source={require('../../res/images/emailbox/back.png')}
+                                />
+                            </TouchableOpacity>
+                            <View style={styles.headerTitleWrap}>
+                                <Text style={styles.headerTitle}>已选择{this.selectNumber}封</Text>
+                            </View>
+                            <TouchableOpacity
+                                style={styles.rightWrap}
+                                onPress={()=>{
+                                    this.emailKeys = [];
+                                    if (this.state.selectAll) {
+                                        //取消全选操作
+                                        this.setState({
+                                            dataSource: this.state.dataSource.map((element) => {
+                                                element.select = false;
+                                                return element;
+                                            }),
+                                            selectAll: false
+                                        });
+                                        this.selectNumber = 0;
+                                    } else {
+                                        //全选操作
+                                        this.setState({
+                                            dataSource: this.state.dataSource.map((element) => {
+                                                element.select = true;
+                                                this.emailKeys.push(element.key);
+                                                return element;
+                                            }),
+                                            selectAll: true
+                                        });
+                                        this.selectNumber = this.state.dataSource.length;
+                                    }
+                                }}
+                            >
+                                <Text style={styles.headerText}>{this.state.selectAll?'取消全选':'全选'}</Text>
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            style={{marginRight: widthToDp(30)}}
-                            onPress={()=>{
-                                console.log(this.props.navigation);
-                            }}
-                        >
-                            <Text style={styles.headerText}>{this.state.selectAll?'取消全选':'全选'}</Text>
-                        </TouchableOpacity>
-                    </View>
-                ):(
-                    <View style={styles.header}>
-                        <TouchableOpacity
-                            style={{marginLeft: widthToDp(30)}}
-                            onPress={()=>{
-                                console.log('侧边栏');
-                            }}
-                        >
-                            <Image
-                                style={styles.image}
-                                source={require('../../res/images/emailbox/info.png')}
-                            />
-                        </TouchableOpacity>
-                        <View>
-                            <Text style={styles.headerTitle}>收件箱</Text>
-                            <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                    ):(
+                        <View style={styles.header}>
+                            <TouchableOpacity
+                                style={{marginLeft: widthToDp(30)}}
+                                onPress={()=>{
+                                    console.log('侧边栏');
+                                }}
+                            >
+                                <Image
+                                    style={styles.image}
+                                    source={require('../../res/images/emailbox/info.png')}
+                                />
+                            </TouchableOpacity>
+                            <View>
+                                <Text style={styles.headerTitle}>收件箱</Text>
+                                <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                            </View>
+                            <TouchableOpacity
+                                style={{marginRight: widthToDp(30)}}
+                                onPress={()=>{
+                                    console.log(this.props.navigation);
+                                }}
+                            >
+                                <Image
+                                    style={styles.image}
+                                    source={require('../../res/images/emailbox/write_email.png')}
+                                />
+                            </TouchableOpacity>
                         </View>
-                        <TouchableOpacity
-                            style={{marginRight: widthToDp(30)}}
-                            onPress={()=>{
-                                console.log(this.props.navigation);
-                            }}
-                        >
-                            <Image
-                                style={styles.image}
-                                source={require('../../res/images/emailbox/write_email.png')}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                )}
+                    )}
                 </View>
                 {this.state.isSelect?(
                     <FlatList
@@ -388,6 +508,22 @@ export default class HomePage extends Component {
                         }
                     />
                 )}
+                {this.state.isSelect?(
+                    <View style={bottotmStyles.container}>
+                        <TouchableOpacity onPress={()=>this.selectSolution('read')}>
+                            <Text style={bottotmStyles.text}>标为已读</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.selectSolution('star')}>
+                            <Text style={bottotmStyles.text}>标为星标</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.selectSolution('todo')}>
+                            <Text style={bottotmStyles.text}>标为待办</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={()=>this.selectSolution('delete')}>
+                            <Text style={bottotmStyles.text}>删除</Text>
+                        </TouchableOpacity>
+                    </View>
+                ):null}
                 {this.state.isShowToTop ? <ScrollView root={this}/> : null}
             </View>
         );
@@ -400,6 +536,7 @@ const $textFontColor = '#81858a';
 const $headerBGColor = 'rgba(240,240,240,0.95)';
 const $headerBorderColor = '#A7A7AA';
 const $textColor = '#0d81ff';
+const $bottomTextColor = '#31353b';
 const styles = StyleSheet.create({
     container: {
         width: '100%',
@@ -420,6 +557,27 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
+    },
+    headerTitleWrap: {
+        width: '100%'
+    },
+    leftWrap: {
+        height: 44,
+        position: 'absolute',
+        zIndex: 2,
+        bottom: 0,
+        left: widthToDp(30),
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    rightWrap: {
+        height: 44,
+        position: 'absolute',
+        zIndex: 2,
+        bottom: 0,
+        right: widthToDp(30),
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     backImage: {
         width: widthToDp(18),
@@ -457,4 +615,26 @@ const styles = StyleSheet.create({
         height: 1,
         backgroundColor: $lineBGColor
     },
+});
+const bottotmStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        width: '100%',
+        paddingLeft: widthToDp(30),
+        paddingRight: widthToDp(30),
+        height: heightToDp(100),
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: $white
+    },
+    text: {
+        fontSize: widthToDp(28),
+        fontFamily: 'PingFang-SC-Regular',
+        color: $bottomTextColor,
+        justifyContent: 'center'
+    }
 });
