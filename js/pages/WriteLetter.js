@@ -8,7 +8,8 @@ import {
     TextInput,
     Dimensions,
     Modal,
-    TouchableHighlight
+    TouchableHighlight,
+
 } from 'react-native';
 import {
     widthToDp,
@@ -37,162 +38,150 @@ export default class WriteLetter extends Component {
     };
     render() {
         return (
-            <KeyboardAwareScrollView>
-                <View style={styles.container}>
-                    <View style={styles.cell}>
-                        <Text style={styles.tip}>收件人：</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='email-address'
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => {this.setState({receiver:text});}}
-                            placeholderTextColor={$placeholderColor}
-                            value={'周义兴、黄起山'}
-                        />
-                        <TouchableOpacity
-                            style={styles.inputImg1}
-                            onPress={()=>this.addMore()}
-                        >
-                            <Image
-                                style={{width:widthToDp(40), height:heightToDp(40)}}
-                                source={require('../../res/images/WriteLetter/add.png')}
+            <View>
+                <KeyboardAwareScrollView>
+                    <View style={styles.container}>
+                        <View style={styles.cell}>
+                            <Text style={styles.tip}>收件人：</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                keyboardType='email-address'
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => {this.setState({receiver:text});}}
+                                placeholderTextColor={$placeholderColor}
+                                value={'周义兴、黄起山'}
                             />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.line}/>
-                    <View style={styles.cell}>
-                        <Text style={styles.tip}>抄送/密送：</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='email-address'
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => {this.setState({account:text});}}
-                            placeholderTextColor={$placeholderColor}
-                        />
-                        <TouchableOpacity
-                            style={styles.inputImg1}
-                            onPress={()=>this.addMore()}
-                        >
-                            <Image
-                                style={{width:widthToDp(40), height:heightToDp(40)}}
-                                source={require('../../res/images/WriteLetter/add.png')}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={styles.line}/>
-                    <View style={styles.cell}>
-                        <Text style={styles.tip}>主题：</Text>
-                        <TextInput
-                            style={styles.textInput}
-                            keyboardType='email-address'
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => {this.setState({account:text});}}
-                            placeholderTextColor={$placeholderColor}
-                        />
-                        <TouchableOpacity
-                            style={styles.inputImg2}
-                            onPress={() => {
-                                this.setModalVisible(true)
-                            }}
-                        >
-                            <Image
-                                style={{width:widthToDp(40), height:heightToDp(40)}}
-                                source={require('../../res/images/WriteLetter/attachment.png')}
-                            />
-                        </TouchableOpacity>
-                        <Text style={styles.attachmentText}>1</Text>
-                    </View>
-                    <View style={styles.line}/>
-                    <View style={styles.wordCell}>
-                        <TextInput
-                            style={styles.wordInput}
-                            keyboardType='email-address'
-                            underlineColorAndroid='transparent'
-                            onChangeText={(text) => {this.setState({account:text});}}
-                            placeholderTextColor={$placeholderColor}
-                            placeholder={'正文...'}
-                            multiline={true}
-
-                        />
-                    </View>
-                    <Modal
-                        animationType={'slide'}
-                        visible={this.state.modalVisible}
-                        onRequestClose={() => {this.setModalVisible(false)}}
-                        transparent={true}
-                    >
-                        <View style={styles.attachmentContainer}>
-                            <View style={styles.innerContainer}>
-                                <View style={styles.inner}>
-                                    <TouchableOpacity
-                                        style={styles.inputImg3}
-                                        onPress={() => {
-                                            this.setModalVisible(true)
-                                        }}
-                                    >
-                                        <View style={styles.modalView}>
-                                            <Image
-                                                style={styles.modalImage}
-                                                source={require('../../res/images/WriteLetter/camera.png')}
-                                            />
-                                            <Text style={styles.modalText}>拍照</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.inputImg3}
-                                        onPress={() => {
-                                            this.setModalVisible(true)
-                                        }}
-                                    >
-                                        <View style={styles.modalView}>
-                                            <Image
-                                                style={styles.modalImage}
-                                                source={require('../../res/images/WriteLetter/picture.png')}
-                                            />
-                                            <Text style={styles.modalText}>图片</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.inputImg3}
-                                        onPress={() => {
-                                            this.setModalVisible(true)
-                                        }}
-                                    >
-                                        <View style={styles.modalView}>
-                                            <Image
-                                                style={styles.modalImage}
-                                                source={require('../../res/images/WriteLetter/file.png')}
-                                            />
-                                            <Text style={styles.modalText}>文件</Text>
-                                        </View>
-
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={styles.inputImg3}
-                                        onPress={() => {
-                                            this.setModalVisible(true)
-                                        }}
-                                    >
-                                        <View style={styles.modalView}>
-                                            <Image
-                                                style={styles.modalImage}
-                                                source={require('../../res/images/WriteLetter/downloadFile.png')}
-                                            />
-                                            <Text style={styles.modalText}>已下载文件</Text>
-                                        </View>
-                                    </TouchableOpacity>
-                                </View>
-
-                            </View>
-                            <TouchableHighlight onPress={() => {
-                                this.setModalVisible(!this.state.modalVisible)
-                            }}>
-                                <Text>Hide Modal</Text>
-                            </TouchableHighlight>
+                            <TouchableOpacity
+                                style={styles.inputImg1}
+                                onPress={()=>this.addMore()}
+                            >
+                                <Image
+                                    style={{width:widthToDp(40), height:heightToDp(40)}}
+                                    source={require('../../res/images/WriteLetter/add.png')}
+                                />
+                            </TouchableOpacity>
                         </View>
-                    </Modal>
-                </View>
-            </KeyboardAwareScrollView>
+                        <View style={styles.line}/>
+                        <View style={styles.cell}>
+                            <Text style={styles.tip}>抄送/密送：</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                keyboardType='email-address'
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => {this.setState({account:text});}}
+                                placeholderTextColor={$placeholderColor}
+                            />
+                            <TouchableOpacity
+                                style={styles.inputImg1}
+                                onPress={()=>this.addMore()}
+                            >
+                                <Image
+                                    style={{width:widthToDp(40), height:heightToDp(40)}}
+                                    source={require('../../res/images/WriteLetter/add.png')}
+                                />
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.line}/>
+                        <View style={styles.cell}>
+                            <Text style={styles.tip}>主题：</Text>
+                            <TextInput
+                                style={styles.textInput}
+                                keyboardType='email-address'
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => {this.setState({account:text});}}
+                                placeholderTextColor={$placeholderColor}
+                            />
+                            <TouchableOpacity
+                                style={styles.inputImg2}
+                                onPress={() => {
+                                    this.setModalVisible(true)
+                                }}
+                            >
+                                <Image
+                                    style={{width:widthToDp(40), height:heightToDp(40)}}
+                                    source={require('../../res/images/WriteLetter/attachment.png')}
+                                />
+                            </TouchableOpacity>
+                            <Text style={styles.attachmentText}>1</Text>
+                        </View>
+                        <View style={styles.line}/>
+                        <View style={styles.wordCell}>
+                            <TextInput
+                                style={styles.wordInput}
+                                keyboardType='email-address'
+                                underlineColorAndroid='transparent'
+                                onChangeText={(text) => {this.setState({account:text});}}
+                                placeholderTextColor={$placeholderColor}
+                                placeholder={'正文...'}
+                                multiline={true}
+
+                            />
+                        </View>
+                        <Modal
+                            animationType={'slide'}
+                            visible={this.state.modalVisible}
+                            onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
+                            transparent={true}
+                        >
+                            <View style={styles.attachmentContainer}>
+                                <View style={styles.innerContainer}>
+                                    <View style={styles.inner}>
+                                        <TouchableOpacity
+                                            style={styles.inputImg3}
+                                            onPress={() => {
+                                                this.setModalVisible(false)
+                                            }}
+                                        >
+                                            <View style={styles.modalView}>
+                                                <Image
+                                                    style={styles.modalImage}
+                                                    source={require('../../res/images/WriteLetter/camera.png')}
+                                                />
+                                                <Text style={styles.modalText}>拍照</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.inputImg3}
+                                        >
+                                            <View style={styles.modalView}>
+                                                <Image
+                                                    style={styles.modalImage}
+                                                    source={require('../../res/images/WriteLetter/picture.png')}
+                                                />
+                                                <Text style={styles.modalText}>图片</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.inputImg3}
+                                        >
+                                            <View style={styles.modalView}>
+                                                <Image
+                                                    style={styles.modalImage}
+                                                    source={require('../../res/images/WriteLetter/file.png')}
+                                                />
+                                                <Text style={styles.modalText}>文件</Text>
+                                            </View>
+
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            style={styles.inputImg3}
+                                        >
+                                            <View style={styles.modalView}>
+                                                <Image
+                                                    style={styles.modalImage}
+                                                    source={require('../../res/images/WriteLetter/downloadFile.png')}
+                                                />
+                                                <Text style={styles.modalText}>已下载文件</Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
+
+                                </View>
+                            </View>
+                        </Modal>
+                    </View>
+                </KeyboardAwareScrollView>
+            </View>
         )
     }
 }

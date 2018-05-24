@@ -18,6 +18,7 @@ import POP from './POP';
 import WriteLetter from './WriteLetter'
 import SelectContact from './SelectContact'
 import Settings from './Settings'
+import EmailCell from './EmailCell'
 import {
     widthToDp,
     heightToDp
@@ -125,6 +126,13 @@ const AppNavigator = createStackNavigator({
             headerRight: React.createElement(headerRightConfirm)
         }
     },
+    EmailCell: {
+        screen: EmailCell,
+        navigationOptions: {
+            headerTitle: '收件箱',
+            headerRight: React.createElement(headerRightConfirm)
+        }
+    },
     Settings: {
         screen: Settings,
         navigationOptions: {
@@ -140,7 +148,7 @@ const AppNavigator = createStackNavigator({
         }
     },
 }, {
-    initialRouteName: 'SelectContact',
+    initialRouteName: 'EmailCell',
     navigationOptions: {
         headerTitleStyle: {
             fontSize: widthToDp(34),
