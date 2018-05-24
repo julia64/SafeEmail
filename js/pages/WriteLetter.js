@@ -9,9 +9,6 @@ import {
     TouchableOpacity,
     TextInput,
     Dimensions,
-    Modal,
-    TouchableHighlight,
-
 } from 'react-native';
 import {
     widthToDp,
@@ -20,6 +17,7 @@ import {
 import {
     KeyboardAwareScrollView
 } from 'react-native-keyboard-aware-scroll-view';
+import PopupDialog from 'react-native-popup-dialog';
 const {
     height,
     width
@@ -34,11 +32,6 @@ export default class WriteLetter extends Component {
     }
     addMore() {
 
-    };
-    setModalVisible(visible) {
-        this.setState({
-            modalVisible: visible
-        });
     };
     render() {
         return (
@@ -98,7 +91,7 @@ export default class WriteLetter extends Component {
                             <TouchableOpacity
                                 style={styles.inputImg2}
                                 onPress={() => {
-                                    this.setModalVisible(true)
+                                    this.popupDialog.show();
                                 }}
                             >
                                 <Image
@@ -121,68 +114,60 @@ export default class WriteLetter extends Component {
 
                             />
                         </View>
-                        <Modal
-                            animationType={'slide'}
-                            visible={this.state.modalVisible}
-                            onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
-                            transparent={true}
+                        <PopupDialog
+                            height = {heightToDp(200)}
+                            width ={width - widthToDp(40)}
+                            ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                            dialogStyle={styles.innerContainer}
                         >
-                            <View style={styles.attachmentContainer}>
-                                <View style={styles.innerContainer}>
-                                    <View style={styles.inner}>
-                                        <TouchableOpacity
-                                            style={styles.inputImg3}
-                                            onPress={() => {
-                                                this.setModalVisible(false)
-                                            }}
-                                        >
-                                            <View style={styles.modalView}>
-                                                <Image
-                                                    style={styles.modalImage}
-                                                    source={require('../../res/images/WriteLetter/camera.png')}
-                                                />
-                                                <Text style={styles.modalText}>拍照</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.inputImg3}
-                                        >
-                                            <View style={styles.modalView}>
-                                                <Image
-                                                    style={styles.modalImage}
-                                                    source={require('../../res/images/WriteLetter/picture.png')}
-                                                />
-                                                <Text style={styles.modalText}>图片</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.inputImg3}
-                                        >
-                                            <View style={styles.modalView}>
-                                                <Image
-                                                    style={styles.modalImage}
-                                                    source={require('../../res/images/WriteLetter/file.png')}
-                                                />
-                                                <Text style={styles.modalText}>文件</Text>
-                                            </View>
-
-                                        </TouchableOpacity>
-                                        <TouchableOpacity
-                                            style={styles.inputImg3}
-                                        >
-                                            <View style={styles.modalView}>
-                                                <Image
-                                                    style={styles.modalImage}
-                                                    source={require('../../res/images/WriteLetter/downloadFile.png')}
-                                                />
-                                                <Text style={styles.modalText}>已下载文件</Text>
-                                            </View>
-                                        </TouchableOpacity>
+                            <View style={styles.inner}>
+                                <TouchableOpacity
+                                    style={styles.inputImg3}
+                                >
+                                    <View style={styles.modalView}>
+                                        <Image
+                                            style={styles.modalImage}
+                                            source={require('../../res/images/WriteLetter/camera.png')}
+                                        />
+                                        <Text style={styles.modalText}>拍照</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.inputImg3}
+                                >
+                                    <View style={styles.modalView}>
+                                        <Image
+                                            style={styles.modalImage}
+                                            source={require('../../res/images/WriteLetter/picture.png')}
+                                        />
+                                        <Text style={styles.modalText}>图片</Text>
+                                    </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.inputImg3}
+                                >
+                                    <View style={styles.modalView}>
+                                        <Image
+                                            style={styles.modalImage}
+                                            source={require('../../res/images/WriteLetter/file.png')}
+                                        />
+                                        <Text style={styles.modalText}>文件</Text>
                                     </View>
 
-                                </View>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.inputImg3}
+                                >
+                                    <View style={styles.modalView}>
+                                        <Image
+                                            style={styles.modalImage}
+                                            source={require('../../res/images/WriteLetter/downloadFile.png')}
+                                        />
+                                        <Text style={styles.modalText}>已下载文件</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                        </Modal>
+                        </PopupDialog>
                     </View>
                 </KeyboardAwareScrollView>
             </View>
@@ -246,9 +231,9 @@ const styles = StyleSheet.create({
         zIndex: 2
     },
     inputImg3: {
-        marginTop: heightToDp(45),
+        marginTop: heightToDp(50),
         zIndex: 2,
-        width: (width - widthToDp(140)) / 4,
+        width: '25%',
     },
     modalText: {
         marginTop: heightToDp(25),
@@ -274,19 +259,12 @@ const styles = StyleSheet.create({
         top: heightToDp(45),
         zIndex: 2
     },
-    attachmentContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)'
-    },
     innerContainer: {
         borderRadius: 10,
         alignItems: 'center',
-        height: heightToDp(200),
-        width: width - widthToDp(40),
         backgroundColor: $white,
         position: 'absolute',
-        bottom: heightToDp(20),
+        bottom: heightToDp(180),
         left: widthToDp(20),
         flexDirection: 'row'
 
@@ -298,8 +276,6 @@ const styles = StyleSheet.create({
     inner: {
         marginLeft: widthToDp(40),
         flexDirection: 'row',
-        marginTop: heightToDp(50),
-        marginBottom: heightToDp(50),
         marginRight: widthToDp(50),
     },
     modalView: {

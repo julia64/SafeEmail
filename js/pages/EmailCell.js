@@ -5,16 +5,15 @@ import {
     Image,
     View,
     TouchableOpacity,
-    TextInput,
     Dimensions,
     Modal,
-    TouchableHighlight,
     ScrollView
 } from 'react-native';
 import {
     widthToDp,
     heightToDp
 } from '../utils/pxToDp';
+import PopupDialog from 'react-native-popup-dialog';
 import {
     KeyboardAwareScrollView
 } from 'react-native-keyboard-aware-scroll-view';
@@ -92,8 +91,7 @@ export default class EmailCell extends Component {
             this.setState({
                 itemChange: !this.state.itemChange
             });
-            this.setModalVisible(false);
-            // console.log(item, id);
+            this.more.dismiss();
         };
     }
     getName(data){
@@ -125,9 +123,6 @@ export default class EmailCell extends Component {
         }
         return renderTo;
     }
-    setModalVisible(visible) {
-        this.setState({modalVisible: visible});
-    };
     render() {
         return (
             <View>
@@ -193,7 +188,7 @@ export default class EmailCell extends Component {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            this.setModalVisible(true)
+                            this.more.show();
                         }}
                         style={styles.inputImg}>
                         <Image
@@ -203,115 +198,107 @@ export default class EmailCell extends Component {
                         <Text style={styles.inputWord}>更多</Text>
                     </TouchableOpacity>
                 </View>
-                <Modal
-                    animationType={'slide'}
-                    visible={this.state.modalVisible}
-                    onRequestClose={() => this.setModalVisible(!this.state.modalVisible)}
-                    transparent={true}
+                <PopupDialog
+                    height = {heightToDp(400)}
+                    width ={width - widthToDp(40)}
+                    ref={(more) => { this.more = more; }}
+                    dialogStyle={styles.innerContainer}
                 >
-                    <View style={styles.attachmentContainer}>
-                        <View style={styles.innerContainer}>
-                            <View style={styles.innerTop}>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                    onPress={() => {
-                                        this.setModalVisible(false)
-                                    }}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/answer.png')}
-                                        />
-                                        <Text style={styles.modalText}>回复</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/answerAll.png')}
-                                        />
-                                        <Text style={styles.modalText}>回复全部</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/transmit.png')}
-                                        />
-                                        <Text style={styles.modalText}>转发</Text>
-                                    </View>
+                    <View>
+                        <View style={styles.innerTop}>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/answer.png')}
+                                    />
+                                    <Text style={styles.modalText}>回复</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/answerAll.png')}
+                                    />
+                                    <Text style={styles.modalText}>回复全部</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/transmit.png')}
+                                    />
+                                    <Text style={styles.modalText}>转发</Text>
+                                </View>
 
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                >
-                                    <View style={styles.modalView}>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
 
-                                    </View>
+                                </View>
 
-                                </TouchableOpacity>
-                            </View>
-                            <View style={styles.line}/>
-                            <View style={styles.innerTop}>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                    onPress={() => {
-                                        this.setModalVisible(false)
-                                    }}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/unread.png')}
-                                        />
-                                        <Text style={styles.modalText}>标为未读</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                    onPress={() => this.changeAsterisk()}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/star.png')}
-                                        />
-                                        <Text style={styles.modalText}>{data.star?'取消星标':'标为星标'}</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/todo.png')}
-                                        />
-                                        <Text style={styles.modalText}>标为待办</Text>
-                                    </View>
-                                </TouchableOpacity>
-                                <TouchableOpacity
-                                    style={styles.moreImg}
-                                >
-                                    <View style={styles.modalView}>
-                                        <Image
-                                            style={styles.modalImage}
-                                            source={require('../../res/images/ReadLetter/delete.png')}
-                                        />
-                                        <Text style={styles.modalText}>删除</Text>
-                                    </View>
-                                </TouchableOpacity>
-                            </View>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={styles.line}/>
+                        <View style={styles.innerTop}>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/unread.png')}
+                                    />
+                                    <Text style={styles.modalText}>标为未读</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                                onPress={() => this.changeAsterisk()}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/star.png')}
+                                    />
+                                    <Text style={styles.modalText}>{data.star?'取消星标':'标为星标'}</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/todo.png')}
+                                    />
+                                    <Text style={styles.modalText}>标为待办</Text>
+                                </View>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.moreImg}
+                            >
+                                <View style={styles.modalView}>
+                                    <Image
+                                        style={styles.modalImage}
+                                        source={require('../../res/images/ReadLetter/delete.png')}
+                                    />
+                                    <Text style={styles.modalText}>删除</Text>
+                                </View>
+                            </TouchableOpacity>
                         </View>
                     </View>
-                </Modal>
+                </PopupDialog>
             </View>
         )
     }
@@ -326,7 +313,8 @@ const $attachmentFontColor = '#31353a';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor:$white
+        backgroundColor:$white,
+        paddingBottom:heightToDp(130)
     },
     top:{
         marginTop:heightToDp(25),
@@ -436,14 +424,11 @@ const styles = StyleSheet.create({
     innerContainer: {
         borderRadius: 10,
         alignItems: 'center',
-        height:heightToDp(350),
-        width:width-widthToDp(40),
-        backgroundColor:$white,
-        position:'absolute',
-        bottom:heightToDp(20),
-        left:widthToDp(20),
-
-
+        backgroundColor: $white,
+        position: 'absolute',
+        bottom: heightToDp(400),
+        left: widthToDp(20),
+        flexDirection: 'row'
     },
     modalImage:{
         width:widthToDp(32),

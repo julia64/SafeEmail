@@ -9,7 +9,8 @@ import {
     ScrollView,
     TouchableOpacity,
     Image,
-    Text
+    Text,
+    Platform
 } from 'react-native';
 import SwipeitemView from '../components/swipeLeft';
 import {
@@ -191,7 +192,7 @@ const data = [{
 //获取邮件Index值函数
 const getEmailIndexByKeyValue = (keyValue, emailData) => {
     return emailData.findIndex((element) => {
-        return element.key == keyValue;
+        return element.key === keyValue;
     });
 };
 
@@ -545,7 +546,7 @@ const styles = StyleSheet.create({
     },
     headerWrap: {
         width: '100%',
-        height: 64,
+        height:Platform.OS==='ios'?64:54,
         backgroundColor: $headerBGColor,
         borderBottomWidth: 0.5,
         borderBottomColor: $headerBorderColor
@@ -553,7 +554,7 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 44,
-        marginTop: 20,
+        marginTop: Platform.OS==='ios'?20:5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
