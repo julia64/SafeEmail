@@ -226,10 +226,10 @@ export default class HomePage extends Component {
                 text: item.todo ? '取消待办' : '标为待办',
                 width: widthToDp(130),
                 textWidth: widthToDp(100),
-                bgColor: '#badaff',
-                color: '#0d81ff',
+                bgColor: $blueColor,
+                color: $textColor,
                 fontSize: widthToDp(36),
-                underlayColor: '#badaff',
+                underlayColor: $blueColor,
                 onPress: () => {
                     //标为/取消代办
                     item.todo = !item.todo;
@@ -241,11 +241,11 @@ export default class HomePage extends Component {
                 id: 2,
                 text: item.read ? '标为未读' : '标为已读',
                 width: widthToDp(130),
-                bgColor: '#0d81ff',
+                bgColor: $textColor,
                 textWidth: widthToDp(100),
-                color: '#fff',
+                color: $white,
                 fontSize: widthToDp(36),
-                underlayColor: '#0d81ff',
+                underlayColor: $textColor,
                 onPress: () => {
                     //标为已读/未读
                     item.read = !item.read;
@@ -258,10 +258,10 @@ export default class HomePage extends Component {
                 text: '删除',
                 width: widthToDp(130),
                 textWidth: widthToDp(100),
-                bgColor: '#f63f3f',
-                color: '#fff',
+                bgColor: $deleteFontColor,
+                color: $white,
                 fontSize: widthToDp(36),
-                underlayColor: '#f63f3f',
+                underlayColor: $deleteFontColor,
                 onPress: (event, id) => {
                     //删除这封邮件
                     const rowId = parseInt(id.split('-')[1], 10);
@@ -306,7 +306,7 @@ export default class HomePage extends Component {
                     root={this}
                     ref={(row) => this._dataRow[id] = row}
                     id={id}
-                    boxbgColor='#fff'
+                    boxbgColor='$white'
                     animationType='timing'
                     rightBtn={rightBtn}
                 >
@@ -510,18 +510,18 @@ export default class HomePage extends Component {
                     />
                 )}
                 {this.state.isSelect?(
-                    <View style={bottotmStyles.container}>
+                    <View style={bottomStyles.container}>
                         <TouchableOpacity onPress={()=>this.selectSolution('read')}>
-                            <Text style={bottotmStyles.text}>标为已读</Text>
+                            <Text style={bottomStyles.text}>标为已读</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>this.selectSolution('star')}>
-                            <Text style={bottotmStyles.text}>标为星标</Text>
+                            <Text style={bottomStyles.text}>标为星标</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>this.selectSolution('todo')}>
-                            <Text style={bottotmStyles.text}>标为待办</Text>
+                            <Text style={bottomStyles.text}>标为待办</Text>
                         </TouchableOpacity>
                         <TouchableOpacity onPress={()=>this.selectSolution('delete')}>
-                            <Text style={bottotmStyles.text}>删除</Text>
+                            <Text style={bottomStyles.text}>删除</Text>
                         </TouchableOpacity>
                     </View>
                 ):null}
@@ -530,7 +530,7 @@ export default class HomePage extends Component {
         );
     }
 }
-const $white = 'white';
+const $white = '#fff';
 const $lineBGColor = '#e5e5e5';
 const $black = '#000';
 const $textFontColor = '#81858a';
@@ -538,6 +538,9 @@ const $headerBGColor = 'rgba(240,240,240,0.95)';
 const $headerBorderColor = '#A7A7AA';
 const $textColor = '#0d81ff';
 const $bottomTextColor = '#31353b';
+const $deleteFontColor = '#f63f3f';
+const $blueColor = '#badaff';
+
 const styles = StyleSheet.create({
     container: {
         width: '100%',
@@ -617,7 +620,7 @@ const styles = StyleSheet.create({
         backgroundColor: $lineBGColor
     },
 });
-const bottotmStyles = StyleSheet.create({
+const bottomStyles = StyleSheet.create({
     container: {
         flex: 1,
         width: '100%',

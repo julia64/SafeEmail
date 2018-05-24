@@ -34,3 +34,8 @@ EXCHANGE IMAP POP 三个协议之间页面切换及UI
 完成WriteLetter页面 - 点击附件图片会出现Modal框，UI已完成，但点其他地方模态框自动消失功能有问题
 
 完成selectContact页面
+
+## 2018-5-24 更新
+完成EmailCell页面 - 此页面还有3个小页面，更多、回复、添加常用语 均已写完并实现部分功能
+
+重写WriteLetter页面 - 弹出框功能已实现
