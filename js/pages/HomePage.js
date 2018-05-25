@@ -12,11 +12,12 @@ import {
     Text,
     Platform
 } from 'react-native';
-import SwipeitemView from '../components/swipeLeft';
 import {
     widthToDp,
     heightToDp
 } from '../utils/pxToDp';
+
+import SwipeitemView from '../components/swipeLeft';
 import EmailItem from '../components/emailItem';
 
 const data = [{
@@ -190,11 +191,11 @@ const data = [{
 }];
 
 //获取邮件Index值函数
-const getEmailIndexByKeyValue = (keyValue, emailData) => {
-    return emailData.findIndex((element) => {
-        return element.key === keyValue;
-    });
-};
+// const getEmailIndexByKeyValue = (keyValue, emailData) => {
+//     return emailData.findIndex((element) => {
+//         return element.key === keyValue;
+//     });
+// };
 
 export default class HomePage extends Component {
     constructor(props) {
@@ -206,7 +207,8 @@ export default class HomePage extends Component {
             hasIdOpen: false,
             isShowToTop: false,
             itemChange: false,
-            isSelect: false
+            isSelect: false,
+            selectAll: false
         };
         this._dataRow = {};
         this.openRowId = '';
@@ -312,13 +314,12 @@ export default class HomePage extends Component {
                 >
                     <EmailItem
                         info={item}
-                        data={this.state.dataSource}
                         id={id}
                         onLongPress={()=>{
                             item.select = true;
                             this.emailKeys.push(item.key);
                             this.setState({
-                                dataSource: data,
+                                dataSource: this.state.dataSource,
                                 isSelect: true
                             });
                         }}
@@ -483,7 +484,7 @@ export default class HomePage extends Component {
                         data={this.state.dataSource}
                         renderItem={({item,index}) => this.renderSelectRow(item,'',index)}
                         ItemSeparatorComponent={() => (<View style={styles.line} />)}
-                        ListFooterComponent={() => (<View style={styles.line} />)}
+                        ListFooterComponent={() => (<View style={[styles.line,{marginBottom: heightToDp(100)}]} />)}
                         onEndReachedThreshold={0.2}
                         initialNumToRender={7}
                         scrollEnabled={true}
@@ -525,7 +526,6 @@ export default class HomePage extends Component {
                         </TouchableOpacity>
                     </View>
                 ):null}
-                {this.state.isShowToTop ? <ScrollView root={this}/> : null}
             </View>
         );
     }
@@ -546,7 +546,7 @@ const styles = StyleSheet.create({
     },
     headerWrap: {
         width: '100%',
-        height:Platform.OS==='ios'?64:54,
+        height: Platform.OS === 'ios' ? 64 : 54,
         backgroundColor: $headerBGColor,
         borderBottomWidth: 0.5,
         borderBottomColor: $headerBorderColor
@@ -554,7 +554,7 @@ const styles = StyleSheet.create({
     header: {
         width: '100%',
         height: 44,
-        marginTop: Platform.OS==='ios'?20:5,
+        marginTop: Platform.OS === 'ios' ? 20 : 5,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'

@@ -19,9 +19,9 @@ import {
 
 import headerBackImage from '../components/headerBackImage';
 import headerRightConfirm from '../components/headerRightConfirm';
-import headerTitle from '../components/headerTitle';
-import slideInfoButton from '../components/slideInfoButton';
-import writeEmailButton from '../components/writeEmailButton';
+// import headerTitle from '../components/headerTitle';
+// import slideInfoButton from '../components/slideInfoButton';
+// import writeEmailButton from '../components/writeEmailButton';
 import emailSelect from '../components/emailSelect';
 
 import WelcomePage from './WelcomePage';
@@ -34,7 +34,7 @@ import WriteLetter from './WriteLetter';
 import Settings from './Settings';
 import SelectEmail from './SelectEmail';
 import SelectContact from './SelectContact';
-import EmailCell from './EmailCell'
+import EmailCell from './EmailCell';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -117,18 +117,10 @@ const AppNavigator = createStackNavigator({
     },
     HomePage: {
         screen: HomePage,
-        navigationOptions: ({
-            navigation
-        }) => ({
-            title: `${navigation.getParam('account','test@test.com')}`,
-            headerLeft: slideInfoButton,
-            headerTitle: headerTitle,
-            headerRight: React.createElement(writeEmailButton, {
-                navigation
-            }),
+        navigationOptions: {
             gesturesEnabled: false,
             header: null
-        })
+        }
     },
     SelectEmail: {
         screen: SelectEmail,
@@ -176,7 +168,7 @@ const AppNavigator = createStackNavigator({
         }
     },
 }, {
-    initialRouteName: 'EmailCell',
+    initialRouteName: 'HomePage',
     transitionConfig: () => ({
         transitionSpec: {
             duration: 300,
