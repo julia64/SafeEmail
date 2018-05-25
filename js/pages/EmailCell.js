@@ -6,21 +6,32 @@ import {
     View,
     TouchableOpacity,
     Dimensions,
-    Modal,
-    ScrollView
+    ScrollView,
+    TextInput,
+    FlatList
 } from 'react-native';
 import {
     widthToDp,
     heightToDp
 } from '../utils/pxToDp';
+import SwipeitemView from '../components/swipeLeft';
+import RepeatItem from '../components/repeatItem';
 import PopupDialog from 'react-native-popup-dialog';
-import {
-    KeyboardAwareScrollView
-} from 'react-native-keyboard-aware-scroll-view';
 const {
     height,
     width
 } = Dimensions.get('window');
+const defaultRepeat = [{
+    content:'好的，我确认后再给您回复！'
+},{
+    content:'非常感谢您提供的信息！'
+},{
+    content:'同意，请落实执行！'
+},{
+    content:'太棒了，热烈祝贺！'
+},{
+    content:'抱歉，我在外地出差，具体事宜还请联系部门负责人。'
+}];
 const data = {
     title:'本周三SSL VPN7.6.3会议纪要',
     image:require('../../res/images/me.jpg'),
@@ -77,10 +88,14 @@ export default class EmailCell extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            itemChange:false,
-            showDetails:false,
-            modalVisible:false,
+            itemChange: false,
+            showDetails: false,
+            fullScreen: false,
+            dataSource:defaultRepeat,
+            addConfirm:'',
+            repeatAll:true,
         };
+        this._dataRow = {};
         this.starUri = {
             star: require('../../res/images/emailbox/star_red.png'),
             notStar: require('../../res/images/emailbox/star_gray.png')
@@ -92,6 +107,53 @@ export default class EmailCell extends Component {
                 itemChange: !this.state.itemChange
             });
             this.more.dismiss();
+        };
+        this.rowRightButtons = (item) => {
+            return [{
+                id: 1,
+                text: '删除',
+                width: widthToDp(130),
+                textWidth: widthToDp(100),
+                bgColor: $deleteFontColor,
+                color: $white,
+                fontSize: widthToDp(36),
+                underlayColor: $deleteFontColor,
+                onPress: (event, id) => {
+                    //删除这封邮件
+                    const rowId = parseInt(id.split('-')[1], 10);
+                    this.state.dataSource.splice(rowId, 1);
+                },
+            }];
+        };
+        //收件箱列表
+        this.renderViewRow = (item, sectionId, rowId) => {
+            let rightBtn = this.rowRightButtons(item);
+            let id = sectionId + '-' + rowId;
+            return (
+                <SwipeitemView
+                    root={this}
+                    ref={(row) => this._dataRow[id] = row}
+                    id={id}
+                    boxbgColor='$white'
+                    animationType='timing'
+                    rightBtn={rightBtn}
+                >
+                    <RepeatItem
+                        info={item}
+                        data={this.state.dataSource}
+                        id={id}
+                        onPress={() => {
+                            console.log(this.props.navigation);
+                        }}
+                        changeAsterisk={()=>{
+                            item.star = !item.star;
+                            this.setState({
+                                itemChange: !this.state.itemChange
+                            });
+                        }}
+                    />
+                </SwipeitemView>
+            );
         };
     }
     getName(data){
@@ -111,17 +173,44 @@ export default class EmailCell extends Component {
         let renderTo =[];
         for(let i=0;i<data.to.length;i++){
             renderTo.push(
-                <View style={{marginBottom:heightToDp(10)}}>
-                    <Text key={i} style={styles.detailsWord}>
+                <View key={i} style={{marginBottom:heightToDp(10)}}>
+                    <Text style={styles.detailsWord}>
                         {data.to[i]}
                     </Text>
-                    <Text key={i+data.to.length} style={styles.detailsWord}>
+                    <Text style={styles.detailsWord}>
                         {data.email[i]}
                     </Text>
                 </View>
             );
         }
         return renderTo;
+    };
+    repeatAll(){
+        this.setState({
+           repeatAll:true
+        });
+        this.more.dismiss();
+        this.repeat.show();
+    };
+    repeatOne(){
+        this.setState({
+            repeatAll:false
+        });
+        this.more.dismiss();
+        this.repeat.show();
+    };
+    showAdd(){
+        this.repeat.dismiss();
+        this.add.show();
+    };
+    addConfirm(){
+        if(this.state.addConfirm===''){
+            this.add.dismiss();
+        }else{
+            defaultRepeat.push({content:this.state.addConfirm });
+            this.add.dismiss();
+            this.repeat.show();
+        }
     }
     render() {
         return (
@@ -175,11 +264,15 @@ export default class EmailCell extends Component {
 
                 </ScrollView>
                 <View style={styles.footer}>
-                    <TouchableOpacity style={styles.textInput}>
+                    <TouchableOpacity
+                        style={styles.textInput}
+                        onPress={()=>this.repeatAll()}
+                    >
                         <Text style={styles.textInputWord}>回复全部</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        style={styles.inputImg}>
+                        style={styles.inputImg}
+                    >
                         <Image
                             style={{width:widthToDp(40), height:heightToDp(45)}}
                             source={require('../../res/images/ReadLetter/transmit.png')}
@@ -208,6 +301,7 @@ export default class EmailCell extends Component {
                         <View style={styles.innerTop}>
                             <TouchableOpacity
                                 style={styles.moreImg}
+                                onPress={()=>this.repeatOne()}
                             >
                                 <View style={styles.modalView}>
                                     <Image
@@ -219,6 +313,7 @@ export default class EmailCell extends Component {
                             </TouchableOpacity>
                             <TouchableOpacity
                                 style={styles.moreImg}
+                                onPress={()=>this.repeatAll()}
                             >
                                 <View style={styles.modalView}>
                                     <Image
@@ -299,16 +394,242 @@ export default class EmailCell extends Component {
                         </View>
                     </View>
                 </PopupDialog>
+                {this.state.fullScreen?(
+                    <PopupDialog
+                        height = {height}
+                        width ={width}
+                        ref={(repeat) => { this.repeat = repeat; }}
+                        dialogStyle={styles.repeatStyle}
+                    >
+                        <View>
+                            <View style={styles.repeatInfo}>
+                                <Image
+                                    source={data.image}
+                                    style={styles.image}
+                                />
+                                <View style={styles.frInfoWord}>
+                                    <Text style={styles.fr}>{data.fr}</Text>
+                                    {this.state.repeatAll?(
+                                        <Text style={styles.to} numberOfLines={1}>抄送{this.getName(data)}</Text>
+                                    ):null}
+                                </View>
+                                <TouchableOpacity
+                                    style={styles.fullImage}
+                                    onPress={()=>this.setState({fullScreen:!this.state.fullScreen})}
+                                >
+                                    <Image
+                                        source={require('../../res/images/ReadLetter/fullScreen.png')}
+                                    />
+                                </TouchableOpacity>
+
+                            </View>
+                            <View>
+                                {this.state.repeatAll?(
+                                    <TextInput
+                                        style={styles.textInputRepeat}
+                                        underlineColorAndroid='transparent'
+                                        placeholderTextColor={$placeholderColor}
+                                        placeholder={'回复全部...'}
+                                        multiline = {true}
+                                        numberOfLines = {4}
+                                    />
+                                ):(
+                                    <TextInput
+                                        style={styles.textInputRepeat}
+                                        underlineColorAndroid='transparent'
+                                        placeholderTextColor={$placeholderColor}
+                                        placeholder={'回复...'}
+                                        multiline = {true}
+                                        numberOfLines = {4}
+                                    />
+                                )}
+
+                                <TouchableOpacity
+                                    style={styles.keyboard}
+                                >
+                                    <Image
+                                        style={styles.keyboardImg}
+                                        source={require('../../res/images/ReadLetter/keyboard.png')}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.answer}
+                                >
+                                    <Text style={styles.anserText}>回复</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.scrollFullView}>
+                                <ScrollView
+                                    showsVerticalScrollIndicator={true}
+                                >
+                                    <FlatList
+                                        data={this.state.dataSource}
+                                        renderItem={({item,index}) => this.renderViewRow(item,'',index)}
+                                        ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                                        ListFooterComponent={() => (<View style={styles.line} />)}
+                                        onEndReachedThreshold={0.2}
+                                        initialNumToRender={7}
+                                        renderScrollComponent={(props) => {
+                                            return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
+                                        }}
+                                    />
+                                </ScrollView>
+                            </View>
+                            <View>
+                                <TouchableOpacity
+                                    style={styles.add}
+                                    onPress={()=>this.showAdd()}
+                                >
+                                    <Image
+                                        style={styles.addImg}
+                                        source={require('../../res/images/ReadLetter/add.png')}
+                                    />
+                                    <Text style={styles.addText}>添加常用语</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </PopupDialog>
+                ):(
+                    <PopupDialog
+                        height = {heightToDp(1100)}
+                        width ={width}
+                        ref={(repeat) => { this.repeat = repeat; }}
+                        dialogStyle={styles.repeatStyle}
+                    >
+                        <View>
+                            <View style={styles.repeatInfo}>
+                                <Image
+                                    source={data.image}
+                                    style={styles.image}
+                                />
+                                <View style={styles.frInfoWord}>
+                                    <Text style={styles.fr}>{data.fr}</Text>
+                                    {this.state.repeatAll?(
+                                        <Text style={styles.to} numberOfLines={1}>抄送{this.getName(data)}</Text>
+                                    ):null}
+                                </View>
+                                <TouchableOpacity
+                                    style={styles.fullImage}
+                                    onPress={()=>this.setState({fullScreen:!this.state.fullScreen})}
+                                >
+                                    <Image
+                                        source={require('../../res/images/ReadLetter/fullScreen.png')}
+                                    />
+                                </TouchableOpacity>
+
+                            </View>
+                            <View>
+                                {this.state.repeatAll?(
+                                    <TextInput
+                                        style={styles.textInputRepeat}
+                                        underlineColorAndroid='transparent'
+                                        placeholderTextColor={$placeholderColor}
+                                        placeholder={'回复全部...'}
+                                        multiline = {true}
+                                        numberOfLines = {4}
+                                    />
+                                ):(
+                                    <TextInput
+                                        style={styles.textInputRepeat}
+                                        underlineColorAndroid='transparent'
+                                        placeholderTextColor={$placeholderColor}
+                                        placeholder={'回复...'}
+                                        multiline = {true}
+                                        numberOfLines = {4}
+                                    />
+                                )}
+
+                                <TouchableOpacity
+                                    style={styles.keyboard}
+                                >
+                                    <Image
+                                        style={styles.keyboardImg}
+                                        source={require('../../res/images/ReadLetter/keyboard.png')}
+                                    />
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                    style={styles.answer}
+                                >
+                                    <Text style={styles.anserText}>回复</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.scrollView}>
+                                <ScrollView
+                                    showsVerticalScrollIndicator={true}
+                                >
+                                    <FlatList
+                                        data={this.state.dataSource}
+                                        renderItem={({item,index}) => this.renderViewRow(item,'',index)}
+                                        ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                                        ListFooterComponent={() => (<View style={styles.line} />)}
+                                        onEndReachedThreshold={0.2}
+                                        initialNumToRender={7}
+                                        renderScrollComponent={(props) => {
+                                            return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
+                                        }}
+                                    />
+                                </ScrollView>
+                            </View>
+                            <View>
+                                <TouchableOpacity
+                                    style={styles.add}
+                                    onPress={()=>this.showAdd()}
+                                >
+                                    <Image
+                                        style={styles.addImg}
+                                        source={require('../../res/images/ReadLetter/add.png')}
+                                    />
+                                    <Text style={styles.addText}>添加常用语</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </PopupDialog>
+                )}
+                <PopupDialog
+                    height = {heightToDp(350)}
+                    width ={widthToDp(520)}
+                    ref={(add) => { this.add = add; }}
+                    dialogStyle={styles.inner}
+                >
+                    <View style={styles.innerView}>
+                        <Text style={styles.modalTitle}>添加常用语</Text>
+                        <TextInput
+                            style={styles.addCommon}
+                            underlineColorAndroid='transparent'
+                            placeholderTextColor={$placeholderColor}
+                            placeholder={'常用语...'}
+                            onChangeText={(text) => {this.setState({addConfirm:text});}}
+                        />
+                        <View style={styles.allLine}>
+                            <TouchableOpacity
+                                style={styles.cancelTouch}
+                                onPress={()=>this.add.dismiss()}
+                            >
+                                <Text style={styles.cancel}>取消</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={styles.submitTouch}
+                                onPress={()=>this.addConfirm()}
+                            >
+                                <Text style={styles.submit}>确认</Text>
+                            </TouchableOpacity>
+
+
+                        </View>
+                    </View>
+                </PopupDialog>
             </View>
         )
-    }
-}
+    };
+};
 const $borderColor = '#cbcbcb';
 const $white = '#ffffff';
 const $frFontColor = '#818181';
 const $hideFontColor = '#0d81ff';
 const $inputFontColot = '#cbcbcb';
 const $attachmentFontColor = '#31353a';
+const $placeholderColor = '#81858a';
+const $deleteFontColor = '#f63f3f';
 
 const styles = StyleSheet.create({
     container: {
@@ -335,6 +656,13 @@ const styles = StyleSheet.create({
         marginLeft:widthToDp(30),
         flexDirection:'row',
         height:heightToDp(160)
+    },
+    repeatInfo:{
+        marginLeft:widthToDp(30),
+        flexDirection:'row',
+        height:heightToDp(160),
+        width:width-widthToDp(30),
+        marginTop:heightToDp(30)
     },
     image:{
         width:widthToDp(100),
@@ -458,5 +786,146 @@ const styles = StyleSheet.create({
         height:heightToDp(1),
         backgroundColor:$borderColor,
         width:'100%',
+    },
+    repeatStyle:{
+        backgroundColor: $white,
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        flexDirection: 'row',
+        borderRadius: 0,
+    },
+    fullImage:{
+        position:'absolute',
+        right:widthToDp(30),
+        top:heightToDp(30)
+    },
+    textInputRepeat:{
+        marginLeft:widthToDp(30),
+        textAlignVertical: 'top',
+        fontSize:widthToDp(28)
+    },
+    answer:{
+        borderRadius: 5,
+        backgroundColor:$hideFontColor,
+        position:'absolute',
+        bottom:0,
+        right:widthToDp(30),
+    },
+    anserText:{
+        color:$white,
+        paddingLeft:widthToDp(32),
+        paddingRight:widthToDp(30),
+        paddingTop:widthToDp(15),
+        paddingBottom:widthToDp(15),
+        fontSize:widthToDp(30)
+    },
+    keyboard:{
+        position:'absolute',
+        bottom:0,
+        right:widthToDp(180),
+        borderRadius: 5,
+        backgroundColor:$white,
+        borderColor:$borderColor,
+        borderWidth:1
+    },
+    keyboardImg:{
+        margin:widthToDp(15),
+        width:widthToDp(51),
+        height:heightToDp(39)
+    },
+    add:{
+        position:'absolute',
+        bottom:0,
+        left:0,
+        width:width,
+        flexDirection:'row',
+        paddingTop:heightToDp(30),
+        marginBottom:heightToDp(50),
+        borderTopColor:$borderColor,
+        borderTopWidth:heightToDp(1),
+        height:heightToDp(200),
+        backgroundColor:$white
+
+    },
+    addImg:{
+        marginLeft:widthToDp(30),
+
+    },
+    addText:{
+        color:$hideFontColor,
+        fontSize:widthToDp(28),
+        marginLeft:widthToDp(10),
+        lineHeight:heightToDp(35)
+    },
+    scrollView:{
+        paddingBottom:heightToDp(250),
+        height:heightToDp(700)
+    },
+    scrollFullView:{
+        paddingBottom:heightToDp(250),
+    },
+    inner: {
+        borderRadius: 10,
+        alignItems: 'center',
+        backgroundColor: $white,
+        position:'absolute',
+        top:heightToDp(200)
+    },
+    innerView:{
+        justifyContent:'center',
+        alignItems:'center',
+    },
+    modalTitle:{
+        fontSize:widthToDp(34),
+        fontWeight:'900',
+        marginTop:heightToDp(50),
+        textAlign:'center',
+    },
+    addCommon:{
+        borderRadius: 10,
+        width:widthToDp(450),
+        borderColor:$borderColor,
+        marginTop:heightToDp(30),
+        borderWidth:heightToDp(1),
+        height:heightToDp(80)
+    },
+    allLine:{
+        flexDirection:'row',
+        marginTop:heightToDp(25),
+        width:'100%',
+
+    },
+    submit:{
+        textAlign:'center',
+        fontSize:widthToDp(34),
+        color:$hideFontColor,
+        fontWeight:'900',
+        lineHeight:heightToDp(110)
+    },
+    cancel:{
+        color:$hideFontColor,
+        textAlign:'center',
+        fontSize:widthToDp(34),
+        lineHeight:heightToDp(110)
+
+    },
+    submitTouch:{
+        width:'50%',
+        borderTopColor:$borderColor,
+        borderTopWidth:heightToDp(1),
+        height:heightToDp(110),
+        color:$hideFontColor,
+        alignItems:'center',
+
+    },
+    cancelTouch:{
+        width:'50%',
+        borderTopColor:$borderColor,
+        borderTopWidth:heightToDp(1),
+        borderRightColor:$borderColor,
+        borderRightWidth:heightToDp(1),
+        height:heightToDp(110),
+        alignItems:'center'
     }
 });

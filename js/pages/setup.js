@@ -184,7 +184,6 @@ const AppNavigator = createStackNavigator({
             } = scene;
             const params = route.params || {};
             const transition = params.transition || 'forHorizontal';
-            // console.log(transition);
             return StyleInterpolator[transition](sceneProps);
         }
     }),
