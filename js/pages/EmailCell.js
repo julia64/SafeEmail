@@ -24,14 +24,19 @@ const {
     width
 } = Dimensions.get('window');
 const defaultRepeat = [{
+    key: '1',
     content: '好的，我确认后再给您回复！'
 }, {
+    key: '2',
     content: '非常感谢您提供的信息！'
 }, {
+    key: '3',
     content: '同意，请落实执行！'
 }, {
+    key: '4',
     content: '太棒了，热烈祝贺！'
 }, {
+    key: '5',
     content: '抱歉，我在外地出差，具体事宜还请联系部门负责人。'
 }];
 const emailData = {
@@ -284,7 +289,7 @@ export default class EmailCell extends Component {
                         style={styles.inputImg}
                     >
                         <Image
-                            style={{width:widthToDp(40), height:heightToDp(45)}}
+                            style={{width:widthToDp(30), height:heightToDp(30)}}
                             source={require('../../res/images/ReadLetter/transmit.png')}
                         />
                         <Text style={styles.inputWord}>转发</Text>
@@ -295,7 +300,7 @@ export default class EmailCell extends Component {
                         }}
                         style={styles.inputImg}>
                         <Image
-                            style={{width:widthToDp(40), height:heightToDp(45)}}
+                            style={{width:widthToDp(30), height:heightToDp(30)}}
                             source={require('../../res/images/WriteLetter/more.png')}
                         />
                         <Text style={styles.inputWord}>更多</Text>
@@ -405,7 +410,7 @@ export default class EmailCell extends Component {
                     </View>
                 </PopupDialog>
                 <PopupDialog
-                    height = {this.state.fullScreen?height:heightToDp(1100)}
+                    height = {this.state.fullScreen?height:heightToDp(950)}
                     width ={width}
                     ref={(repeat) => { this.repeat = repeat; }}
                     dialogStyle={styles.repeatStyle}
@@ -452,7 +457,6 @@ export default class EmailCell extends Component {
                                     numberOfLines = {4}
                                 />
                             )}
-
                             <TouchableOpacity
                                 style={styles.keyboard}
                             >
@@ -467,23 +471,20 @@ export default class EmailCell extends Component {
                                 <Text style={styles.anserText}>回复</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={styles.scrollFullView}>
-                            <ScrollView
+                        <View style={this.state.fullScreen?styles.scrollFullView:styles.scrollView}>
+                            <FlatList
+                                data={this.state.dataSource}
+                                renderItem={({item,index}) => this.renderViewRow(item,'',index)}
+                                ItemSeparatorComponent={() => (<View style={styles.line} />)}
+                                ListFooterComponent={() => (<View style={styles.line} />)}
+                                onEndReachedThreshold={0.2}
+                                initialNumToRender={7}
+                                scrollEnabled={true}
                                 showsVerticalScrollIndicator={true}
-                            >
-                                <FlatList
-                                    data={this.state.dataSource}
-                                    renderItem={({item,index}) => this.renderViewRow(item,'',index)}
-                                    ItemSeparatorComponent={() => (<View style={styles.line} />)}
-                                    ListFooterComponent={() => (<View style={styles.line} />)}
-                                    onEndReachedThreshold={0.2}
-                                    initialNumToRender={7}
-                                    scrollEnabled={true}
-                                    // renderScrollComponent={(props) => {
-                                    //     return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
-                                    // }}
-                                />
-                            </ScrollView>
+                                // renderScrollComponent={(props) => {
+                                //     return <ScrollView scrollEnabled={this.state.scrollEnable} {...props}/>;
+                                // }}
+                            />
                         </View>
                         <View>
                             <TouchableOpacity
@@ -633,11 +634,12 @@ const styles = StyleSheet.create({
         left: 0,
         bottom: 0,
         width: width,
-        height: heightToDp(130),
+        height: heightToDp(100),
         borderTopWidth: 1,
         borderTopColor: $borderColor,
         backgroundColor: $white,
-        flexDirection: 'row'
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     textInput: {
         width: widthToDp(550),
@@ -649,11 +651,12 @@ const styles = StyleSheet.create({
         fontSize: widthToDp(34),
         fontFamily: 'PingFang-SC-Regular',
         color: $inputFontColot,
-        lineHeight: heightToDp(140)
+        lineHeight: heightToDp(100)
     },
     inputImg: {
         marginRight: widthToDp(40),
-        marginTop: heightToDp(25)
+        alignItems: 'center',
+        justifyContent: 'center'
     },
     inputWord: {
         marginTop: heightToDp(10)
@@ -673,28 +676,26 @@ const styles = StyleSheet.create({
         flexDirection: 'row'
     },
     modalImage: {
-        width: widthToDp(32),
-        height: heightToDp(29),
+        width: widthToDp(30),
+        height: heightToDp(30),
     },
     innerTop: {
         flexDirection: 'row',
-        height: heightToDp(175)
+        height: heightToDp(175),
+        alignItems: 'center'
     },
     moreImg: {
         width: '25%',
-        marginTop: heightToDp(45)
     },
     modalView: {
         alignItems: 'center',
-        justifyContent: 'center',
-
+        justifyContent: 'center'
     },
     modalText: {
         fontFamily: 'PingFang-SC-Regular',
         fontSize: widthToDp(24),
         color: $attachmentFontColor,
-        marginTop: heightToDp(25),
-        marginBottom: heightToDp(55)
+        marginTop: heightToDp(25)
     },
     line: {
         height: heightToDp(1),
@@ -754,30 +755,31 @@ const styles = StyleSheet.create({
         left: 0,
         width: width,
         flexDirection: 'row',
-        paddingTop: heightToDp(30),
-        marginBottom: heightToDp(50),
+        alignItems: 'center',
         borderTopColor: $borderColor,
         borderTopWidth: heightToDp(1),
-        height: heightToDp(200),
+        height: heightToDp(99),
         backgroundColor: $white
-
     },
     addImg: {
         marginLeft: widthToDp(30),
-
+        width: widthToDp(30),
+        height: heightToDp(32)
     },
     addText: {
         color: $hideFontColor,
         fontSize: widthToDp(28),
         marginLeft: widthToDp(10),
-        lineHeight: heightToDp(35)
+        lineHeight: heightToDp(35),
+        height: heightToDp(35)
     },
     scrollView: {
-        paddingBottom: heightToDp(250),
-        height: heightToDp(700)
+        paddingBottom: heightToDp(100),
+        height: heightToDp(600)
     },
     scrollFullView: {
-        paddingBottom: heightToDp(250),
+        paddingBottom: heightToDp(100),
+        height: heightToDp(970)
     },
     inner: {
         borderRadius: 10,
@@ -807,8 +809,7 @@ const styles = StyleSheet.create({
     allLine: {
         flexDirection: 'row',
         marginTop: heightToDp(25),
-        width: '100%',
-
+        width: '100%'
     },
     submit: {
         textAlign: 'center',
@@ -822,7 +823,6 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: widthToDp(34),
         lineHeight: heightToDp(110)
-
     },
     submitTouch: {
         width: '50%',

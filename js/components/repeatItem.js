@@ -7,10 +7,8 @@ import React, {
 import {
     StyleSheet,
     Text,
-    Image,
     View,
-    TouchableOpacity,
-    Dimensions
+    TouchableOpacity
 } from 'react-native';
 import {
     widthToDp,
@@ -23,7 +21,6 @@ export default class RepeatItem extends Component {
     }
     render() {
         const item = this.props.info;
-        const width = Dimensions.get('window').width;
         return (
             <View style={styles.row}>
                 <TouchableOpacity
@@ -38,11 +35,9 @@ export default class RepeatItem extends Component {
     }
 }
 
-const $notReadFontColor = '#31353b';
-const $hasReadFontColor = '#81858a';
 const styles = StyleSheet.create({
     row: {
-        height: heightToDp(108),
+        height: heightToDp(100),
     },
     rowContainer: {
         flexDirection: 'row',
@@ -51,9 +46,9 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         alignItems: 'center'
     },
-    content:{
-        fontSize:widthToDp(34),
-        marginLeft:widthToDp(30),
-        marginRight:widthToDp(30)
+    content: {
+        fontSize: widthToDp(34),
+        marginLeft: widthToDp(30),
+        marginRight: widthToDp(30)
     }
 });
