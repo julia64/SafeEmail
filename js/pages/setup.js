@@ -9,7 +9,8 @@ import {
 } from 'react-native';
 import {
     createStackNavigator,
-    createMaterialTopTabNavigator
+    createMaterialTopTabNavigator,
+    createDrawerNavigator
 } from 'react-navigation';
 import StyleInterpolator from 'react-navigation/src/views/StackView/StackViewStyleInterpolator';
 import {
@@ -21,7 +22,7 @@ import headerBackImage from '../components/headerBackImage';
 import headerRightConfirm from '../components/headerRightConfirm';
 // import headerTitle from '../components/headerTitle';
 // import slideInfoButton from '../components/slideInfoButton';
-// import writeEmailButton from '../components/writeEmailButton';
+import sideMenu from '../components/sideMenu';
 import emailSelect from '../components/emailSelect';
 
 import WelcomePage from './WelcomePage';
@@ -93,6 +94,34 @@ const ServerSetting = createMaterialTopTabNavigator({
     }
 });
 
+const DrawerNavigator = createDrawerNavigator({
+    ReceiveEmail: {
+        screen: HomePage,
+        navigationOptions: {
+            title: '收件箱',
+            header: null
+        }
+    },
+    Profile: {
+        screen: Settings,
+        navigationOptions: {
+            title: '设置'
+        }
+    },
+    test3: {
+        screen: HomePage,
+        navigationOptions: {
+            title: '测试',
+            header: null
+        }
+    },
+}, {
+    initialRouteName: 'ReceiveEmail',
+    drawerWidth: widthToDp(630),
+    drawerPosition: 'left',
+    contentComponent: sideMenu
+});
+
 const AppNavigator = createStackNavigator({
     Welcome: {
         screen: WelcomePage,
@@ -116,7 +145,7 @@ const AppNavigator = createStackNavigator({
         }
     },
     HomePage: {
-        screen: HomePage,
+        screen: DrawerNavigator,
         navigationOptions: {
             gesturesEnabled: false,
             header: null

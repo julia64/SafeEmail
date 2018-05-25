@@ -308,7 +308,7 @@ export default class HomePage extends Component {
                     root={this}
                     ref={(row) => this._dataRow[id] = row}
                     id={id}
-                    boxbgColor='$white'
+                    boxbgColor='#fff'
                     animationType='timing'
                     rightBtn={rightBtn}
                 >
@@ -319,7 +319,6 @@ export default class HomePage extends Component {
                             item.select = true;
                             this.emailKeys.push(item.key);
                             this.setState({
-                                dataSource: this.state.dataSource,
                                 isSelect: true
                             });
                         }}
@@ -452,9 +451,7 @@ export default class HomePage extends Component {
                         <View style={styles.header}>
                             <TouchableOpacity
                                 style={{marginLeft: widthToDp(30)}}
-                                onPress={()=>{
-                                    console.log('侧边栏');
-                                }}
+                                onPress={()=>this.props.navigation.openDrawer()}
                             >
                                 <Image
                                     style={styles.image}

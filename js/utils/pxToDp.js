@@ -7,7 +7,7 @@ const deviceWidthDp = Dimensions.get('window').width;
 const deviceHieghtDp = Dimensions.get('window').height;
 // UI 默认给图是 640
 const uiWidthPx = 750;
-const uiHeightPx = 1340;
+const uiHeightPx = 1334;
 
 export const widthToDp = (uiElementPx) => {
     return uiElementPx * deviceWidthDp / uiWidthPx;
