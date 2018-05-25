@@ -2,7 +2,7 @@
  * @Author: WZJ
  * @Date:   2018-05-16 16:38:51
  * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-25 15:34:02
+ * @Last Modified time: 2018-05-25 16:41:38
  * @Description 导航栏右边确定按钮
  */
 import React, {
@@ -228,5 +228,3 @@ const styles = StyleSheet.create({
         borderTopColor: $lineBGColor
     }
 });
-
-// export default writeEmailButton;
