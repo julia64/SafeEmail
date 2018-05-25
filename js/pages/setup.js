@@ -23,7 +23,7 @@ import headerRightConfirm from '../components/headerRightConfirm';
 // import headerTitle from '../components/headerTitle';
 // import slideInfoButton from '../components/slideInfoButton';
 import sideMenu from '../components/sideMenu';
-import emailSelect from '../components/emailSelect';
+// import emailSelect from '../components/emailSelect';
 
 import WelcomePage from './WelcomePage';
 import LoginPage from './LoginPage';
@@ -33,9 +33,16 @@ import IMAP from './IMAP';
 import POP from './POP';
 import WriteLetter from './WriteLetter';
 import Settings from './Settings';
-import SelectEmail from './SelectEmail';
 import SelectContact from './SelectContact';
 import EmailCell from './EmailCell';
+import UnReadEmail from './UnReadEmail';
+import StarEmail from './StarEmail';
+import TodoEvents from './TodoEvents';
+import FinishEvents from './FinishEvents';
+import Trash from './Trash';
+import SentEmail from './SentEmail';
+import DeletedEmail from './DeletedEmail';
+import Attachments from './Attachments';
 
 const ServerSetting = createMaterialTopTabNavigator({
     EXCHANGE: {
@@ -96,25 +103,35 @@ const ServerSetting = createMaterialTopTabNavigator({
 
 const DrawerNavigator = createDrawerNavigator({
     ReceiveEmail: {
-        screen: HomePage,
-        navigationOptions: {
-            title: '收件箱',
-            header: null
-        }
+        screen: HomePage
     },
     Profile: {
-        screen: Settings,
-        navigationOptions: {
-            title: '设置'
-        }
+        screen: Settings
     },
-    test3: {
-        screen: HomePage,
-        navigationOptions: {
-            title: '测试',
-            header: null
-        }
+    UnReadEmail: {
+        screen: UnReadEmail
     },
+    StarEmail: {
+        screen: StarEmail
+    },
+    TodoEvents: {
+        screen: TodoEvents
+    },
+    FinishEvents: {
+        screen: FinishEvents
+    },
+    Trash: {
+        screen: Trash
+    },
+    SentEmail: {
+        screen: SentEmail
+    },
+    DeletedEmail: {
+        screen: DeletedEmail
+    },
+    Attachments: {
+        screen: Attachments
+    }
 }, {
     initialRouteName: 'ReceiveEmail',
     drawerWidth: widthToDp(630),
@@ -151,23 +168,12 @@ const AppNavigator = createStackNavigator({
             header: null
         }
     },
-    SelectEmail: {
-        screen: SelectEmail,
-        navigationOptions: ({
-            navigation
-        }) => ({
-            title: `已选择${navigation.getParam('selectNumber',1)}封`,
-            headerRight: React.createElement(emailSelect, {
-                navigation
-            })
-        })
-    },
     WriteLetter: {
         screen: WriteLetter,
         navigationOptions: {
             headerTitle: '写邮件',
             headerRight: React.createElement(headerRightConfirm, {
-                text: '确定'
+                text: '发送'
             })
         }
     },

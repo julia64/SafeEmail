@@ -30,9 +30,7 @@ export default class WriteLetter extends Component {
             modalVisible: false
         };
     }
-    addMore() {
-
-    };
+    addMore() {}
     render() {
         return (
             <View>
@@ -171,7 +169,7 @@ export default class WriteLetter extends Component {
                     </View>
                 </KeyboardAwareScrollView>
             </View>
-        )
+        );
     }
 }
 const $cellBGColor = '#fff';

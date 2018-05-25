@@ -197,7 +197,7 @@ const data = [{
 //     });
 // };
 
-export default class HomePage extends Component {
+export default class StarEmail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -324,7 +324,6 @@ export default class HomePage extends Component {
                         }}
                         onPress={() => {
                             console.log(this.props.navigation);
-                            this.props.navigation.navigate('EmailCell');
                         }}
                         changeAsterisk={()=>{
                             item.star = !item.star;
@@ -460,8 +459,7 @@ export default class HomePage extends Component {
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={styles.headerTitle}>收件箱</Text>
-                                <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                                <Text style={styles.headerTitle}>星标邮件</Text>
                             </View>
                             <TouchableOpacity
                                 style={{marginRight: widthToDp(30)}}

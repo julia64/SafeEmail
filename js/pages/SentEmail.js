@@ -1,3 +1,9 @@
+/*
+ * @Author: guoyu
+ * @Date:   2018-05-25 15:27:34
+ * @Last Modified by:   guoyu
+ * @Last Modified time: 2018-05-25 15:43:30
+ */
 import React, {
     Component
 } from 'react';
@@ -190,14 +196,7 @@ const data = [{
     'select': false
 }];
 
-//获取邮件Index值函数
-// const getEmailIndexByKeyValue = (keyValue, emailData) => {
-//     return emailData.findIndex((element) => {
-//         return element.key === keyValue;
-//     });
-// };
-
-export default class HomePage extends Component {
+export default class SentEmail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -324,7 +323,6 @@ export default class HomePage extends Component {
                         }}
                         onPress={() => {
                             console.log(this.props.navigation);
-                            this.props.navigation.navigate('EmailCell');
                         }}
                         changeAsterisk={()=>{
                             item.star = !item.star;
@@ -460,8 +458,7 @@ export default class HomePage extends Component {
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={styles.headerTitle}>收件箱</Text>
-                                <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                                <Text style={styles.headerTitle}>已发送</Text>
                             </View>
                             <TouchableOpacity
                                 style={{marginRight: widthToDp(30)}}

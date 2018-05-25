@@ -29,7 +29,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': true,
     'todo': true,
     'attachment': true,
@@ -43,7 +43,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     star: false,
-    read: true,
+    read: false,
     forward: true,
     todo: true,
     attachment: true,
@@ -85,7 +85,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': false,
-    'read': true,
+    'read': false,
     'forward': true,
     'todo': false,
     'attachment': true,
@@ -113,7 +113,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -127,7 +127,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -141,7 +141,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -155,7 +155,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -169,7 +169,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -183,7 +183,7 @@ const data = [{
     'img': require('../../res/images/me.jpg'),
     'date': '09:21',
     'star': true,
-    'read': true,
+    'read': false,
     'forward': false,
     'todo': false,
     'attachment': false,
@@ -197,7 +197,7 @@ const data = [{
 //     });
 // };
 
-export default class HomePage extends Component {
+export default class UnReadEmail extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -324,7 +324,6 @@ export default class HomePage extends Component {
                         }}
                         onPress={() => {
                             console.log(this.props.navigation);
-                            this.props.navigation.navigate('EmailCell');
                         }}
                         changeAsterisk={()=>{
                             item.star = !item.star;
@@ -460,8 +459,7 @@ export default class HomePage extends Component {
                                 />
                             </TouchableOpacity>
                             <View>
-                                <Text style={styles.headerTitle}>收件箱</Text>
-                                <Text style={styles.account}>{this.props.navigation.getParam('account','test@test.com')}</Text>
+                                <Text style={styles.headerTitle}>未读邮件</Text>
                             </View>
                             <TouchableOpacity
                                 style={{marginRight: widthToDp(30)}}

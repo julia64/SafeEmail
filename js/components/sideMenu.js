@@ -2,7 +2,7 @@
  * @Author: WZJ
  * @Date:   2018-05-16 16:38:51
  * @Last Modified by:   guoyu
- * @Last Modified time: 2018-05-25 12:43:23
+ * @Last Modified time: 2018-05-25 15:34:02
  * @Description 导航栏右边确定按钮
  */
 import React, {
@@ -49,6 +49,10 @@ export default class slideMenu extends Component {
                 </View>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>{
+                        console.log(this.props.navigation);
+                        this.props.navigation.navigate('ReceiveEmail');
+                    }}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -60,6 +64,7 @@ export default class slideMenu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('UnReadEmail')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -71,6 +76,7 @@ export default class slideMenu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('StarEmail')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -83,6 +89,7 @@ export default class slideMenu extends Component {
                 <View style={styles.line}/>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('TodoEvents')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -94,6 +101,7 @@ export default class slideMenu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('FinishEvents')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -106,6 +114,7 @@ export default class slideMenu extends Component {
                 <View style={styles.line}/>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('Trash')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -117,6 +126,7 @@ export default class slideMenu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('SentEmail')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -128,6 +138,7 @@ export default class slideMenu extends Component {
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('DeletedEmail')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
@@ -140,6 +151,7 @@ export default class slideMenu extends Component {
                 <View style={styles.line}/>
                 <TouchableOpacity
                     style={styles.container}
+                    onPress={()=>this.props.navigation.navigate('Attachments')}
                 >
                     <View style={styles.imgWrap}>
                         <Image
